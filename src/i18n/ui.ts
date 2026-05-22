@@ -13,7 +13,6 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.lang.url": "/es",
 
     // Hero
-    "hero.greeting": "Hello, I'm",
     "hero.cta.projects": "View Projects",
     "hero.cta.contact": "Contact Me",
     "hero.scroll": "Scroll to explore",
@@ -189,7 +188,6 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.lang.url": "/",
 
     // Hero
-    "hero.greeting": "Hola, soy",
     "hero.cta.projects": "Ver proyectos",
     "hero.cta.contact": "Contactar",
     "hero.scroll": "Desplázate para explorar",
