@@ -73,6 +73,8 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projects.heading": "Selected Projects",
     "projects.subtitle":
       "A collection of projects I've built — from simple static sites, through dashboards and e-commerce platforms, to full-stack apps.",
+    "projects.showMore": "Show more",
+    "projects.showLess": "Show less",
 
     // Reviews
     "reviews.label": "Testimonials",
@@ -248,6 +250,8 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projects.heading": "Proyectos destacados",
     "projects.subtitle":
       "Una selección de proyectos que he desarrollado — desde sitios web estáticos y dashboards, hasta plataformas web y aplicaciones full-stack.",
+    "projects.showMore": "Ver más",
+    "projects.showLess": "Ver menos",
 
     // Reviews
     "reviews.label": "Testimonios",
