@@ -3,3 +3,19 @@
   to = "https://chrod.dev/:splat"
   status = 301
   force = true
+
+# Old un-prefixed EN routes now live under /en
+[[redirects]]
+  from = "/privacy-policy"
+  to = "/en/privacy-policy"
+  status = 301
+
+[[redirects]]
+  from = "/terms"
+  to = "/en/terms"
+  status = 301
+
+[[redirects]]
+  from = "/review"
+  to = "/en/review"
+  status = 301

@@ -10,7 +10,6 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.testimonials": "Testimonials",
     "nav.contact": "Contact",
     "nav.lang.label": "ES",
-    "nav.lang.url": "/es",
 
     // Hero
     "hero.cta.projects": "View Projects",
@@ -93,8 +92,6 @@ export const ui: Record<Locale, Record<string, string>> = {
     "footer.rights": "All rights reserved.",
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms & Conditions",
-    "footer.privacy.url": "/privacy-policy",
-    "footer.terms.url": "/terms",
 
     // Contact Drawer
     "drawer.title": "Get in touch",
@@ -141,7 +138,7 @@ export const ui: Record<Locale, Record<string, string>> = {
 
     // Review page
     "review.badge": "Review",
-    "review.heading": "Leave a Review",
+    "review.heading": "Leave a review",
     "review.subtitle":
       "Share your experience working with me. Your feedback means a lot 🫶🏻",
     "review.form.name": "Full Name",
@@ -187,7 +184,6 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.testimonials": "Testimonios",
     "nav.contact": "Contacto",
     "nav.lang.label": "EN",
-    "nav.lang.url": "/",
 
     // Hero
     "hero.cta.projects": "Ver proyectos",
@@ -270,8 +266,6 @@ export const ui: Record<Locale, Record<string, string>> = {
     "footer.rights": "Todos los derechos reservados.",
     "footer.privacy": "Política de privacidad",
     "footer.terms": "Términos y condiciones",
-    "footer.privacy.url": "/es/privacy-policy",
-    "footer.terms.url": "/es/terms",
 
     // Contact Drawer
     "drawer.title": "Escríbeme",
@@ -320,7 +314,7 @@ export const ui: Record<Locale, Record<string, string>> = {
 
     // Review page
     "review.badge": "Rese\u00f1a",
-    "review.heading": "Deja tu Rese\u00f1a",
+    "review.heading": "Deja tu rese\u00f1a",
     "review.subtitle":
       "Comparte tu experiencia trabajando conmigo.\n Tu opini\u00f3n es muy valiosa 🫶🏻",
     "review.form.name": "Nombre completo",

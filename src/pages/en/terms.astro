@@ -1,17 +1,18 @@
 ---
-import MainLayout from "../layouts/MainLayout.astro";
-import Icon from "../components/ui/icons.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import Icon from "../../components/ui/icons.astro";
 
 const lastUpdated = "March 11, 2026";
 ---
 
 <MainLayout
+  lang="en"
   title="Terms & Conditions - CHRod"
   description="Terms and conditions governing the use of CHRod's developer portfolio website. Please read before using this site."
 >
   <main class="mx-auto max-w-3xl px-6 py-32 text-slate-300">
     <a
-      href="/"
+      href="/en"
       class="mb-10 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
     >
       <Icon name="back" />

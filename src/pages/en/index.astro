@@ -1,0 +1,34 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../../components/layout/Navbar.astro";
+import Footer from "../../components/layout/Footer.astro";
+import HeroSection from "../../components/sections/HeroSection.astro";
+import AboutSection from "../../components/sections/AboutSection.astro";
+import ServicesSection from "../../components/sections/ServicesSection.astro";
+import SkillsSection from "../../components/sections/SkillsSection.astro";
+import ProjectsSection from "../../components/sections/ProjectsSection.astro";
+import ReviewsSection from "../../components/sections/ReviewsSection.astro";
+import ContactSection from "../../components/sections/ContactSection.astro";
+import ContactDrawer from "../../components/ui/ContactDrawer.tsx";
+---
+
+<MainLayout
+  lang="en"
+  title="CHRod - Web Developer"
+  description="Full-stack web developer specializing in React, Node.js & modern web technologies. Available for freelance projects — landing pages, web apps, e-commerce & API development."
+  keywords="web developer, full-stack developer, React, Node.js, freelance, portfolio, landing pages, web apps, e-commerce, JavaScript, TypeScript"
+>
+  <Navbar lang="en" />
+  <main>
+    <HeroSection lang="en" />
+    <AboutSection lang="en" />
+    <ServicesSection lang="en" />
+    <SkillsSection lang="en" />
+    <ProjectsSection lang="en" />
+    <ReviewsSection lang="en" />
+    <ContactSection lang="en" />
+  </main>
+  <Footer lang="en" />
+  <!-- ContactDrawer rendered once at root level, opened via CustomEvent -->
+  <ContactDrawer client:load lang="en" />
+</MainLayout>

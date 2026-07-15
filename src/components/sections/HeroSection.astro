@@ -44,6 +44,8 @@ const t = useTranslations(lang);
         </a>
         <button
           id="hero-contact-btn"
+          data-open-contact
+          data-wiggle-trigger
           class="rounded-lg border border-red-600/50 px-6 py-3 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300 cursor-pointer"
         >
           {t("hero.cta.contact")}
@@ -58,9 +60,3 @@ const t = useTranslations(lang);
     </div>
   </Container>
 </section>
-
-<script>
-  document.getElementById("hero-contact-btn")?.addEventListener("click", () => {
-    document.dispatchEvent(new CustomEvent("open-contact-drawer"));
-  });
-</script>

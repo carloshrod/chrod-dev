@@ -24,6 +24,8 @@ const t = useTranslations(lang);
 
       <button
         id="contact-section-btn"
+        data-open-contact
+        data-wiggle-trigger
         class="rounded-lg bg-red-600 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
       >
         {t("contact.button")}
@@ -31,11 +33,3 @@ const t = useTranslations(lang);
     </div>
   </Container>
 </section>
-
-<script>
-  document
-    .getElementById("contact-section-btn")
-    ?.addEventListener("click", () => {
-      document.dispatchEvent(new CustomEvent("open-contact-drawer"));
-    });
-</script>

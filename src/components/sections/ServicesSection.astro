@@ -93,6 +93,8 @@ const services = [
       </p>
       <button
         id="services-contact-btn"
+        data-open-contact
+        data-wiggle-trigger
         class="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-red-500 active:scale-95 cursor-pointer"
       >
         {t("services.cta.button")}
@@ -100,11 +102,3 @@ const services = [
     </div>
   </Container>
 </section>
-
-<script>
-  document
-    .getElementById("services-contact-btn")
-    ?.addEventListener("click", () => {
-      document.dispatchEvent(new CustomEvent("open-contact-drawer"));
-    });
-</script>

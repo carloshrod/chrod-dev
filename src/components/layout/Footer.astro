@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "./Container.astro";
 import logo from "../../assets/chrod-logo.png";
 import Icon from "../ui/icons.astro";
@@ -9,7 +10,9 @@ import type { Locale } from "../../i18n/ui";
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
-const homeUrl = lang === "es" ? "/es" : "/";
+const homeUrl = getRelativeLocaleUrl(lang, "/");
+const privacyUrl = getRelativeLocaleUrl(lang, "/privacy-policy");
+const termsUrl = getRelativeLocaleUrl(lang, "/terms");
 ---
 
 <footer class="border-t border-border bg-[#080808] py-10">
@@ -31,7 +34,7 @@ const homeUrl = lang === "es" ? "/es" : "/";
         </p>
         <div class="flex items-center gap-3 text-xs text-slate-700">
           <a
-            href={t("footer.privacy.url")}
+            href={privacyUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="transition-colors hover:text-slate-400"
@@ -39,7 +42,7 @@ const homeUrl = lang === "es" ? "/es" : "/";
           >
           <span aria-hidden="true">·</span>
           <a
-            href={t("footer.terms.url")}
+            href={termsUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="transition-colors hover:text-slate-400"

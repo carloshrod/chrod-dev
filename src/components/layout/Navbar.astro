@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import logo from "../../assets/chrod-logo.png";
 import Container from "./Container.astro";
 import { useTranslations } from "../../i18n/utils";
@@ -8,7 +9,9 @@ import Icon from "../ui/icons.astro";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
-const homeUrl = lang === "es" ? "/es" : "/";
+const homeUrl = getRelativeLocaleUrl(lang, "/");
+const enUrl = getRelativeLocaleUrl("en", "/");
+const esUrl = getRelativeLocaleUrl("es", "/");
 
 const navLinks = [
   { href: "#about", label: t("nav.about") },
@@ -61,17 +64,7 @@ const navLinks = [
           class="flex items-center rounded-full border border-border bg-surface-alt text-xs font-semibold overflow-hidden"
         >
           <a
-            href="/"
-            data-lang-link="en"
-            class={`px-3 py-1 transition-colors ${
-              lang === "en"
-                ? "bg-surface-raised text-red-400"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-            aria-label="Switch to English">EN</a
-          >
-          <a
-            href="/es"
+            href={esUrl}
             data-lang-link="es"
             class={`px-3 py-1 transition-colors ${
               lang === "es"
@@ -80,9 +73,21 @@ const navLinks = [
             }`}
             aria-label="Cambiar a Español">ES</a
           >
+          <a
+            href={enUrl}
+            data-lang-link="en"
+            class={`px-3 py-1 transition-colors ${
+              lang === "en"
+                ? "bg-surface-raised text-red-400"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            aria-label="Switch to English">EN</a
+          >
         </div>
         <button
           id="navbar-contact-btn"
+          data-open-contact
+          data-wiggle-trigger
           class="rounded-lg border border-red-600/50 px-4 py-1.5 text-sm font-medium text-red-400 transition-all hover:border-red-400 hover:text-red-300 cursor-pointer"
         >
           {t("nav.contact")}
@@ -95,17 +100,7 @@ const navLinks = [
           class="flex items-center rounded-full border border-border bg-surface-alt text-xs font-semibold overflow-hidden"
         >
           <a
-            href="/"
-            data-lang-link="en"
-            class={`px-3 py-1 transition-colors ${
-              lang === "en"
-                ? "bg-surface-raised text-red-400"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-            aria-label="Switch to English">EN</a
-          >
-          <a
-            href="/es"
+            href={esUrl}
             data-lang-link="es"
             class={`px-3 py-1 transition-colors ${
               lang === "es"
@@ -113,6 +108,16 @@ const navLinks = [
                 : "text-slate-400 hover:text-slate-200"
             }`}
             aria-label="Cambiar a Español">ES</a
+          >
+          <a
+            href={enUrl}
+            data-lang-link="en"
+            class={`px-3 py-1 transition-colors ${
+              lang === "en"
+                ? "bg-surface-raised text-red-400"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            aria-label="Switch to English">EN</a
           >
         </div>
 
@@ -151,6 +156,8 @@ const navLinks = [
           <div class="flex items-center">
             <button
               id="mobile-contact-btn"
+              data-open-contact
+              data-wiggle-trigger
               class="flex-1 rounded-lg border border-red-600/50 px-3 py-2 text-center text-sm font-medium text-red-400 transition-all hover:border-red-400 active:border-red-400 cursor-pointer"
             >
               {t("nav.contact")}
@@ -163,120 +170,115 @@ const navLinks = [
 </header>
 
 <script>
-  const toggle = document.getElementById("mobile-menu-toggle");
-  const menu = document.getElementById("mobile-menu");
-  const iconMenu = document.getElementById("icon-menu");
-  const iconClose = document.getElementById("icon-close");
-  const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+  // Re-run on the initial load and after every View Transitions navigation,
+  // since the DOM elements below get replaced on each page swap.
+  let navbarObserver: IntersectionObserver | undefined;
 
-  toggle?.addEventListener("click", () => {
-    const isOpen = !menu?.classList.contains("hidden");
-    menu?.classList.toggle("hidden", isOpen);
-    iconMenu?.classList.toggle("hidden", !isOpen);
-    iconClose?.classList.toggle("hidden", isOpen);
-    toggle.setAttribute("aria-expanded", String(!isOpen));
-  });
+  function initNavbar() {
+    navbarObserver?.disconnect();
 
-  const openDrawer = () => {
-    document.dispatchEvent(new CustomEvent("open-contact-drawer"));
-    // Close mobile menu if open
-    menu?.classList.add("hidden");
-    iconMenu?.classList.remove("hidden");
-    iconClose?.classList.add("hidden");
-    toggle?.setAttribute("aria-expanded", "false");
-  };
+    const toggle = document.getElementById("mobile-menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const iconMenu = document.getElementById("icon-menu");
+    const iconClose = document.getElementById("icon-close");
+    const mobileLinks = document.querySelectorAll(".mobile-nav-link");
 
-  document
-    .getElementById("navbar-contact-btn")
-    ?.addEventListener("click", openDrawer);
-  document
-    .getElementById("mobile-contact-btn")
-    ?.addEventListener("click", openDrawer);
-
-  mobileLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      menu?.classList.add("hidden");
-      iconMenu?.classList.remove("hidden");
-      iconClose?.classList.add("hidden");
-      toggle?.setAttribute("aria-expanded", "false");
+    toggle?.addEventListener("click", () => {
+      const isOpen = !menu?.classList.contains("hidden");
+      menu?.classList.toggle("hidden", isOpen);
+      iconMenu?.classList.toggle("hidden", !isOpen);
+      iconClose?.classList.toggle("hidden", isOpen);
+      toggle.setAttribute("aria-expanded", String(!isOpen));
     });
-  });
 
-  // Active section highlighting
-  const navLinks =
-    document.querySelectorAll<HTMLAnchorElement>("a[data-nav-link]");
-  const sectionIds = Array.from(navLinks).map((a) =>
-    a.getAttribute("data-nav-link")!.replace("#", ""),
-  );
-  const sections = sectionIds
-    .map((id) => document.getElementById(id))
-    .filter(Boolean) as HTMLElement[];
-
-  const visibleSections = new Map<string, boolean>();
-  sections.forEach((s) => visibleSections.set(s.id, false));
-
-  const langLinks =
-    document.querySelectorAll<HTMLAnchorElement>("a[data-lang-link]");
-
-  function updateLangLinks(hash: string) {
-    langLinks.forEach((a) => {
-      const lang = a.getAttribute("data-lang-link");
-      const base = lang === "es" ? "/es" : "/";
-      a.href = hash ? `${base}${hash}` : base;
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        menu?.classList.add("hidden");
+        iconMenu?.classList.remove("hidden");
+        iconClose?.classList.add("hidden");
+        toggle?.setAttribute("aria-expanded", "false");
+      });
     });
-  }
 
-  // Initialise with the current hash if any
-  updateLangLinks(window.location.hash);
+    // Active section highlighting
+    const navLinks =
+      document.querySelectorAll<HTMLAnchorElement>("a[data-nav-link]");
+    const sectionIds = Array.from(navLinks).map((a) =>
+      a.getAttribute("data-nav-link")!.replace("#", ""),
+    );
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
 
-  function updateActive() {
-    let activeId: string | null = null;
-    let minTop = Infinity;
+    const visibleSections = new Map<string, boolean>();
+    sections.forEach((s) => visibleSections.set(s.id, false));
 
-    visibleSections.forEach((isVisible, id) => {
-      if (isVisible) {
-        const top = Math.abs(
-          document.getElementById(id)!.getBoundingClientRect().top,
-        );
-        if (top < minTop) {
-          minTop = top;
-          activeId = id;
+    const langLinks =
+      document.querySelectorAll<HTMLAnchorElement>("a[data-lang-link]");
+
+    function updateLangLinks(hash: string) {
+      langLinks.forEach((a) => {
+        const lang = a.getAttribute("data-lang-link");
+        const base = lang === "es" ? "/es" : "/en";
+        a.href = hash ? `${base}${hash}` : base;
+      });
+    }
+
+    // Initialise with the current hash if any
+    updateLangLinks(window.location.hash);
+
+    function updateActive() {
+      let activeId: string | null = null;
+      let minTop = Infinity;
+
+      visibleSections.forEach((isVisible, id) => {
+        if (isVisible) {
+          const top = Math.abs(
+            document.getElementById(id)!.getBoundingClientRect().top,
+          );
+          if (top < minTop) {
+            minTop = top;
+            activeId = id;
+          }
         }
+      });
+
+      navLinks.forEach((a) => {
+        const isActive =
+          activeId !== null &&
+          a.getAttribute("data-nav-link") === `#${activeId}`;
+        a.classList.toggle("text-red-400", isActive);
+        a.classList.toggle("text-slate-400", !isActive);
+      });
+
+      updateLangLinks(activeId ? `#${activeId}` : "");
+    }
+
+    navbarObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) =>
+          visibleSections.set(entry.target.id, entry.isIntersecting),
+        );
+        updateActive();
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
+    );
+
+    sections.forEach((s) => navbarObserver!.observe(s));
+
+    // Logo: scroll to top without reload when already on the home page
+    const logoLink = document.getElementById(
+      "navbar-logo-link",
+    ) as HTMLAnchorElement | null;
+    logoLink?.addEventListener("click", (e) => {
+      const href = logoLink.getAttribute("href");
+      const normalize = (p: string) => p.replace(/\/$/, "") || "/";
+      if (href && normalize(window.location.pathname) === normalize(href)) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     });
-
-    navLinks.forEach((a) => {
-      const isActive =
-        activeId !== null && a.getAttribute("data-nav-link") === `#${activeId}`;
-      a.classList.toggle("text-red-400", isActive);
-      a.classList.toggle("text-slate-400", !isActive);
-    });
-
-    updateLangLinks(activeId ? `#${activeId}` : "");
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) =>
-        visibleSections.set(entry.target.id, entry.isIntersecting),
-      );
-      updateActive();
-    },
-    { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
-  );
-
-  sections.forEach((s) => observer.observe(s));
-
-  // Logo: scroll to top without reload when already on the home page
-  const logoLink = document.getElementById(
-    "navbar-logo-link",
-  ) as HTMLAnchorElement | null;
-  logoLink?.addEventListener("click", (e) => {
-    const href = logoLink.getAttribute("href");
-    const normalize = (p: string) => p.replace(/\/$/, "") || "/";
-    if (href && normalize(window.location.pathname) === normalize(href)) {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  });
+  document.addEventListener("astro:page-load", initNavbar);
 </script>

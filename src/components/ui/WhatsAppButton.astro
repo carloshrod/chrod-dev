@@ -45,12 +45,13 @@ const t = useTranslations(lang);
 </style>
 
 <script>
-  const waBtn = document.getElementById("whatsapp-btn");
-
+  // Re-query the button fresh on every trigger instead of caching it once,
+  // since View Transitions replaces this element's DOM node on navigation.
   function triggerWiggle() {
+    const waBtn = document.getElementById("whatsapp-btn");
     if (!waBtn) return;
     waBtn.classList.remove("wa-animate");
-    void (waBtn as HTMLElement).offsetWidth; // reflow para reiniciar animación
+    void waBtn.offsetWidth; // reflow para reiniciar animación
     waBtn.classList.add("wa-animate");
     waBtn.addEventListener(
       "animationend",
@@ -59,18 +60,16 @@ const t = useTranslations(lang);
     );
   }
 
-  const ctaIds = [
-    "hero-contact-btn",
-    "services-contact-btn",
-    "contact-section-btn",
-    "navbar-contact-btn",
-    "mobile-contact-btn",
-    "contact-form-btn",
-  ];
-
-  ctaIds.forEach((id) => {
-    const el = document.getElementById(id);
-    el?.addEventListener("mouseenter", triggerWiggle);
-    el?.addEventListener("click", triggerWiggle);
+  // Delegation: registered once, works for any current or future button
+  // marked data-wiggle-trigger, including ones swapped in after navigation.
+  document.addEventListener("mouseover", (e) => {
+    if ((e.target as HTMLElement).closest("[data-wiggle-trigger]")) {
+      triggerWiggle();
+    }
+  });
+  document.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest("[data-wiggle-trigger]")) {
+      triggerWiggle();
+    }
   });
 </script>

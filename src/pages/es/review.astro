@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import ReviewForm from "../../components/ui/ReviewForm.tsx";
 import "../../styles/global.css";
 import { useTranslations } from "../../i18n/utils";
@@ -26,6 +27,7 @@ const isValid = Boolean(validToken && token === validToken);
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+    <ClientRouter />
   </head>
   <body class="bg-[#06060c] text-slate-200 antialiased min-h-screen">
     <div class="min-h-screen flex flex-col">
@@ -43,13 +45,13 @@ const isValid = Boolean(validToken && token === validToken);
             class="flex items-center rounded-full border border-border bg-surface-alt text-xs font-semibold overflow-hidden"
           >
             <a
-              href={`/review${token ? `?t=${encodeURIComponent(token)}` : ""}`}
-              class="px-3 py-1 transition-colors text-slate-400 hover:text-slate-200"
-              aria-label="Switch to English">EN</a
-            ><a
               href={`/es/review${token ? `?t=${encodeURIComponent(token)}` : ""}`}
               class="px-3 py-1 transition-colors bg-surface-raised text-red-400"
               aria-label="Cambiar a Español">ES</a
+            ><a
+              href={`/en/review${token ? `?t=${encodeURIComponent(token)}` : ""}`}
+              class="px-3 py-1 transition-colors text-slate-400 hover:text-slate-200"
+              aria-label="Switch to English">EN</a
             >
           </div>
         </div>
