@@ -46,13 +46,14 @@ const services = [
     <div class="mb-14 text-center">
       <p
         class="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400"
+        data-scroll-animate="up"
       >
         {t("services.label")}
       </p>
-      <h2 class="mb-4 text-3xl font-bold text-slate-100 sm:text-4xl">
+      <h2 class="mb-4 text-3xl font-bold text-slate-100 sm:text-4xl" data-scroll-animate="up">
         {t("services.heading")}
       </h2>
-      <p class="text-slate-400 leading-relaxed">
+      <p class="text-slate-400 leading-relaxed" data-scroll-animate="up">
         {t("services.subtitle")}
       </p>
     </div>
@@ -60,8 +61,8 @@ const services = [
     <!-- Grid -->
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
-        services.map((service) => (
-          <div class="group relative rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80">
+        services.map((service, index) => (
+          <div class="group relative rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80" data-scroll-animate={`${index <= 2 ? "right" : "left"}`}>
             <!-- Glow on hover -->
             <div
               class="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -82,13 +83,14 @@ const services = [
               {service.description}
             </p>
           </div>
-        ))
+        )
+        )
       }
     </div>
 
     <!-- CTA -->
     <div class="mt-14 flex flex-col items-center gap-4 text-center">
-      <p class="text-slate-400">
+      <p class="text-slate-400" data-scroll-animate="up">
         {t("services.cta.text")}
       </p>
       <button
@@ -96,6 +98,7 @@ const services = [
         data-open-contact
         data-wiggle-trigger
         class="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-red-500 active:scale-95 cursor-pointer"
+        data-scroll-animate="up"
       >
         {t("services.cta.button")}
       </button>

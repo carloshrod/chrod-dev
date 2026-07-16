@@ -74,6 +74,8 @@ export const ui: Record<Locale, Record<string, string>> = {
       "A collection of projects I've built — from simple static sites, through dashboards and e-commerce platforms, to full-stack apps.",
     "projects.showMore": "Show more",
     "projects.showLess": "Show less",
+    "projects.cta.text": "Like what you see? Let's build something like this together.",
+    "projects.cta.button": "Start your project",
 
     // Reviews
     "reviews.label": "Testimonials",
@@ -248,6 +250,8 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Una selección de proyectos que he desarrollado — desde sitios web estáticos y dashboards, hasta plataformas web y aplicaciones full-stack.",
     "projects.showMore": "Ver más",
     "projects.showLess": "Ver menos",
+    "projects.cta.text": "¿Te gusta lo que ves? Hablemos de tu proyecto.",
+    "projects.cta.button": "Iniciar mi proyecto",
 
     // Reviews
     "reviews.label": "Testimonios",

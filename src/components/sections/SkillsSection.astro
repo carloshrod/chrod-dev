@@ -26,6 +26,8 @@ import {
   siGithub,
   siShopify,
   siN8n,
+  siSupabase,
+  siDocker,
 } from "simple-icons";
 
 function safeColor(hex: string) {
@@ -58,6 +60,8 @@ const iconMap: Record<string, { path: string; hex: string }> = {
   GitHub: siGithub,
   Shopify: siShopify,
   n8n: siN8n,
+  Supabase: siSupabase,
+  Docker: siDocker,
 };
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
@@ -84,11 +88,11 @@ const skillGroups = [
   },
   {
     category: t("skills.category.backend"),
-    skills: ["Node.js", "PostgreSQL", "MySQL", "MongoDB", "Firebase"],
+    skills: ["Node.js", "PostgreSQL", "MySQL", "MongoDB", "Firebase", "Supabase"],
   },
   {
     category: t("skills.category.tools"),
-    skills: ["Git", "GitHub", "n8n", "Shopify"],
+    skills: ["Git", "GitHub", "n8n", "Shopify", "Docker"],
   },
 ];
 ---
@@ -105,10 +109,14 @@ const skillGroups = [
     <div class="mb-14">
       <p
         class="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400"
+        data-scroll-animate="left"
       >
         {t("skills.label")}
       </p>
-      <h2 class="text-3xl font-bold text-slate-100 sm:text-4xl">
+      <h2
+        class="text-3xl font-bold text-slate-100 sm:text-4xl"
+        data-scroll-animate="left"
+      >
         {t("skills.heading")}
       </h2>
     </div>
@@ -116,7 +124,7 @@ const skillGroups = [
     <div class="space-y-10">
       {
         skillGroups.map((group) => (
-          <div>
+          <div data-scroll-animate="left">
             <h3 class="mb-4 text-xs font-semibold uppercase tracking-widest text-slate-600">
               {group.category}
             </h3>

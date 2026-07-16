@@ -16,17 +16,34 @@ const projects = await getProjects(lang);
     <div class="mb-14 text-center">
       <p
         class="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400"
+        data-scroll-animate="up"
       >
         {t("projects.label")}
       </p>
-      <h2 class="text-3xl font-bold text-slate-100 sm:text-4xl">
+      <h2 class="text-3xl font-bold text-slate-100 sm:text-4xl" data-scroll-animate="up">
         {t("projects.heading")}
       </h2>
-      <p class="mx-auto mt-4 max-w-xl text-slate-400">
+      <p class="mx-auto mt-4 max-w-xl text-slate-400" data-scroll-animate="up">
         {t("projects.subtitle")}
       </p>
     </div>
 
     <ProjectsGrid client:load projects={projects} lang={lang} />
+
+    <!-- CTA -->
+    <div class="mt-14 flex flex-col items-center gap-4 text-center">
+      <p class="text-slate-400" data-scroll-animate="up">
+        {t("projects.cta.text")}
+      </p>
+      <button
+        id="projects-contact-btn"
+        data-open-contact
+        data-wiggle-trigger
+        class="rounded-lg border border-red-600/50 px-6 py-2.5 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300 cursor-pointer"
+        data-scroll-animate="up"
+      >
+        {t("projects.cta.button")}
+      </button>
+    </div>
   </Container>
 </section>

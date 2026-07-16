@@ -12,13 +12,14 @@ const t = useTranslations(lang);
     <div class="mx-auto max-w-2xl text-center">
       <p
         class="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400"
+        data-scroll-animate="up"
       >
         {t("contact.label")}
       </p>
-      <h2 class="mb-4 text-3xl font-bold text-slate-100 sm:text-4xl">
+      <h2 class="mb-4 text-3xl font-bold text-slate-100 sm:text-4xl" data-scroll-animate="up">
         {t("contact.heading")}
       </h2>
-      <p class="mb-8 text-slate-400">
+      <p class="mb-8 text-slate-400" data-scroll-animate="up">
         {t("contact.body")}
       </p>
 
@@ -27,6 +28,7 @@ const t = useTranslations(lang);
         data-open-contact
         data-wiggle-trigger
         class="rounded-lg bg-red-600 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
+        data-scroll-animate="scale"
       >
         {t("contact.button")}
       </button>

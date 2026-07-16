@@ -124,7 +124,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border px-6 py-4" data-drawer-header={isOpen ? "true" : undefined}>
           <div className="flex items-center gap-3">
             <img
               src="/chrod-logo.png"
@@ -139,6 +139,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
             onClick={close}
             aria-label={t("drawer.close.label")}
             className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-border hover:text-slate-200 cursor-pointer"
+            data-drawer-close={isOpen ? "true" : undefined}
           >
             <CloseIcon />
           </button>
@@ -163,7 +164,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+            <form onSubmit={handleSubmit} className="space-y-5" noValidate data-drawer-form={isOpen ? "true" : undefined}>
               <p className="text-sm text-slate-400">{t("drawer.form.intro")}</p>
 
               <div className="space-y-1.5">

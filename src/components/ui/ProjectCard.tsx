@@ -4,15 +4,25 @@ import type { Project } from "../../types/project";
 interface Props {
   project: Project;
   onClick: () => void;
+  animate?: boolean;
+  index?: number;
 }
 
-export function ProjectCard({ project, onClick }: Props) {
+export function ProjectCard({
+  project,
+  onClick,
+  animate = false,
+  index,
+}: Props) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={`View details of ${project.title}`}
       className="group relative flex w-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-border bg-surface p-6 text-left outline-none transition-all focus-visible:ring-2 focus-visible:ring-red-500/50 hover:border-red-600/40"
+      {...(animate && {
+        "data-scroll-animate": `${index !== undefined && index <= 2 ? "right" : "left"}`,
+      })}
     >
       {/* Glow on hover */}
       <div

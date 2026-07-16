@@ -15,29 +15,57 @@ const t = useTranslations(lang);
       <div>
         <p
           class="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400"
+          data-scroll-animate="left"
         >
           {t("about.label")}
         </p>
-        <h2 class="mb-6 text-3xl font-bold text-slate-100 sm:text-4xl">
+        <h2
+          class="mb-6 text-3xl font-bold text-slate-100 sm:text-4xl"
+          data-scroll-animate="left"
+        >
           {t("about.heading")}
         </h2>
-        <div class="space-y-4 leading-relaxed text-slate-400">
+        <div
+          class="space-y-4 leading-relaxed text-slate-400"
+          data-scroll-animate="left"
+        >
           <p>{t("about.p1")}</p>
           <p>{t("about.p2")}</p>
           <p>{t("about.p3")}</p>
         </div>
 
-        <div class="mt-10 flex flex-wrap gap-6 text-sm">
+        <div
+          class="mt-10 flex flex-wrap gap-6 text-sm"
+          data-scroll-animate="left"
+        >
           <div>
-            <p class="text-3xl font-bold text-red-400">3+</p>
+            <p
+              class="text-3xl font-bold text-red-400"
+              data-count-to="3"
+              data-count-suffix="+"
+            >
+              0+
+            </p>
             <p class="mt-1 text-slate-500">{t("about.stat1.label")}</p>
           </div>
           <div class="border-l border-border pl-6">
-            <p class="text-3xl font-bold text-red-400">10+</p>
+            <p
+              class="text-3xl font-bold text-red-400"
+              data-count-to="15"
+              data-count-suffix="+"
+            >
+              0+
+            </p>
             <p class="mt-1 text-slate-500">{t("about.stat2.label")}</p>
           </div>
           <div class="border-l border-border pl-6">
-            <p class="text-3xl font-bold text-red-400">10+</p>
+            <p
+              class="text-3xl font-bold text-red-400"
+              data-count-to="15"
+              data-count-suffix="+"
+            >
+              0+
+            </p>
             <p class="mt-1 text-slate-500">{t("about.stat3.label")}</p>
           </div>
         </div>
@@ -47,6 +75,7 @@ const t = useTranslations(lang);
           target="_blank"
           rel="noopener noreferrer"
           class="mt-8 inline-flex items-center gap-2 rounded-lg border border-red-600/50 px-5 py-2.5 text-sm font-medium text-red-400 transition-all hover:border-red-400 hover:text-red-300"
+          data-scroll-animate="left"
         >
           <Icon name="download" />
           {t("about.resume")}
@@ -54,7 +83,10 @@ const t = useTranslations(lang);
       </div>
 
       <!-- Code card -->
-      <div class="relative mx-auto w-full max-w-sm lg:mx-0">
+      <div
+        class="relative mx-auto w-full max-w-sm lg:mx-0"
+        data-scroll-animate="right"
+      >
         <div
           class="absolute inset-0 rounded-2xl bg-red-600/15 blur-2xl"
           aria-hidden="true"

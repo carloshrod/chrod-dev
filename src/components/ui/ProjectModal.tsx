@@ -15,9 +15,10 @@ interface Props {
   project: Project;
   onClose: () => void;
   lang?: Locale;
+  isOpen?: boolean;
 }
 
-const ProjectModal = ({ project, onClose, lang = "en" }: Props) => {
+const ProjectModal = ({ project, onClose, lang = "en", isOpen = true }: Props) => {
   const t = (key: string) =>
     (ui[lang] as Record<string, string>)[key] ??
     (ui["en"] as Record<string, string>)[key] ??
@@ -33,7 +34,9 @@ const ProjectModal = ({ project, onClose, lang = "en" }: Props) => {
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-project-title"
-        className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-[#080808]"
+        className={`fixed inset-0 z-50 flex flex-col overflow-y-auto bg-[#080808] transition-all duration-300 ease-out ${
+          isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
       >
         {/* Sticky header */}
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#1a1a1a] bg-[#080808]/95 px-6 py-4 backdrop-blur-sm">
