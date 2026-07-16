@@ -23,7 +23,7 @@ const {
 
 const siteUrl = "https://chrod.dev";
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`;
-const ogImage = `${siteUrl}/chrod-logo.png`;
+const ogImage = `${siteUrl}/og-image.png`;
 ---
 
 <!doctype html>
@@ -63,6 +63,9 @@ const ogImage = `${siteUrl}/chrod-logo.png`;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content="CHRod - Web Developer" />
     <meta property="og:site_name" content="CHRod" />
     <meta property="og:locale" content={lang === "es" ? "es_CO" : "en_US"} />
