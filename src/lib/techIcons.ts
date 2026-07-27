@@ -1,0 +1,68 @@
+import {
+  siJavascript,
+  siTypescript,
+  siHtml5,
+  siCss,
+  siReact,
+  siNextdotjs,
+  siAstro,
+  siExpress,
+  siTailwindcss,
+  siBootstrap,
+  siSass,
+  siMui,
+  siAntdesign,
+  siNodedotjs,
+  siPostgresql,
+  siMysql,
+  siMongodb,
+  siFirebase,
+  siGit,
+  siGithub,
+  siShopify,
+  siN8n,
+  siSupabase,
+  siDocker,
+  siSanity,
+  siStrapi,
+  siContentful,
+  siDecapcms,
+} from "simple-icons";
+
+export function safeColor(hex: string) {
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.12 ? "e2e8f0" : hex;
+}
+
+export const iconMap: Record<string, { path: string; hex: string }> = {
+  JavaScript: siJavascript,
+  TypeScript: siTypescript,
+  HTML5: siHtml5,
+  CSS3: siCss,
+  React: siReact,
+  "Next.js": siNextdotjs,
+  Astro: siAstro,
+  "Express.js": siExpress,
+  "Tailwind CSS": siTailwindcss,
+  Bootstrap: siBootstrap,
+  "SASS/SCSS": siSass,
+  "Ant Design": siAntdesign,
+  "Material UI": siMui,
+  "Node.js": siNodedotjs,
+  PostgreSQL: siPostgresql,
+  MySQL: siMysql,
+  MongoDB: siMongodb,
+  Firebase: siFirebase,
+  Sanity: siSanity,
+  Strapi: siStrapi,
+  Contentful: siContentful,
+  Decap: siDecapcms,
+  Git: siGit,
+  GitHub: siGithub,
+  Shopify: siShopify,
+  n8n: siN8n,
+  Supabase: siSupabase,
+  Docker: siDocker,
+};

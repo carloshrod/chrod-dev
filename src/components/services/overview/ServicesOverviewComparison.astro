@@ -1,0 +1,67 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Container from "../../layout/Container.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import { services } from "../../../data/services";
+import { servicesOverview } from "../../../data/servicesOverview";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const items = services.map((service) => ({
+  service,
+  overview: servicesOverview.find((entry) => entry.slug === service.slug)!,
+}));
+---
+
+<section class="bg-surface-alt py-16">
+  <Container>
+    <h2
+      class="mb-3 text-center text-2xl font-bold text-slate-100 sm:text-3xl"
+      data-scroll-animate="up"
+    >
+      {t("servicesOverview.comparison.heading")}
+    </h2>
+    <p
+      class="mb-8 text-center text-sm text-slate-400"
+      data-scroll-animate="up"
+    >
+      {t("servicesOverview.comparison.subheading")}
+    </p>
+    <div class="mx-auto grid max-w-2xl gap-3 sm:grid-cols-2">
+      {
+        items.map(({ service, overview }, index) => (
+          <a
+            href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
+            class="group flex items-center justify-between gap-3 rounded-xl border border-border bg-surface px-5 py-3.5 text-sm transition-all hover:border-red-600/40"
+            data-scroll-animate={index % 2 === 0 ? "left" : "right"}
+          >
+            <span class="text-slate-400">
+              {overview.comparisonOutcome[lang]}
+            </span>
+            <span class="flex items-center gap-1 font-semibold text-slate-100 transition-colors group-hover:text-red-400">
+              {service.card.title[lang]}
+              <svg
+                class="h-3 w-3 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </Container>
+</section>

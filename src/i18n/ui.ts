@@ -12,8 +12,8 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.lang.label": "ES",
 
     // Hero
-    "hero.cta.projects": "View Projects",
-    "hero.cta.contact": "Contact Me",
+    "hero.cta.services": "View Services",
+    "hero.cta.projects": "View Work",
     "hero.scroll": "Scroll to explore",
 
     // About
@@ -37,26 +37,69 @@ export const ui: Record<Locale, Record<string, string>> = {
     "services.subtitle":
       "Whether you're launching something new or improving what already exists, I focus on delivering clean, performant solutions that are tailored to your goals — not generic templates.",
     "services.cta.text":
-      "Not sure what you need? Let's talk and figure it out together.",
-    "services.cta.button": "Tell me about your project",
-    "services.s1.title": "Landing Pages",
-    "services.s1.desc":
-      "Fast, focused, and built to convert. I craft landing pages that communicate your value proposition clearly and turn visitors into leads or customers — no bloat, just results.",
-    "services.s2.title": "Business Websites",
-    "services.s2.desc":
-      "Your website is your first impression. I build polished, professional sites that reflect your brand, instill trust, and give you a solid foundation for growth.",
-    "services.s3.title": "Web Applications",
-    "services.s3.desc":
-      "From idea to production-ready product. I develop scalable, interactive web apps with clean architecture, real-time features, and intuitive UX — built to handle real-world complexity.",
-    "services.s4.title": "E-commerce Development",
-    "services.s4.desc":
-      "Online stores that don't just look great — they sell. Whether it's a custom Shopify setup or a tailored solution, I build e-commerce experiences that delight shoppers and maximize revenue.",
-    "services.s5.title": "API & Backend Development",
-    "services.s5.desc":
-      "The engine behind your product. I design and build robust REST APIs, handle authentication, integrate third-party services, and set up the server-side logic your app depends on.",
-    "services.s6.title": "Workflow Automation",
-    "services.s6.desc":
-      "Stop wasting time on repetitive tasks. I build automated workflows using tools like n8n to connect your apps, trigger actions, and keep your business running on autopilot.",
+      "Not sure what you need? I can help you find the right approach.",
+    "services.cta.button": "Find the right service",
+    "services.card.cta": "View details",
+
+    // Breadcrumbs
+    "breadcrumb.home": "Home",
+
+    // Service page (individual service landing pages)
+    "service.page.backToServices": "View all services",
+    "service.page.hero.cta": "Request a quote",
+    "service.page.hero.microcopy": "Response within 24h • No commitment",
+    "service.page.problem.heading": "Where things start to break",
+    "service.page.problem.label": "The problem",
+    "service.page.solution.label": "How I solve it",
+    "service.page.includes.heading": "What you can expect",
+    "service.page.includes.cta.question": "Is this what you're looking for?",
+    "service.page.includes.cta.label": "See how it fits my project",
+    "service.page.process.heading": "How we build your product",
+    "service.page.process.cta.question":
+      "Like this approach? We can apply it to your project",
+    "service.page.process.cta.label": "Evaluate my project",
+    "service.page.techstack.heading": "Technologies",
+    "service.page.techstack.intro":
+      "Technologies chosen to make your product fast, stable, and ready to scale.",
+    "service.page.related.heading": "Related projects",
+    "service.page.related.viewProject": "View project",
+    "service.page.testimonial.heading": "In their words",
+    "service.page.faq.heading": "Frequently asked questions",
+    "service.page.exploreMore.heading": "Want to explore more services?",
+    "service.page.cta.heading": "Ready to get started?",
+    "service.page.cta.subheading":
+      "Tell me about your project and I'll get back to you with next steps.",
+    "service.page.sticky.cta": "Quote",
+    "service.page.form.heading": "Tell me about your project",
+    "service.page.form.intro":
+      "Fill out the form and I'll get back to you with next steps.",
+    "service.page.form.phone.label": "Phone / WhatsApp number",
+    "service.page.form.phone.placeholder": "+57 300 000 0000",
+    "service.page.form.budget.label": "Estimated budget (USD)",
+    "service.page.form.budget.placeholder": "Select a range",
+    "service.page.form.budget.unsure": "Not sure yet",
+    "service.page.form.timeline.label": "Desired timeline",
+    "service.page.form.timeline.placeholder": "Select a timeline",
+    "service.page.form.timeline.asap": "As soon as possible",
+    "service.page.form.timeline.flexible": "Flexible / not sure yet",
+    "service.page.form.message.label": "Tell me about your project",
+    "service.page.form.submit.email": "Send by email",
+    "service.page.form.submit.whatsapp": "Send via WhatsApp",
+
+    // Services overview page (/services)
+    "servicesOverview.seo.title": "Services | CHRod - Web Developer",
+    "servicesOverview.seo.description":
+      "Explore all services: professional websites, landing pages, e-commerce, web applications, automation, and APIs. Find the right fit for your project.",
+    "servicesOverview.hero.heading": "A service for every kind of project",
+    "servicesOverview.hero.subheading": "Choose the service that fits yours.",
+    "servicesOverview.selector.heading": "What do you need?",
+    "servicesOverview.grid.heading": "Available services",
+    "servicesOverview.grid.cta": "View service",
+    "servicesOverview.comparison.heading": "Not sure which one to choose?",
+    "servicesOverview.comparison.subheading":
+      "Based on your needs, this is a good starting point:",
+    "servicesOverview.cta.heading":
+      "I can help you find the right approach for your project.",
 
     // Skills
     "skills.label": "Skills",
@@ -65,6 +108,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "skills.category.frameworks": "Frameworks & Libraries",
     "skills.category.ui": "UI & Styling",
     "skills.category.backend": "Backend & Databases",
+    "skills.category.cms": "Content Management",
     "skills.category.tools": "Tools & Workflow",
 
     // Projects
@@ -74,7 +118,8 @@ export const ui: Record<Locale, Record<string, string>> = {
       "A collection of projects I've built — from simple static sites, through dashboards and e-commerce platforms, to full-stack apps.",
     "projects.showMore": "Show more",
     "projects.showLess": "Show less",
-    "projects.cta.text": "Like what you see? Let's build something like this together.",
+    "projects.cta.text":
+      "Like what you see? Let's build something like this together.",
     "projects.cta.button": "Start your project",
 
     // Reviews
@@ -94,6 +139,12 @@ export const ui: Record<Locale, Record<string, string>> = {
     "footer.rights": "All rights reserved.",
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms & Conditions",
+
+    // Form privacy notice (shared by Contact Drawer and Service Quote Form)
+    "form.privacy.notice.prefix":
+      "By submitting this form, you agree to your data being used to respond to your request. You can review the ",
+    "form.privacy.notice.link": "privacy policy",
+    "form.privacy.notice.suffix": " for more information.",
 
     // Contact Drawer
     "drawer.title": "Get in touch",
@@ -188,8 +239,8 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.lang.label": "EN",
 
     // Hero
+    "hero.cta.services": "Ver servicios",
     "hero.cta.projects": "Ver proyectos",
-    "hero.cta.contact": "Contactar",
     "hero.scroll": "Desplázate para explorar",
 
     // About
@@ -213,26 +264,70 @@ export const ui: Record<Locale, Record<string, string>> = {
     "services.subtitle":
       "Ya sea que estés lanzando un nuevo proyecto o mejorando uno existente, me enfoco en crear soluciones limpias y de alto rendimiento, adaptadas a tus objetivos, sin plantillas genéricas.",
     "services.cta.text":
-      "¿No tienes claro lo que necesitas? Cuéntame sobre tu proyecto y encontremos la mejor solución.",
-    "services.cta.button": "Cuéntame tu idea",
-    "services.s1.title": "Landing Pages",
-    "services.s1.desc":
-      "Rápidas, enfocadas y diseñadas para convertir. Creo landing pages que comunican tu propuesta de valor con claridad y convierten visitantes en leads o clientes. Sin relleno, solo resultados.",
-    "services.s2.title": "Sitios Web Empresariales",
-    "services.s2.desc":
-      "Tu sitio web es tu primera impresión. Construyo sitios profesionales y pulidos que reflejan tu marca, generan confianza y te dan una base sólida para crecer.",
-    "services.s3.title": "Aplicaciones Web",
-    "services.s3.desc":
-      "De la idea al producto final. Desarrollo aplicaciones web escalables e interactivas, con arquitectura limpia, diseñadas para ofrecer una experiencia de usuario clara e intuitiva, y que resuelven problemas reales.",
-    "services.s4.title": "Desarrollo E-commerce",
-    "services.s4.desc":
-      "Tiendas online que no solo se ven bien: también venden. Ya sea con Shopify o una solución a medida, creo experiencias que deleitan a los compradores y maximizan los ingresos.",
-    "services.s5.title": "APIs y Desarrollo Backend",
-    "services.s5.desc":
-      "El motor detrás de tu producto. Diseño y construyo APIs REST robustas, gestiono autenticación, integro servicios externos y configuro toda la lógica del servidor que tu aplicación necesita.",
-    "services.s6.title": "Automatización de Procesos",
-    "services.s6.desc":
-      "Deja de perder tiempo en tareas repetitivas. Construyo flujos de trabajo automatizados con herramientas como n8n para conectar tus apps, activar procesos y mantener tu negocio en piloto automático.",
+      "¿No tienes claro lo que necesitas? Te ayudo a encontrar el mejor enfoque para tu caso.",
+    "services.cta.button": "Encontrar el servicio adecuado",
+    "services.card.cta": "Ver detalles",
+
+    // Breadcrumbs
+    "breadcrumb.home": "Inicio",
+
+    // Service page (páginas individuales de servicio)
+    "service.page.backToServices": "Ver todos los servicios",
+    "service.page.hero.cta": "Solicitar presupuesto",
+    "service.page.hero.microcopy": "Respuesta en menos de 24h • Sin compromiso",
+    "service.page.problem.heading": "Donde empiezan los problemas",
+    "service.page.problem.label": "El problema",
+    "service.page.solution.label": "Cómo lo resuelvo",
+    "service.page.includes.heading": "Qué puedes esperar",
+    "service.page.includes.cta.question": "¿Esto es lo que estás buscando?",
+    "service.page.includes.cta.label": "Ver cómo encaja mi proyecto",
+    "service.page.process.heading": "Cómo construimos tu producto",
+    "service.page.process.cta.question":
+      "Si te gusta este enfoque, podemos aplicarlo a tu caso",
+    "service.page.process.cta.label": "Evaluar mi proyecto",
+    "service.page.techstack.heading": "Tecnologías",
+    "service.page.techstack.intro":
+      "Tecnologías pensadas para que tu producto sea rápido, estable y pueda crecer sin limitaciones.",
+    "service.page.related.heading": "Proyectos relacionados",
+    "service.page.related.viewProject": "Ver proyecto",
+    "service.page.testimonial.heading": "En sus palabras",
+    "service.page.faq.heading": "Preguntas frecuentes",
+    "service.page.exploreMore.heading": "¿Quieres explorar más servicios?",
+    "service.page.cta.heading": "¿Listo para comenzar?",
+    "service.page.cta.subheading":
+      "Cuéntame sobre tu proyecto y te contactaré con los siguientes pasos.",
+    "service.page.sticky.cta": "Presupuesto",
+    "service.page.form.heading": "Cuéntame sobre tu proyecto",
+    "service.page.form.intro":
+      "Completa el formulario y te contactaré con los siguientes pasos.",
+    "service.page.form.phone.label": "Teléfono / WhatsApp",
+    "service.page.form.phone.placeholder": "+57 300 000 0000",
+    "service.page.form.budget.label": "Presupuesto estimado (USD)",
+    "service.page.form.budget.placeholder": "Selecciona un rango",
+    "service.page.form.budget.unsure": "No estoy seguro",
+    "service.page.form.timeline.label": "Plazo deseado",
+    "service.page.form.timeline.placeholder": "Selecciona un plazo",
+    "service.page.form.timeline.asap": "Lo antes posible",
+    "service.page.form.timeline.flexible": "Flexible / no estoy seguro",
+    "service.page.form.message.label": "Cuéntame sobre tu proyecto",
+    "service.page.form.submit.email": "Enviar por email",
+    "service.page.form.submit.whatsapp": "Enviar por WhatsApp",
+
+    // Página de servicios (/services)
+    "servicesOverview.seo.title": "Servicios | CHRod - Desarrollador Web",
+    "servicesOverview.seo.description":
+      "Explora todos los servicios: sitios web profesionales, landing pages, e-commerce, aplicaciones web, automatización y APIs. Encuentra el que se ajusta a tu proyecto.",
+    "servicesOverview.hero.heading": "Un servicio para cada tipo de proyecto",
+    "servicesOverview.hero.subheading":
+      "Elige el servicio que mejor se ajuste al tuyo.",
+    "servicesOverview.selector.heading": "¿Qué necesitas?",
+    "servicesOverview.grid.heading": "Servicios disponibles",
+    "servicesOverview.grid.cta": "Ver servicio",
+    "servicesOverview.comparison.heading": "¿No estás seguro cuál elegir?",
+    "servicesOverview.comparison.subheading":
+      "Según lo que necesitas, este es un buen punto de partida:",
+    "servicesOverview.cta.heading":
+      "Puedo ayudarte a definir el mejor enfoque para tu proyecto.",
 
     // Skills
     "skills.label": "Tecnologías",
@@ -241,6 +336,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "skills.category.frameworks": "Frameworks y Librerías",
     "skills.category.ui": "UI y Estilos",
     "skills.category.backend": "Backend y Bases de datos",
+    "skills.category.cms": "Gestión de Contenidos",
     "skills.category.tools": "Herramientas",
 
     // Projects
@@ -270,6 +366,12 @@ export const ui: Record<Locale, Record<string, string>> = {
     "footer.rights": "Todos los derechos reservados.",
     "footer.privacy": "Política de privacidad",
     "footer.terms": "Términos y condiciones",
+
+    // Form privacy notice (shared by Contact Drawer and Service Quote Form)
+    "form.privacy.notice.prefix":
+      "Al enviar este formulario, aceptas que tus datos sean utilizados para responder a tu solicitud. Puedes consultar la ",
+    "form.privacy.notice.link": "política de privacidad",
+    "form.privacy.notice.suffix": " para más información.",
 
     // Contact Drawer
     "drawer.title": "Escríbeme",

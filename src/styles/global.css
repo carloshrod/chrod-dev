@@ -296,4 +296,30 @@
     opacity: 0;
     animation: drawerFieldIn 0.4s ease-out forwards 0.1s;
   }
+
+  /* Floating CTA nudge (WhatsApp button, service sticky CTA) */
+  @keyframes wa-wiggle {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    20% {
+      transform: scale(1.28) rotate(-8deg);
+    }
+    40% {
+      transform: scale(1.28) rotate(8deg);
+    }
+    60% {
+      transform: scale(1.18) rotate(-5deg);
+    }
+    80% {
+      transform: scale(1.18) rotate(5deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  .wa-animate {
+    animation: wa-wiggle 0.55s ease-in-out;
+  }
 }

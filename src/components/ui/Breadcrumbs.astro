@@ -1,0 +1,69 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+
+interface Crumb {
+  label: string;
+  href?: string;
+  icon?: string;
+}
+
+interface Props {
+  lang: Locale;
+  items: Crumb[];
+}
+
+const { lang, items } = Astro.props;
+const t = useTranslations(lang);
+const homeUrl = getRelativeLocaleUrl(lang, "/");
+
+const crumbs: Crumb[] = [
+  { label: t("breadcrumb.home"), href: homeUrl },
+  ...items,
+];
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class="mb-6 flex flex-wrap items-center gap-1.5 text-sm text-slate-500"
+>
+  {
+    crumbs.map((crumb, i) => (
+      <>
+        {i > 0 && (
+          <span aria-hidden="true" class="text-slate-600">
+            |
+          </span>
+        )}
+        {crumb.href && i < crumbs.length - 1 ? (
+          <a
+            href={crumb.href}
+            class="inline-flex items-center gap-1.5 transition-colors hover:text-slate-300"
+          >
+            {crumb.icon && (
+              <span
+                class="inline-flex size-4 [&_svg]:size-4"
+                set:html={crumb.icon}
+              />
+            )}
+            {crumb.label}
+          </a>
+        ) : (
+          <span
+            class="inline-flex items-center gap-1.5 text-red-400"
+            aria-current="page"
+          >
+            {crumb.icon && (
+              <span
+                class="inline-flex size-4 [&_svg]:size-4"
+                set:html={crumb.icon}
+              />
+            )}
+            {crumb.label}
+          </span>
+        )}
+      </>
+    ))
+  }
+</nav>

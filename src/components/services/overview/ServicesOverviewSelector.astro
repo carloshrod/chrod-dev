@@ -1,0 +1,48 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Container from "../../layout/Container.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import { services } from "../../../data/services";
+import { servicesOverview } from "../../../data/servicesOverview";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const items = services.map((service) => ({
+  service,
+  overview: servicesOverview.find((entry) => entry.slug === service.slug)!,
+}));
+---
+
+<section class="py-16">
+  <Container>
+    <h2
+      class="mb-8 text-center text-2xl font-bold text-slate-100 sm:text-3xl"
+      data-scroll-animate="up"
+    >
+      {t("servicesOverview.selector.heading")}
+    </h2>
+    <div class="mx-auto flex max-w-4xl flex-wrap justify-center gap-3">
+      {
+        items.map(({ service, overview }, index) => (
+          <a
+            href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
+            class="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-2.5 text-sm font-medium text-slate-300 transition-all hover:border-red-600/50 hover:text-slate-100"
+            data-scroll-animate={index % 2 === 0 ? "left" : "right"}
+          >
+            <span
+              class="shrink-0 text-red-400 [&>svg]:h-4.5 [&>svg]:w-4.5"
+              set:html={overview.selectorIcon}
+            />
+            {overview.selectorLabel[lang]}
+          </a>
+        ))
+      }
+    </div>
+  </Container>
+</section>

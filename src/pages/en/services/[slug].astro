@@ -1,0 +1,17 @@
+---
+import ServicePage from "../../../components/services/detail/ServicePage.astro";
+import { getServiceBySlug, getServiceSlugs } from "../../../data/services";
+
+export function getStaticPaths() {
+  return getServiceSlugs().map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const service = getServiceBySlug(slug!);
+
+if (!service) {
+  return Astro.redirect("/en");
+}
+---
+
+<ServicePage service={service} lang="en" />

@@ -12,6 +12,9 @@ const env = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "");
 // https://astro.build/config
 export default defineConfig({
   adapter: netlify(),
+  image: {
+    domains: ["cdn.sanity.io"],
+  },
   i18n: {
     defaultLocale: "es",
     locales: ["es", "en"],
@@ -23,7 +26,13 @@ export default defineConfig({
     plugins: [tailwindcss()],
     cacheDir: "./.vite",
     optimizeDeps: {
-      include: ["sanity", "@sanity/ui", "@sanity/icons", "styled-components"],
+      include: [
+        "sanity",
+        "sanity/structure",
+        "@sanity/ui",
+        "@sanity/icons",
+        "styled-components",
+      ],
     },
     ssr: {
       noExternal: [

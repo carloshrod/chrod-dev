@@ -1,64 +1,66 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import Container from "../layout/Container.astro";
-import { useTranslations } from "../../i18n/utils";
-import type { Locale } from "../../i18n/ui";
-import { services } from "../../data/services";
+import Container from "../../layout/Container.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import { services } from "../../../data/services";
+import { servicesOverview } from "../../../data/servicesOverview";
 
-const { lang = "en" } = Astro.props as { lang?: Locale };
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+const items = services.map((service) => ({
+  service,
+  overview: servicesOverview.find((entry) => entry.slug === service.slug)!,
+}));
 ---
 
-<section id="services" class="py-24">
+<section class="py-16">
   <Container>
-    <!-- Header -->
-    <div class="mb-14 text-center">
-      <p
-        class="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400"
-        data-scroll-animate="up"
-      >
-        {t("services.label")}
-      </p>
-      <h2 class="mb-4 text-3xl font-bold text-slate-100 sm:text-4xl" data-scroll-animate="up">
-        {t("services.heading")}
-      </h2>
-      <p class="text-slate-400 leading-relaxed" data-scroll-animate="up">
-        {t("services.subtitle")}
-      </p>
-    </div>
-
-    <!-- Grid -->
+    <h2
+      class="mb-8 text-center text-2xl font-bold text-slate-100 sm:text-3xl"
+      data-scroll-animate="up"
+    >
+      {t("servicesOverview.grid.heading")}
+    </h2>
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
-        services.map((service, index) => (
+        items.map(({ service, overview }, index) => (
           <a
             href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
             class="group relative rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
             data-scroll-animate={`${index <= 2 ? "right" : "left"}`}
           >
-            <!-- Glow on hover -->
+            {/* Glow on hover */}
             <div
               class="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               style="background: radial-gradient(circle at top left, rgba(220,38,38,0.07), transparent 70%);"
               aria-hidden="true"
             />
 
-            <!-- Icon -->
+            {/* Icon */}
             <div class="mb-5 inline-flex items-center justify-center rounded-xl border border-border bg-background p-3 text-red-400 transition-colors duration-300 group-hover:border-red-600/40 group-hover:text-red-300">
               <Fragment set:html={service.icon} />
             </div>
 
-            <!-- Text -->
+            {/* Text */}
             <h3 class="mb-2 text-base font-semibold text-slate-100">
               {service.card.title[lang]}
             </h3>
-            <p class="mb-4 text-sm leading-relaxed text-slate-400">
-              {service.card.description[lang]}
+            <p class="text-sm leading-relaxed text-slate-400">
+              {overview.useCase[lang]}
+            </p>
+            <p class="mb-4 text-xs leading-relaxed text-slate-500">
+              {overview.idealFor[lang]}
             </p>
 
-            <!-- Discreet, always-visible affordance that the card is clickable -->
+            {/* Discreet, always-visible affordance that the card is clickable */}
             <span class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400">
-              {t("services.card.cta")}
+              {t("servicesOverview.grid.cta")}
               <svg
                 class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
                 viewBox="0 0 24 24"
@@ -75,20 +77,6 @@ const t = useTranslations(lang);
           </a>
         ))
       }
-    </div>
-
-    <!-- CTA -->
-    <div class="mt-14 flex flex-col items-center gap-4 text-center">
-      <p class="text-slate-400" data-scroll-animate="up">
-        {t("services.cta.text")}
-      </p>
-      <a
-        href={getRelativeLocaleUrl(lang, "/services")}
-        class="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-red-500 active:scale-95 cursor-pointer"
-        data-scroll-animate="up"
-      >
-        {t("services.cta.button")}
-      </a>
     </div>
   </Container>
 </section>

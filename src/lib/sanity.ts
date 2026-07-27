@@ -39,6 +39,7 @@ export async function getProjects(
       ),
       year,
       techStack,
+      services,
       "keyContributions": select(
         $isEs && defined(keyContributionsEs) => keyContributionsEs,
         keyContributions
@@ -60,6 +61,7 @@ export async function getProjects(
     company: p.company,
     year: p.year,
     techStack: p.techStack ?? [],
+    services: p.services ?? [],
     keyContributions: p.keyContributions,
     githubRepos: p.githubRepos,
     liveUrl: p.liveUrl,

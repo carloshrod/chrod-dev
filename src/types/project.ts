@@ -11,6 +11,7 @@ export interface Project {
   company?: string;
   year?: string;
   techStack: string[];
+  services?: string[];
   keyContributions?: string[];
   githubRepos?: GitHubRepo[];
   liveUrl?: string;

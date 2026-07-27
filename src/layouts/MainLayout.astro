@@ -11,6 +11,8 @@ export interface Props {
   keywords?: string;
   lang?: Locale;
   canonicalUrl?: string;
+  alternatePath?: string;
+  showWhatsAppButton?: boolean;
 }
 
 const {
@@ -19,6 +21,8 @@ const {
   keywords = "web developer, full-stack developer, React, Node.js, freelance, portfolio, landing pages, web apps, e-commerce",
   lang = "en",
   canonicalUrl,
+  alternatePath = "/",
+  showWhatsAppButton = true,
 } = Astro.props;
 
 const siteUrl = "https://chrod.dev";
@@ -44,17 +48,17 @@ const ogImage = `${siteUrl}/og-image.png`;
     <link
       rel="alternate"
       hreflang="en"
-      href={`${siteUrl}${getRelativeLocaleUrl("en", "/")}`}
+      href={`${siteUrl}${getRelativeLocaleUrl("en", alternatePath)}`}
     />
     <link
       rel="alternate"
       hreflang="es"
-      href={`${siteUrl}${getRelativeLocaleUrl("es", "/")}`}
+      href={`${siteUrl}${getRelativeLocaleUrl("es", alternatePath)}`}
     />
     <link
       rel="alternate"
       hreflang="x-default"
-      href={`${siteUrl}${getRelativeLocaleUrl("es", "/")}`}
+      href={`${siteUrl}${getRelativeLocaleUrl("es", alternatePath)}`}
     />
 
     <!-- Open Graph -->
@@ -91,7 +95,7 @@ const ogImage = `${siteUrl}/og-image.png`;
     <slot />
 
     <!-- WhatsApp floating button -->
-    <WhatsAppButton lang={lang} />
+    {showWhatsAppButton && <WhatsAppButton lang={lang} />}
 
     <script>
       // Event delegation: works for every contact-drawer trigger button,

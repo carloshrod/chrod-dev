@@ -1,0 +1,31 @@
+---
+import Container from "../../layout/Container.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="py-20">
+  <Container>
+    <div class="mx-auto flex max-w-xl flex-col items-center gap-4 text-center">
+      <p class="text-lg text-slate-300" data-scroll-animate="up">
+        {t("servicesOverview.cta.heading")}
+      </p>
+      <button
+        id="services-overview-contact-btn"
+        data-open-contact
+        data-wiggle-trigger
+        class="cursor-pointer rounded-lg bg-red-600 px-7 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 active:scale-95"
+        data-scroll-animate="up"
+      >
+        {t("service.page.process.cta.label")}
+      </button>
+    </div>
+  </Container>
+</section>

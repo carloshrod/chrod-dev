@@ -1,0 +1,38 @@
+---
+import MainLayout from "../../../layouts/MainLayout.astro";
+import Navbar from "../../layout/Navbar.astro";
+import Footer from "../../layout/Footer.astro";
+import ContactDrawer from "../../ui/ContactDrawer.tsx";
+import ServicesOverviewHero from "./ServicesOverviewHero.astro";
+import ServicesOverviewSelector from "./ServicesOverviewSelector.astro";
+import ServicesOverviewGrid from "./ServicesOverviewGrid.astro";
+import ServicesOverviewComparison from "./ServicesOverviewComparison.astro";
+import ServicesOverviewCTA from "./ServicesOverviewCTA.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<MainLayout
+  lang={lang}
+  title={t("servicesOverview.seo.title")}
+  description={t("servicesOverview.seo.description")}
+  alternatePath="/services"
+>
+  <Navbar lang={lang} />
+  <main>
+    <ServicesOverviewHero lang={lang} />
+    <ServicesOverviewSelector lang={lang} />
+    <ServicesOverviewGrid lang={lang} />
+    <ServicesOverviewComparison lang={lang} />
+    <ServicesOverviewCTA lang={lang} />
+  </main>
+  <Footer lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>

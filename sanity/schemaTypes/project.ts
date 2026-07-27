@@ -132,6 +132,28 @@ export const projectSchema = defineType({
       type: "number",
       description: "Lower number = displayed first",
     }),
+    defineField({
+      name: "services",
+      title: "Related Services",
+      type: "array",
+      description:
+        "Services this project should appear under in the 'Related Projects' section",
+      // Keep in sync with slugs/titles in src/data/services/*.ts
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Professional Websites", value: "business-websites" },
+          { title: "Landing Pages", value: "landing-pages" },
+          { title: "E-commerce Development", value: "ecommerce-development" },
+          { title: "Web Applications", value: "web-applications" },
+          { title: "Workflow Automation", value: "workflow-automation" },
+          {
+            title: "API & Backend Development",
+            value: "api-backend-development",
+          },
+        ],
+      },
+    }),
   ],
   orderings: [
     {

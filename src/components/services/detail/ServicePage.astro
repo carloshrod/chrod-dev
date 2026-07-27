@@ -1,0 +1,49 @@
+---
+import MainLayout from "../../../layouts/MainLayout.astro";
+import Navbar from "../../layout/Navbar.astro";
+import Footer from "../../layout/Footer.astro";
+import ContactDrawer from "../../ui/ContactDrawer.tsx";
+import ServiceHero from "./ServiceHero.astro";
+import ServiceProblemSolution from "./ServiceProblemSolution.astro";
+import ServiceIncludes from "./ServiceIncludes.astro";
+import ServiceProcess from "./ServiceProcess.astro";
+import ServiceTechStack from "./ServiceTechStack.astro";
+import ServiceRelatedProjects from "./ServiceRelatedProjects.astro";
+import ServiceFAQ from "./ServiceFAQ.astro";
+import ServiceQuoteForm from "../form/ServiceQuoteForm.tsx";
+import ServiceExploreMoreCTA from "./ServiceExploreMoreCTA.astro";
+import ServiceStickyCTA from "./ServiceStickyCTA.astro";
+import type { Locale } from "../../../i18n/ui";
+import type { Service } from "../../../data/services/types";
+
+interface Props {
+  service: Service;
+  lang: Locale;
+}
+
+const { service, lang } = Astro.props;
+---
+
+<MainLayout
+  lang={lang}
+  title={service.seo.title[lang]}
+  description={service.seo.description[lang]}
+  alternatePath={`/services/${service.slug}`}
+  showWhatsAppButton={false}
+>
+  <Navbar lang={lang} />
+  <main>
+    <ServiceHero service={service} lang={lang} />
+    <ServiceProblemSolution service={service} lang={lang} />
+    <ServiceIncludes service={service} lang={lang} />
+    <ServiceProcess service={service} lang={lang} />
+    <ServiceTechStack service={service} lang={lang} />
+    <ServiceRelatedProjects service={service} lang={lang} />
+    <ServiceFAQ service={service} lang={lang} />
+    <ServiceQuoteForm service={service} lang={lang} client:load />
+    <ServiceExploreMoreCTA lang={lang} />
+  </main>
+  <Footer lang={lang} />
+  <ServiceStickyCTA lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>
