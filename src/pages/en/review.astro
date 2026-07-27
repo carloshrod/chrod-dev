@@ -164,7 +164,7 @@ const isValid = Boolean(validToken && token === validToken);
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
-                const animationType = entry.target.getAttribute("data-scroll-animate");
+                const animationType: string = entry.target.getAttribute("data-scroll-animate") ?? "up";
                 const animationMap: Record<string, string> = {
                   up: "animate-in-up",
                   left: "animate-in-left",

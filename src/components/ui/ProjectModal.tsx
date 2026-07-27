@@ -105,7 +105,7 @@ const ProjectModal = ({ project, onClose, lang = "en", isOpen = true }: Props) =
                           type="button"
                           onClick={() => setActiveScreenshot(i)}
                           aria-label={`Screenshot ${i + 1}`}
-                          className={`shrink-0 overflow-hidden rounded-md border-2 transition-colors ${
+                          className={`shrink-0 cursor-pointer overflow-hidden rounded-md border-2 transition-colors ${
                             i === activeScreenshot
                               ? "border-red-500"
                               : "border-[#1a1a1a] hover:border-[#333]"
