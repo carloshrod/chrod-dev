@@ -124,7 +124,10 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-6 py-4" data-drawer-header={isOpen ? "true" : undefined}>
+        <div
+          className="flex items-center justify-between border-b border-border px-6 py-4"
+          data-drawer-header={isOpen ? "true" : undefined}
+        >
           <div className="flex items-center gap-3">
             <img
               src="/chrod-logo.png"
@@ -164,7 +167,12 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5" noValidate data-drawer-form={isOpen ? "true" : undefined}>
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5"
+              noValidate
+              data-drawer-form={isOpen ? "true" : undefined}
+            >
               <p className="text-sm text-slate-400">{t("drawer.form.intro")}</p>
 
               <div className="space-y-1.5">
@@ -258,6 +266,19 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
                   <p className="text-sm text-red-400">{t("drawer.error")}</p>
                 </div>
               )}
+
+              <p className="text-xs text-slate-500">
+                {t("form.privacy.notice.prefix")}
+                <a
+                  href={`/${lang}/privacy-policy`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-slate-600 underline-offset-2 transition-colors hover:text-slate-300"
+                >
+                  {t("form.privacy.notice.link")}
+                </a>
+                {t("form.privacy.notice.suffix")}
+              </p>
 
               <button
                 id="contact-form-btn"
