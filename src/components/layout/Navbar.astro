@@ -10,16 +10,37 @@ import Icon from "../ui/icons.astro";
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
 const homeUrl = getRelativeLocaleUrl(lang, "/");
-const enUrl = getRelativeLocaleUrl("en", "/");
-const esUrl = getRelativeLocaleUrl("es", "/");
+const restPath = Astro.url.pathname.replace(/^\/(en|es)(?=\/|$)/, "") || "/";
+const enUrl = getRelativeLocaleUrl("en", restPath);
+const esUrl = getRelativeLocaleUrl("es", restPath);
 
-const navLinks = [
-  { href: "#about", label: t("nav.about") },
-  { href: "#services", label: t("nav.services") },
-  { href: "#skills", label: t("nav.skills") },
-  { href: "#projects", label: t("nav.projects") },
-  { href: "#reviews", label: t("nav.testimonials") },
-];
+const isHome = restPath === "/";
+const servicesUrl = getRelativeLocaleUrl(lang, "/services");
+
+interface NavLink {
+  label: string;
+  href: string;
+  sectionId?: string;
+  active?: boolean;
+}
+
+const navLinks: NavLink[] = isHome
+  ? [
+      { sectionId: "about", label: t("nav.about") },
+      { sectionId: "services", label: t("nav.services") },
+      { sectionId: "skills", label: t("nav.skills") },
+      { sectionId: "projects", label: t("nav.projects") },
+      { sectionId: "reviews", label: t("nav.testimonials") },
+    ].map((link) => ({ ...link, href: `${homeUrl}#${link.sectionId}` }))
+  : [
+      {
+        label: t("nav.services"),
+        href: servicesUrl,
+        active: restPath === "/services" || restPath.startsWith("/services/"),
+      },
+      { label: t("nav.projects"), href: `${homeUrl}#projects` },
+      { label: t("nav.about"), href: `${homeUrl}#about` },
+    ];
 ---
 
 <header
@@ -48,8 +69,10 @@ const navLinks = [
             <li>
               <a
                 href={link.href}
-                data-nav-link={link.href}
-                class="nav-link text-sm font-medium text-slate-400 transition-colors hover:text-red-400 active:text-red-400"
+                data-nav-link={link.sectionId ? `#${link.sectionId}` : undefined}
+                class={`nav-link text-sm font-medium transition-colors hover:text-red-400 active:text-red-400 ${
+                  link.active ? "text-red-400" : "text-slate-400"
+                }`}
               >
                 {link.label}
               </a>
@@ -144,8 +167,10 @@ const navLinks = [
             <li>
               <a
                 href={link.href}
-                data-nav-link={link.href}
-                class="mobile-nav-link block rounded-md px-3 py-2 text-center text-sm font-medium text-slate-400 transition-colors hover:bg-border hover:text-red-400 active:bg-border active:text-red-400"
+                data-nav-link={link.sectionId ? `#${link.sectionId}` : undefined}
+                class={`mobile-nav-link block rounded-md px-3 py-2 text-center text-sm font-medium transition-colors hover:bg-border hover:text-red-400 active:bg-border active:text-red-400 ${
+                  link.active ? "text-red-400" : "text-slate-400"
+                }`}
               >
                 {link.label}
               </a>
@@ -217,9 +242,12 @@ const navLinks = [
       document.querySelectorAll<HTMLAnchorElement>("a[data-lang-link]");
 
     function updateLangLinks(hash: string) {
+      const restPath =
+        window.location.pathname.replace(/^\/(en|es)(?=\/|$)/, "") || "/";
+      const suffix = restPath === "/" ? "" : restPath;
       langLinks.forEach((a) => {
         const lang = a.getAttribute("data-lang-link");
-        const base = lang === "es" ? "/es" : "/en";
+        const base = lang === "es" ? `/es${suffix}` : `/en${suffix}`;
         a.href = hash ? `${base}${hash}` : base;
       });
     }
