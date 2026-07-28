@@ -1,6 +1,7 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../layout/Container.astro";
-import ProjectsGrid from "../ui/ProjectsGrid";
+import ProjectCardLink from "../ui/ProjectCardLink.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 import { getProjects } from "../../lib/sanity";
@@ -8,7 +9,11 @@ import { getProjects } from "../../lib/sanity";
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
 
-const projects = await getProjects(lang);
+const PROJECTS_TO_SHOW = 6;
+const allProjects = await getProjects(lang);
+const projects = allProjects.slice(0, PROJECTS_TO_SHOW);
+const hasMore = allProjects.length > PROJECTS_TO_SHOW;
+const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
 ---
 
 <section id="projects" class="py-24">
@@ -20,7 +25,10 @@ const projects = await getProjects(lang);
       >
         {t("projects.label")}
       </p>
-      <h2 class="text-3xl font-bold text-slate-100 sm:text-4xl" data-scroll-animate="up">
+      <h2
+        class="text-3xl font-bold text-slate-100 sm:text-4xl"
+        data-scroll-animate="up"
+      >
         {t("projects.heading")}
       </h2>
       <p class="mx-auto mt-4 max-w-xl text-slate-400" data-scroll-animate="up">
@@ -28,7 +36,32 @@ const projects = await getProjects(lang);
       </p>
     </div>
 
-    <ProjectsGrid client:load projects={projects} lang={lang} />
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        projects.map((project, index) => (
+          <ProjectCardLink
+            project={project}
+            lang={lang}
+            index={index}
+            animate
+          />
+        ))
+      }
+    </div>
+
+    {
+      hasMore && (
+        <div class="mt-12 text-center">
+          <a
+            href={projectsUrl}
+            class="rounded-lg px-8 py-3 font-semibold text-red-400 hover:text-red-500 transition-colors"
+            data-scroll-animate="up"
+          >
+            {t("projects.viewAll")}
+          </a>
+        </div>
+      )
+    }
 
     <!-- CTA -->
     <div class="mt-14 flex flex-col items-center gap-4 text-center">

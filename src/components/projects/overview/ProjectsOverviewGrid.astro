@@ -1,0 +1,31 @@
+---
+import Container from "../../layout/Container.astro";
+import ProjectCardLink from "../../ui/ProjectCardLink.astro";
+import type { Locale } from "../../../i18n/ui";
+import type { Project } from "../../../types/project";
+
+interface Props {
+  projects: Project[];
+  lang: Locale;
+}
+
+const { projects, lang } = Astro.props;
+---
+
+<section class="py-16">
+  <Container>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        projects.map((project, index) => (
+          <ProjectCardLink
+            project={project}
+            lang={lang}
+            index={index}
+            animate
+            eager={index < 3}
+          />
+        ))
+      }
+    </div>
+  </Container>
+</section>

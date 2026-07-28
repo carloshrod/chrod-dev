@@ -1,0 +1,45 @@
+---
+import Container from "../../layout/Container.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import type { Project } from "../../../types/project";
+
+interface Props {
+  project: Project;
+  lang: Locale;
+}
+
+const { project, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{
+  project.keyContributions && project.keyContributions.length > 0 && (
+    <section class="pb-20">
+      <Container>
+        <div class="mx-auto max-w-5xl">
+          <h2
+            class="mb-4 text-2xl font-bold text-slate-100 sm:text-3xl"
+            data-scroll-animate="up"
+          >
+            {t("project.page.contributions.heading")}
+          </h2>
+          <ul class="space-y-3">
+            {project.keyContributions.map((item) => (
+              <li
+                class="flex items-start gap-3 text-base leading-relaxed text-slate-300"
+                data-scroll-animate="up"
+              >
+                <span
+                  class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500"
+                  aria-hidden="true"
+                />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </section>
+  )
+}

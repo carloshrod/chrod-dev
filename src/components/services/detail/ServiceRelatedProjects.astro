@@ -1,6 +1,6 @@
 ---
-import { Image } from "astro:assets";
 import Container from "../../layout/Container.astro";
+import ProjectCardLink from "../../ui/ProjectCardLink.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
 import type { Service } from "../../../data/services/types";
@@ -33,45 +33,9 @@ const relatedProjects = allProjects
         </h2>
 
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {relatedProjects.map((project, index) => {
-            const link = project.liveUrl ?? project.websiteUrl;
-            const CardTag = link ? "a" : "div";
-            return (
-              <CardTag
-                {...(link
-                  ? { href: link, target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-all hover:border-red-600/40"
-                data-scroll-animate={
-                  index === 0 ? "right" : index === 2 ? "left" : "up"
-                }
-              >
-                {project.screenshots?.[0] && (
-                  <Image
-                    src={project.screenshots[0]}
-                    alt={project.title}
-                    width={400}
-                    height={160}
-                    class="h-40 w-full object-cover object-top"
-                    loading="lazy"
-                  />
-                )}
-                <div class="flex flex-1 flex-col p-5">
-                  <h3 class="mb-1.5 text-base font-semibold text-slate-100">
-                    {project.title}
-                  </h3>
-                  <p class="mb-3 flex-1 text-sm leading-relaxed text-slate-400 line-clamp-2">
-                    {project.description}
-                  </p>
-                  {link && (
-                    <span class="text-xs font-medium text-red-400 group-hover:text-red-300">
-                      {t("service.page.related.viewProject")} →
-                    </span>
-                  )}
-                </div>
-              </CardTag>
-            );
-          })}
+          {relatedProjects.map((project, index) => (
+            <ProjectCardLink project={project} lang={lang} index={index} />
+          ))}
         </div>
       </Container>
     </section>

@@ -1,0 +1,37 @@
+---
+import MainLayout from "../../../layouts/MainLayout.astro";
+import Navbar from "../../layout/Navbar.astro";
+import Footer from "../../layout/Footer.astro";
+import ContactDrawer from "../../ui/ContactDrawer.tsx";
+import ProjectsOverviewHero from "./ProjectsOverviewHero.astro";
+import ProjectsOverviewGrid from "./ProjectsOverviewGrid.astro";
+import ProjectsOverviewCTA from "./ProjectsOverviewCTA.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import { getProjects } from "../../../lib/sanity";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const projects = await getProjects(lang);
+---
+
+<MainLayout
+  lang={lang}
+  title={t("projectsOverview.seo.title")}
+  description={t("projectsOverview.seo.description")}
+  alternatePath="/projects"
+>
+  <Navbar lang={lang} />
+  <main>
+    <ProjectsOverviewHero lang={lang} />
+    <ProjectsOverviewGrid projects={projects} lang={lang} />
+    <ProjectsOverviewCTA lang={lang} />
+  </main>
+  <Footer lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>

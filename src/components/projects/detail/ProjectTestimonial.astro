@@ -1,0 +1,94 @@
+---
+import Container from "../../layout/Container.astro";
+import { StarRatingIcon, LinkedInIcon } from "../../ui/icons";
+import { SourceBadge } from "../../ui/review.source";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import type { Project } from "../../../types/project";
+
+interface Props {
+  project: Project;
+  lang: Locale;
+}
+
+const { project, lang } = Astro.props;
+const t = useTranslations(lang);
+const testimonial = project.testimonial;
+---
+
+{
+  testimonial && (
+    <section class="pt-12 pb-20">
+      <Container>
+        <h2
+          class="mb-10 text-center text-2xl font-bold text-slate-100 sm:text-3xl"
+          data-scroll-animate="up"
+        >
+          {t("project.page.testimonial.heading")}
+        </h2>
+
+        <div class="mx-auto max-w-2xl text-center" data-scroll-animate="up">
+          <svg
+            class="mx-auto mb-5 h-8 w-8 text-red-600/40"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
+          </svg>
+
+          <p class="mb-8 text-xl italic leading-relaxed text-slate-200 sm:text-2xl">
+            {testimonial.text}
+          </p>
+
+          <div class="flex flex-col items-center gap-4">
+            <div class="flex items-center gap-2" data-scroll-animate="up">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-600/15 text-sm font-semibold text-red-400">
+                {testimonial.avatar}
+              </div>
+              <div>
+                <div class="flex items-center justify-center gap-2">
+                  <p class="text-sm font-semibold text-slate-200">
+                    {testimonial.name}
+                  </p>
+                  {testimonial.linkedinUrl && (
+                    <a
+                      href={testimonial.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${testimonial.name} on LinkedIn`}
+                    >
+                      <LinkedInIcon />
+                    </a>
+                  )}
+                </div>
+                <p class="mt-0.5 text-xs text-slate-500">
+                  {testimonial.companyLogo ? (
+                    <img
+                      src={testimonial.companyLogo}
+                      alt={testimonial.company}
+                      class="mx-auto h-3.5 w-auto max-w-15 object-contain opacity-60"
+                    />
+                  ) : (
+                    <>
+                      {testimonial.role} · {testimonial.company}
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3" data-scroll-animate="up">
+              {testimonial.rating && (
+                <div class="flex items-center gap-0.5">
+                  <StarRatingIcon />
+                </div>
+              )}
+              <SourceBadge review={testimonial} />
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}

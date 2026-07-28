@@ -121,6 +121,14 @@ export const projectSchema = defineType({
         "Official product/company website (when live demo is not available)",
     }),
     defineField({
+      name: "coverImage",
+      title: "Cover Image",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "Used exclusively for project cards (grid, related projects). If left empty, the first screenshot is used instead. Screenshots remain dedicated to the project detail gallery.",
+    }),
+    defineField({
       name: "screenshots",
       title: "Screenshots",
       type: "array",
@@ -153,6 +161,14 @@ export const projectSchema = defineType({
           },
         ],
       },
+    }),
+    defineField({
+      name: "testimonialRef",
+      title: "Client Testimonial",
+      type: "reference",
+      to: [{ type: "review" }],
+      description:
+        "Link to an existing review to feature as this project's client testimonial",
     }),
   ],
   orderings: [

@@ -1,0 +1,75 @@
+---
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div
+  id="project-sticky-cta"
+  class="pointer-events-none fixed bottom-4 right-4 z-60 translate-y-4 opacity-0 transition-all duration-300 sm:bottom-6 sm:right-6"
+>
+  <button
+    type="button"
+    data-open-contact
+    data-wiggle-trigger
+    class="flex items-center justify-center gap-2 rounded-full bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/40 transition-all hover:bg-red-500 sm:px-7 sm:py-3.5 cursor-pointer"
+  >
+    {t("project.page.sticky.cta")}
+  </button>
+</div>
+
+<script>
+  // Re-run on the initial load and after every View Transitions navigation,
+  // since the DOM elements below get replaced on each page swap.
+  let projectStickyCtaObserver: IntersectionObserver | undefined;
+
+  function initProjectStickyCta() {
+    projectStickyCtaObserver?.disconnect();
+
+    const stickyCta = document.getElementById("project-sticky-cta");
+    const hero = document.getElementById("project-hero");
+    const finalCta = document.getElementById("project-final-cta");
+    if (!stickyCta || !hero) return;
+
+    const setVisible = (visible: boolean) => {
+      stickyCta.classList.toggle("opacity-0", !visible);
+      stickyCta.classList.toggle("translate-y-4", !visible);
+      stickyCta.classList.toggle("pointer-events-none", !visible);
+    };
+
+    let heroVisible = true;
+    // True from the moment the final CTA is reached, and for every section
+    // after it (it only resets if the user scrolls back up above it).
+    let pastFinalCta = false;
+
+    projectStickyCtaObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === hero) heroVisible = entry.isIntersecting;
+          if (entry.target === finalCta) {
+            if (entry.isIntersecting) {
+              pastFinalCta = true;
+            } else if (entry.boundingClientRect.top >= 0) {
+              // Whole section is below the viewport: not reached yet.
+              pastFinalCta = false;
+            }
+            // Otherwise it scrolled off above the viewport — stay hidden.
+          }
+        });
+        setVisible(!heroVisible && !pastFinalCta);
+      },
+      { rootMargin: "-96px 0px 0px 0px" },
+    );
+
+    projectStickyCtaObserver.observe(hero);
+    if (finalCta) projectStickyCtaObserver.observe(finalCta);
+  }
+
+  document.addEventListener("astro:page-load", initProjectStickyCta);
+</script>

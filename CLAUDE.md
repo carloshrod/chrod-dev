@@ -35,6 +35,7 @@ Copy `.env.example` to `.env.local` and populate with:
 
 - **`src/pages/`**: Route files. Language variants nested as `src/pages/es/` for Spanish routes.
   - `index.astro` (EN) + `es/index.astro` (ES): homepage
+  - `projects/index.astro` / `projects/[slug].astro` (+ `es/` variants): projects listing and case-study detail pages
   - `review.astro` / `es/review.astro`: client review submission form
   - `privacy-policy.astro` / `terms.astro`: legal pages
 - **Layout**: `MainLayout.astro` wraps every page with SEO meta tags, fonts, and WhatsApp button
@@ -43,7 +44,8 @@ Copy `.env.example` to `.env.local` and populate with:
 
 - **`src/components/layout/`**: Structural (Navbar, Footer, Container)
 - **`src/components/sections/`**: Page sections (HeroSection, AboutSection, ProjectsSection, ReviewsSection, etc.)
-- **`src/components/ui/`**: Reusable UI pieces (ProjectCard, ReviewsCarousel, ContactDrawer, etc.)
+- **`src/components/ui/`**: Reusable UI pieces (ProjectCardLink, ReviewsCarousel, ContactDrawer, etc.)
+- **`src/components/projects/`**: Projects listing (`overview/`) and case-study detail (`detail/`) page sections, mirroring `src/components/services/` structure
 
 ### Content Management
 
@@ -78,7 +80,7 @@ Copy `.env.example` to `.env.local` and populate with:
 
 ## Common Workflows
 
-- **Add a new project**: Edit Sanity CMS, ensure project has `titleEs` + `descriptionEs` for bilingual support
+- **Add a new project**: Edit Sanity CMS, ensure project has `titleEs` + `descriptionEs` for bilingual support. Add a `slug` field (Sanity slug type) for stable URLs at `/projects/[slug]`; without it, the slug is derived from the English title
 - **Add a new review**: Publish in Sanity with `published: true`; form at `/review?t=TOKEN` submits reviews to Sanity
 - **Update text/copy**: Edit `src/i18n/ui.ts` for static UI strings; Sanity for dynamic content (projects, reviews)
 - **Add a React component**: Use `client:load` directive to hydrate; Astro handles SSR

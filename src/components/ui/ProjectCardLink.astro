@@ -1,0 +1,98 @@
+---
+import { Image } from "astro:assets";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+import type { Project } from "../../types/project";
+
+interface Props {
+  project: Project;
+  lang: Locale;
+  index?: number;
+  animate?: boolean;
+  eager?: boolean;
+}
+
+const { project, lang, index, animate = false, eager = false } = Astro.props;
+const t = useTranslations(lang);
+const href = getRelativeLocaleUrl(lang, `/projects/${project.slug}`);
+const thumbnail = project.coverImage ?? project.screenshots?.[0];
+---
+
+<a
+  href={href}
+  class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:border-red-600/40"
+  {...animate && {
+    "data-scroll-animate": `${index !== undefined && Math.floor(index / 3) % 2 === 1 ? "right" : "left"}`,
+  }}
+>
+  {
+    thumbnail ? (
+      <div class="h-44 w-full overflow-hidden bg-background">
+        <Image
+          src={thumbnail}
+          alt={project.title}
+          width={480}
+          height={270}
+          class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+          loading={eager ? "eager" : "lazy"}
+        />
+      </div>
+    ) : (
+      <div class="flex h-44 w-full items-center justify-center bg-background text-slate-700">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      </div>
+    )
+  }
+
+  <div class="flex flex-1 flex-col p-6">
+    <h3 class="mb-2 text-lg font-semibold text-slate-100">{project.title}</h3>
+    <p class="mb-4 flex-1 text-sm leading-relaxed text-slate-400 line-clamp-2">
+      {project.description}
+    </p>
+
+    <div class="mb-4 flex flex-wrap gap-2">
+      {
+        project.techStack
+          .slice(0, 4)
+          .map((tech) => (
+            <span class="rounded-md bg-[#13131f] px-2 py-1 text-xs font-medium text-slate-500 ring-1 ring-[#1c1c2e]">
+              {tech}
+            </span>
+          ))
+      }
+    </div>
+
+    <span
+      class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400"
+    >
+      {t("projectsOverview.grid.cta")}
+      <svg
+        class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M13 6l6 6-6 6"></path>
+      </svg>
+    </span>
+  </div>
+</a>

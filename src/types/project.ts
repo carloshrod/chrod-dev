@@ -1,9 +1,12 @@
+import type { Review } from "./review";
+
 export interface GitHubRepo {
   url: string;
   label?: string;
 }
 
 export interface Project {
+  slug: string;
   title: string;
   description: string;
   longDescription?: string;
@@ -16,5 +19,8 @@ export interface Project {
   githubRepos?: GitHubRepo[];
   liveUrl?: string;
   websiteUrl?: string;
+  videoUrl?: string;
+  coverImage?: string;
   screenshots?: string[];
+  testimonial?: Review;
 }

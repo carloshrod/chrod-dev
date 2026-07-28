@@ -35,7 +35,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "services.label": "Services",
     "services.heading": "What I can build for you",
     "services.subtitle":
-      "Whether you're launching something new or improving what already exists, I focus on delivering clean, performant solutions that are tailored to your goals — not generic templates.",
+      "Whether you're launching something new or improving what already exists, I focus on delivering clean, performant solutions that are tailored to your goals, not generic templates.",
     "services.cta.text":
       "Not sure what you need? I can help you find the right approach.",
     "services.cta.button": "Find the right service",
@@ -63,7 +63,6 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Technologies chosen to make your product fast, stable, and ready to scale.",
     "service.page.related.heading": "Related projects",
     "service.page.related.viewProject": "View project",
-    "service.page.testimonial.heading": "In their words",
     "service.page.faq.heading": "Frequently asked questions",
     "service.page.exploreMore.heading": "Want to explore more services?",
     "service.page.cta.heading": "Ready to get started?",
@@ -115,12 +114,43 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projects.label": "Work",
     "projects.heading": "Selected Projects",
     "projects.subtitle":
-      "A collection of projects I've built — from simple static sites, through dashboards and e-commerce platforms, to full-stack apps.",
+      "A selection of projects I’ve worked on, from websites and dashboards to more complete applications.",
     "projects.showMore": "Show more",
     "projects.showLess": "Show less",
-    "projects.cta.text":
-      "Like what you see? Let's build something like this together.",
-    "projects.cta.button": "Start your project",
+    "projects.viewAll": "View all projects",
+    "projects.cta.text": "Like what you see? Let's talk about your project.",
+    "projects.cta.button": "Start my project",
+
+    // Projects overview page (/projects)
+    "projectsOverview.seo.title": "Projects | CHRod - Web Developer",
+    "projectsOverview.seo.description":
+      "Explore all projects I've built. Web apps, e-commerce platforms, dashboards, landing pages, and more.",
+    "projectsOverview.hero.heading": "Projects I’ve worked on",
+    "projectsOverview.hero.subheading":
+      "From websites and ecommerce platforms to automations and backend development.",
+    "projectsOverview.grid.cta": "View project",
+
+    // Project detail page (/projects/[slug])
+    "project.page.meta.role": "Role",
+    "project.page.meta.company": "Client / Company",
+    "project.page.meta.year": "Year",
+    "project.page.link.demo": "View live demo",
+    "project.page.link.website": "Official website",
+    "project.page.link.github": "View code",
+    "project.page.gallery.zoom": "Click to zoom screenshot",
+    "project.page.gallery.zoom.label": "Screenshot zoomed view",
+    "project.page.gallery.zoom.close": "Close zoomed view",
+    "project.page.gallery.video": "Demo video",
+    "project.page.about.heading": "About the project",
+    "project.page.contributions.heading": "Key Contributions",
+    "project.page.techstack.heading": "Technologies used",
+    "project.page.testimonial.heading": "Client feedback",
+    "project.page.finalCta.heading": "Have a similar project in mind?",
+    "project.page.finalCta.subheading": "Let's talk and see how I can help.",
+    "project.page.finalCta.button": "Start my project",
+    "project.page.relatedServices.heading": "Related services",
+    "project.page.exploreMore.heading": "Want to see more work?",
+    "project.page.sticky.cta": "Let's talk",
 
     // Reviews
     "reviews.label": "Testimonials",
@@ -132,7 +162,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "contact.label": "Contact",
     "contact.heading": "Let's work together",
     "contact.body":
-      "Have a project in mind or just want to connect? I'd love to hear from you. Open the form or reach out directly on WhatsApp — whatever works best for you.",
+      "Have a project in mind or just want to connect? I'd love to hear from you. Open the form or reach out directly on WhatsApp, whatever works best for you.",
     "contact.button": "Get in touch",
 
     // Footer
@@ -169,22 +199,6 @@ export const ui: Record<Locale, Record<string, string>> = {
     "drawer.success.body":
       "Thanks for reaching out. I'll get back to you soon.",
     "drawer.success.close": "Close",
-
-    // Project Modal
-    "modal.no_screenshots": "No screenshots available",
-    "modal.about": "About the project",
-    "modal.role": "Role",
-    "modal.company": "Client / Company",
-    "modal.year": "Year",
-    "modal.tech": "Tech Stack",
-    "modal.contributions": "Key Contributions",
-    "modal.github.default": "View on GitHub",
-    "modal.live": "Live demo",
-    "modal.website": "Official website",
-    "modal.close": "Close project details",
-    "modal.zoom": "Click to zoom screenshot",
-    "modal.zoom.label": "Screenshot zoomed view",
-    "modal.zoom.close": "Close zoomed view",
 
     // WhatsApp
     "whatsapp.label": "Contact me on WhatsApp",
@@ -290,7 +304,6 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Tecnologías pensadas para que tu producto sea rápido, estable y pueda crecer sin limitaciones.",
     "service.page.related.heading": "Proyectos relacionados",
     "service.page.related.viewProject": "Ver proyecto",
-    "service.page.testimonial.heading": "En sus palabras",
     "service.page.faq.heading": "Preguntas frecuentes",
     "service.page.exploreMore.heading": "¿Quieres explorar más servicios?",
     "service.page.cta.heading": "¿Listo para comenzar?",
@@ -343,11 +356,44 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projects.label": "Proyectos",
     "projects.heading": "Proyectos destacados",
     "projects.subtitle":
-      "Una selección de proyectos que he desarrollado — desde sitios web estáticos y dashboards, hasta plataformas web y aplicaciones full-stack.",
+      "Una selección de proyectos en los que he trabajado, desde webs y dashboards hasta aplicaciones más completas.",
     "projects.showMore": "Ver más",
     "projects.showLess": "Ver menos",
+    "projects.viewAll": "Ver todos los proyectos",
     "projects.cta.text": "¿Te gusta lo que ves? Hablemos de tu proyecto.",
     "projects.cta.button": "Iniciar mi proyecto",
+
+    // Página de proyectos (/projects)
+    "projectsOverview.seo.title": "Proyectos | CHRod - Desarrollador Web",
+    "projectsOverview.seo.description":
+      "Explora todos los proyectos que he desarrollado. Aplicaciones web, plataformas e-commerce, dashboards, landing pages y más.",
+    "projectsOverview.hero.heading": "Proyectos en los que he trabajado",
+    "projectsOverview.hero.subheading":
+      "Desde sitios web y tiendas online, hasta automatizaciones y desarrollo backend.",
+    "projectsOverview.grid.cta": "Ver proyecto",
+
+    // Página de detalle de proyecto (/projects/[slug])
+    "project.page.meta.role": "Rol",
+    "project.page.meta.company": "Cliente / Empresa",
+    "project.page.meta.year": "Año",
+    "project.page.link.demo": "Ver demo en vivo",
+    "project.page.link.website": "Sitio web oficial",
+    "project.page.link.github": "Ver código",
+    "project.page.gallery.zoom": "Clic para ampliar captura",
+    "project.page.gallery.zoom.label": "Vista ampliada de la captura",
+    "project.page.gallery.zoom.close": "Cerrar vista ampliada",
+    "project.page.gallery.video": "Video demo",
+    "project.page.about.heading": "Sobre el proyecto",
+    "project.page.contributions.heading": "Contribuciones clave",
+    "project.page.techstack.heading": "Tecnologías usadas",
+    "project.page.testimonial.heading": "Opinión del cliente",
+    "project.page.finalCta.heading": "¿Tienes un proyecto similar en mente?",
+    "project.page.finalCta.subheading":
+      "Hablemos y veamos cómo puedo ayudarte.",
+    "project.page.finalCta.button": "Iniciar mi proyecto",
+    "project.page.relatedServices.heading": "Servicios relacionados",
+    "project.page.exploreMore.heading": "¿Quieres ver más proyectos?",
+    "project.page.sticky.cta": "Hablemos",
 
     // Reviews
     "reviews.label": "Testimonios",
@@ -398,22 +444,6 @@ export const ui: Record<Locale, Record<string, string>> = {
     "drawer.success.body":
       "Gracias por escribirme. Te responderé lo más pronto posible.",
     "drawer.success.close": "Cerrar",
-
-    // Project Modal
-    "modal.no_screenshots": "Sin capturas disponibles",
-    "modal.about": "Sobre el proyecto",
-    "modal.role": "Rol",
-    "modal.company": "Cliente / Empresa",
-    "modal.year": "Año",
-    "modal.tech": "Tech Stack",
-    "modal.contributions": "Contribuciones clave",
-    "modal.github.default": "Ver en GitHub",
-    "modal.live": "Ver demo",
-    "modal.website": "Sitio web oficial",
-    "modal.close": "Cerrar detalles del proyecto",
-    "modal.zoom": "Clic para ampliar captura",
-    "modal.zoom.label": "Vista ampliada de la captura",
-    "modal.zoom.close": "Cerrar vista ampliada",
 
     // WhatsApp
     "whatsapp.label": "Contáctame por WhatsApp",

@@ -16,6 +16,7 @@ const esUrl = getRelativeLocaleUrl("es", restPath);
 
 const isHome = restPath === "/";
 const servicesUrl = getRelativeLocaleUrl(lang, "/services");
+const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
 
 interface NavLink {
   label: string;
@@ -38,7 +39,11 @@ const navLinks: NavLink[] = isHome
         href: servicesUrl,
         active: restPath === "/services" || restPath.startsWith("/services/"),
       },
-      { label: t("nav.projects"), href: `${homeUrl}#projects` },
+      {
+        label: t("nav.projects"),
+        href: projectsUrl,
+        active: restPath === "/projects" || restPath.startsWith("/projects/"),
+      },
       { label: t("nav.about"), href: `${homeUrl}#about` },
     ];
 ---

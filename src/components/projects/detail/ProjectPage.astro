@@ -1,0 +1,47 @@
+---
+import MainLayout from "../../../layouts/MainLayout.astro";
+import Navbar from "../../layout/Navbar.astro";
+import Footer from "../../layout/Footer.astro";
+import ContactDrawer from "../../ui/ContactDrawer.tsx";
+import ProjectHero from "./ProjectHero.astro";
+import ProjectShowcase from "./ProjectShowcase.astro";
+import ProjectOverview from "./ProjectOverview.astro";
+import ProjectContributions from "./ProjectContributions.astro";
+import ProjectTestimonial from "./ProjectTestimonial.astro";
+import ProjectFinalCTA from "./ProjectFinalCTA.astro";
+import ProjectRelatedServices from "./ProjectRelatedServices.astro";
+import ProjectExploreMoreCTA from "./ProjectExploreMoreCTA.astro";
+import ProjectStickyCTA from "./ProjectStickyCTA.astro";
+import type { Locale } from "../../../i18n/ui";
+import type { Project } from "../../../types/project";
+
+interface Props {
+  project: Project;
+  lang: Locale;
+}
+
+const { project, lang } = Astro.props;
+---
+
+<MainLayout
+  lang={lang}
+  title={`${project.title} | CHRod - Web Developer`}
+  description={project.description}
+  alternatePath={`/projects/${project.slug}`}
+  showWhatsAppButton={false}
+>
+  <Navbar lang={lang} />
+  <main>
+    <ProjectHero project={project} lang={lang} />
+    <ProjectShowcase project={project} lang={lang} />
+    <ProjectOverview project={project} lang={lang} />
+    <ProjectContributions project={project} lang={lang} />
+    <ProjectTestimonial project={project} lang={lang} />
+    <ProjectFinalCTA lang={lang} />
+    <ProjectRelatedServices project={project} lang={lang} />
+    <ProjectExploreMoreCTA lang={lang} />
+  </main>
+  <Footer lang={lang} />
+  <ProjectStickyCTA lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>
