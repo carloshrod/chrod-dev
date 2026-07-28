@@ -102,8 +102,8 @@ export const ecommerceDevelopment: Service = {
   ],
 
   includesNote: {
-    en: "The exact scope is defined based on your needs — this is a typical baseline.",
-    es: "El alcance exacto se define según tu proyecto — esto es una referencia.",
+    en: "The exact scope is defined based on your needs. This is a typical baseline.",
+    es: "El alcance exacto se define según tu proyecto. Esto es una referencia.",
   },
 
   process: [
@@ -175,8 +175,8 @@ export const ecommerceDevelopment: Service = {
   faq: [
     {
       question: {
-        en: "Shopify or a custom store — which do I need?",
-        es: "¿Shopify o tienda a medida — cuál necesito?",
+        en: "Shopify or a custom store, which do I need?",
+        es: "¿Shopify o tienda a medida, cuál necesito?",
       },
       answer: {
         en: "Shopify is great for most catalogs and gets you selling faster with less maintenance. A custom build makes sense when you need very specific logic Shopify can't handle. I'll recommend the right fit after understanding your catalog and goals.",
@@ -267,8 +267,8 @@ export const ecommerceDevelopment: Service = {
       es: "Desarrollo de Tiendas Online | CHRod - Desarrollador Web",
     },
     description: {
-      en: "Shopify and custom e-commerce stores built to convert — optimized checkout, payments, and shipping. Get a custom quote for your online store.",
-      es: "Tiendas online en Shopify o a medida, construidas para vender — checkout, pagos y envíos optimizados. Solicita una cotización para tu tienda.",
+      en: "Shopify and custom e-commerce stores built to convert. Optimized checkout, payments, and shipping. Get a custom quote for your online store.",
+      es: "Tiendas online en Shopify o a medida, construidas para vender. Checkout, pagos y envíos optimizados. Solicita una cotización para tu tienda.",
     },
   },
 };

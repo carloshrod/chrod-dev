@@ -18,15 +18,15 @@ export const webApplications: Service = {
       es: "Una aplicación web construida alrededor de cómo realmente funciona tu negocio",
     },
     subheadline: {
-      en: "For internal tools, dashboards, or client platforms that off-the-shelf software can't support — designed to handle your workflows, data, and growth.",
-      es: "Para herramientas internas, dashboards o plataformas que el software genérico no puede soportar — diseñada para manejar tus flujos, datos y crecimiento.",
+      en: "For internal tools, dashboards, or client platforms that off-the-shelf software can't support. Designed to handle your workflows, data, and growth.",
+      es: "Para herramientas internas, dashboards o plataformas que el software genérico no puede soportar. Diseñada para manejar tus flujos, datos y crecimiento.",
     },
   },
 
   problemSolution: {
     intro: {
-      en: "Spreadsheets, disconnected tools, and generic software work at first — but they break as your operations grow.",
-      es: "Las hojas de cálculo, herramientas desconectadas y software genérico funcionan al inicio — pero se rompen cuando tu operación crece.",
+      en: "Spreadsheets, disconnected tools, and generic software work at first, but they break as your operations grow.",
+      es: "Las hojas de cálculo, herramientas desconectadas y software genérico funcionan al inicio, pero se rompen cuando tu operación crece.",
     },
     problems: [
       {
@@ -98,8 +98,8 @@ export const webApplications: Service = {
   ],
 
   includesNote: {
-    en: "The exact scope is defined based on your needs — this is a typical baseline.",
-    es: "El alcance exacto se define según tu proyecto — esto es una referencia.",
+    en: "The exact scope is defined based on your needs. This is a typical baseline.",
+    es: "El alcance exacto se define según tu proyecto. Esto es una referencia.",
   },
 
   process: [
@@ -177,15 +177,15 @@ export const webApplications: Service = {
         es: "¿Cuánto tiempo toma construir una app web?",
       },
       answer: {
-        en: "It varies widely by scope — a focused internal tool might take 4-6 weeks; a full customer-facing platform can take longer. We'll define a realistic timeline together after discovery.",
-        es: "Varía mucho según el alcance — una herramienta interna puede tomar 4-6 semanas; una plataforma completa para clientes puede tomar más. Definimos un cronograma realista juntos tras la fase de descubrimiento.",
+        en: "It varies widely by scope, a focused internal tool might take 4-6 weeks; a full customer-facing platform can take longer. We'll define a realistic timeline together after discovery.",
+        es: "Varía mucho según el alcance, una herramienta interna puede tomar 4-6 semanas; una plataforma completa para clientes puede tomar más. Definimos un cronograma realista juntos tras la fase de descubrimiento.",
       },
     },
     {
       question: { en: "What does it cost?", es: "¿Cuánto cuesta?" },
       answer: {
-        en: "Web apps are priced by scope and complexity — there's no fixed price. Share your project details below and I'll follow up with next steps to scope it properly.",
-        es: "El precio de las aplicaciones web depende del alcance y la complejidad — no hay un precio fijo. Cuéntame los detalles de tu proyecto y te contacto para definir el alcance correctamente.",
+        en: "Web apps are priced by scope and complexity, there's no fixed price. Share your project details below and I'll follow up with next steps to scope it properly.",
+        es: "El precio de las aplicaciones web depende del alcance y la complejidad, no hay un precio fijo. Cuéntame los detalles de tu proyecto y te contacto para definir el alcance correctamente.",
       },
     },
     {
@@ -214,8 +214,8 @@ export const webApplications: Service = {
         es: "¿La app puede integrarse con herramientas que ya usamos?",
       },
       answer: {
-        en: "In most cases, yes — via APIs, webhooks, or direct database integrations, depending on the tool.",
-        es: "En la mayoría de los casos sí — a través de APIs, webhooks o integraciones directas con la base de datos, según la herramienta.",
+        en: "In most cases yes, via APIs, webhooks, or direct database integrations, depending on the tool.",
+        es: "En la mayoría de los casos sí, a través de APIs, webhooks o integraciones directas con la base de datos, según la herramienta.",
       },
     },
   ],
@@ -265,8 +265,8 @@ export const webApplications: Service = {
       es: "Desarrollo de Aplicaciones Web a Medida | CHRod - Desarrollador Web",
     },
     description: {
-      en: "Scalable, custom web applications built around your workflow — dashboards, internal tools, and customer-facing platforms. Get a custom quote.",
-      es: "Aplicaciones web escalables y a medida, construidas alrededor de tu flujo de trabajo — dashboards, herramientas internas y plataformas para clientes. Solicita una cotización.",
+      en: "Scalable, custom web applications built around your workflow. Dashboards, internal tools, and customer-facing platforms. Get a custom quote.",
+      es: "Aplicaciones web escalables y a medida, construidas alrededor de tu flujo de trabajo. Dashboards, herramientas internas y plataformas para clientes. Solicita una cotización.",
     },
   },
 };

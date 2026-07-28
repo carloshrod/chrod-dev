@@ -18,15 +18,15 @@ export const landingPages: Service = {
       es: "Una landing page diseñada para convertir tu tráfico en leads",
     },
     subheadline: {
-      en: "For campaigns, launches, or single offers — focused on one goal: turning clicks into real opportunities.",
-      es: "Para campañas, lanzamientos u ofertas específicas — enfocada en un solo objetivo: convertir clics en oportunidades reales.",
+      en: "For campaigns, launches, or single offers, focused on one goal: turning clicks into real opportunities.",
+      es: "Para campañas, lanzamientos u ofertas específicas, enfocada en un solo objetivo: convertir clics en oportunidades reales.",
     },
   },
 
   problemSolution: {
     intro: {
-      en: "Driving traffic to a generic or slow page quietly kills your conversion rate — and wastes your ad budget.",
-      es: "Enviar tráfico a una página genérica o lenta reduce tu conversión — y desperdicia tu presupuesto en anuncios.",
+      en: "Driving traffic to a generic or slow page quietly kills your conversion rate, and wastes your ad budget.",
+      es: "Enviar tráfico a una página genérica o lenta reduce tu conversión, y desperdicia tu presupuesto en anuncios.",
     },
     problems: [
       {
@@ -157,8 +157,8 @@ export const landingPages: Service = {
     {
       question: { en: "What does it cost?", es: "¿Cuánto cuesta?" },
       answer: {
-        en: "Pricing depends on scope (sections, copy, integrations). Fill out the form below and I'll send a tailored quote — no generic price lists.",
-        es: "El precio depende del alcance (secciones, copy, integraciones). Completa el formulario y te envío una cotización a medida — sin listas de precios genéricas.",
+        en: "Pricing depends on scope (sections, copy, integrations). Fill out the form below and I'll send a tailored quote, no generic price lists.",
+        es: "El precio depende del alcance (secciones, copy, integraciones). Completa el formulario y te envío una cotización a medida, sin listas de precios genéricas.",
       },
     },
     {

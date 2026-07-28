@@ -18,15 +18,15 @@ export const businessWebsites: Service = {
       es: "Un sitio web que convierte visitas en clientes",
     },
     subheadline: {
-      en: "Designed to clearly communicate what you do, build trust from the very first moment, and help you attract more clients — not just to “have an online presence”.",
-      es: "Diseñado para comunicar claramente lo que haces, generar confianza desde el primer momento y ayudarte a conseguir más clientes — no solo para “estar online”.",
+      en: "Designed to clearly communicate what you do, build trust from the very first moment, and help you attract more clients, not just to “have an online presence”.",
+      es: "Diseñado para comunicar claramente lo que haces, generar confianza desde el primer momento y ayudarte a conseguir más clientes, no solo para “estar online”.",
     },
   },
 
   problemSolution: {
     intro: {
-      en: "Most business websites feel outdated, slow, or unclear — and that hurts trust before a potential client even reaches out.",
-      es: "La mayoría de sitios de negocios se sienten desactualizados, lentos o poco claros — y eso afecta la confianza antes de que un cliente siquiera te contacte.",
+      en: "Most business websites feel outdated, slow or unclear, and that hurts trust before a potential client even reaches out.",
+      es: "La mayoría de sitios de negocios se sienten desactualizados, lentos o poco claros, y eso afecta la confianza antes de que un cliente siquiera te contacte.",
     },
     problems: [
       {
@@ -102,8 +102,8 @@ export const businessWebsites: Service = {
   ],
 
   includesNote: {
-    en: "The exact scope is defined based on your needs — this is a typical baseline.",
-    es: "El alcance exacto se define según tu proyecto — esto es una referencia.",
+    en: "The exact scope is defined based on your needs. This is a typical baseline.",
+    es: "El alcance exacto se define según tu proyecto. Esto es una referencia.",
   },
 
   process: [
@@ -182,8 +182,8 @@ export const businessWebsites: Service = {
         es: "¿Puedo actualizar el contenido yo mismo después?",
       },
       answer: {
-        en: "Yes — for sites with frequently changing content, I can set up a simple CMS so you can edit text and images without touching code.",
-        es: "Sí — para sitios con contenido que cambia con frecuencia, puedo configurar un CMS sencillo para que edites texto e imágenes sin tocar código.",
+        en: "Yes, for sites with frequently changing content, I can set up a simple CMS so you can edit text and images without touching code.",
+        es: "Sí, para sitios con contenido que cambia con frecuencia, puedo configurar un CMS sencillo para que edites texto e imágenes sin tocar código.",
       },
     },
     {
@@ -202,8 +202,8 @@ export const businessWebsites: Service = {
         es: "¿Va a funcionar bien en las búsquedas de Google?",
       },
       answer: {
-        en: "Every site is built with on-page SEO fundamentals (fast load times, proper structure, meta tags) — a solid technical foundation for ranking.",
-        es: "Cada sitio se construye con fundamentos de SEO on-page (carga rápida, estructura correcta, meta tags) — una base técnica sólida para posicionar.",
+        en: "Every site is built with on-page SEO fundamentals (fast load times, proper structure, meta tags), a solid technical foundation for ranking.",
+        es: "Cada sitio se construye con fundamentos de SEO on-page (carga rápida, estructura correcta, meta tags), una base técnica sólida para posicionar.",
       },
     },
   ],

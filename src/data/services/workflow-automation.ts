@@ -18,8 +18,8 @@ export const workflowAutomation: Service = {
       es: "Recupera horas automatizando el trabajo repetitivo",
     },
     subheadline: {
-      en: "We connect the tools you already use so data flows automatically between them — reducing errors, saving time, and keeping your operations running smoothly.",
-      es: "Conectamos las herramientas que ya usas para que la información fluya automáticamente entre ellas — reduciendo errores, ahorrando tiempo y manteniendo tu operación funcionando sin fricción.",
+      en: "We connect the tools you already use so data flows automatically between them, reducing errors, saving time, and keeping your operations running smoothly.",
+      es: "Conectamos las herramientas que ya usas para que la información fluya automáticamente entre ellas, reduciendo errores, ahorrando tiempo y manteniendo tu operación funcionando sin fricción.",
     },
   },
 
@@ -94,8 +94,8 @@ export const workflowAutomation: Service = {
   ],
 
   includesNote: {
-    en: "The exact scope is defined based on your needs — this is a typical baseline.",
-    es: "El alcance exacto se define según tu proyecto — esto es una referencia.",
+    en: "The exact scope is defined based on your needs. This is a typical baseline.",
+    es: "El alcance exacto se define según tu proyecto. Esto es una referencia.",
   },
 
   process: [
@@ -109,8 +109,8 @@ export const workflowAutomation: Service = {
     {
       title: { en: "Workflow design", es: "Diseño del flujo" },
       description: {
-        en: "We define the automation logic — triggers, conditions, and actions.",
-        es: "Definimos la lógica de automatización — disparadores, condiciones y acciones.",
+        en: "We define the automation logic; triggers, conditions, and actions.",
+        es: "Definimos la lógica de automatización; disparadores, condiciones y acciones.",
       },
     },
     {
@@ -157,8 +157,8 @@ export const workflowAutomation: Service = {
         es: "¿Qué herramientas puedes automatizar/conectar?",
       },
       answer: {
-        en: "Most tools with an API or webhook support — CRMs, e-commerce platforms, spreadsheets, email, WhatsApp, and more, via n8n or a custom integration.",
-        es: "La mayoría de herramientas con API o webhooks — CRMs, plataformas de e-commerce, hojas de cálculo, email, WhatsApp y más, a través de n8n o una integración a medida.",
+        en: "Most tools with an API or webhook support; CRMs, e-commerce platforms, spreadsheets, email, WhatsApp, and more, via n8n or a custom integration.",
+        es: "La mayoría de herramientas con API o webhooks; CRMs, plataformas de e-commerce, hojas de cálculo, email, WhatsApp y más, a través de n8n o una integración a medida.",
       },
     },
     {
@@ -191,7 +191,7 @@ export const workflowAutomation: Service = {
         es: "¿Ofreces soporte o mantenimiento continuo?",
       },
       answer: {
-        en: "Yes — automations often need monitoring and occasional updates as your tools or processes evolve. I offer optional monthly support plans to ensure everything keeps running smoothly.",
+        en: "Yes, automations often need monitoring and occasional updates as your tools or processes evolve. I offer optional monthly support plans to ensure everything keeps running smoothly.",
         es: "Sí, las automatizaciones suelen necesitar monitoreo y ajustes a medida que tus herramientas o procesos evolucionan. Ofrezco planes mensuales opcionales para asegurar que todo siga funcionando correctamente.",
       },
     },

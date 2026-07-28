@@ -25,8 +25,8 @@ export const apiBackendDevelopment: Service = {
 
   problemSolution: {
     intro: {
-      en: "A backend thrown together works fine — until traffic grows, a new feature needs to connect to it, or something breaks in production at 2am.",
-      es: "Un backend improvisado funciona bien — hasta que crece el tráfico, una nueva funcionalidad necesita conectarse, o algo falla en producción a las 2am.",
+      en: "A backend thrown together works fine until traffic grows, a new feature needs to connect to it, or something breaks in production at 2am.",
+      es: "Un backend improvisado funciona bien hasta que crece el tráfico, una nueva funcionalidad necesita conectarse, o algo falla en producción a las 2am.",
     },
     problems: [
       {
@@ -98,8 +98,8 @@ export const apiBackendDevelopment: Service = {
   ],
 
   includesNote: {
-    en: "The exact scope is defined based on your needs — this is a typical baseline.",
-    es: "El alcance exacto se define según tu proyecto — esto es una referencia.",
+    en: "The exact scope is defined based on your needs. This is a typical baseline.",
+    es: "El alcance exacto se define según tu proyecto. Esto es una referencia.",
   },
 
   process: [
@@ -168,15 +168,15 @@ export const apiBackendDevelopment: Service = {
         es: "¿Puedes trabajar con nuestro equipo de frontend/móvil existente?",
       },
       answer: {
-        en: "Yes — I build APIs designed to be consumed by whatever frontend or mobile team you already have, with clear documentation.",
+        en: "Yes, I build APIs designed to be consumed by whatever frontend or mobile team you already have, with clear documentation.",
         es: "Sí, construyo APIs pensadas para que las use el equipo de frontend o móvil que ya tienes, con documentación clara.",
       },
     },
     {
       question: { en: "How long does it take?", es: "¿Cuánto tiempo toma?" },
       answer: {
-        en: "It depends on the number of endpoints, integrations, and complexity of your data model — we'll define a timeline together after scoping.",
-        es: "Depende del número de endpoints, integraciones y la complejidad de tu modelo de datos — definimos un cronograma juntos después de definir el alcance.",
+        en: "It depends on the number of endpoints, integrations, and complexity of your data model. We'll define a timeline together after scoping.",
+        es: "Depende del número de endpoints, integraciones y la complejidad de tu modelo de datos. Definimos un cronograma juntos después de definir el alcance.",
       },
     },
     {
@@ -202,7 +202,7 @@ export const apiBackendDevelopment: Service = {
         es: "¿La seguridad forma parte del proceso?",
       },
       answer: {
-        en: "Yes — authentication, input validation, and access control are treated as core requirements, not an afterthought.",
+        en: "Yes, authentication, input validation, and access control are treated as core requirements, not an afterthought.",
         es: "Sí, la autenticación, validación de entradas y control de acceso se tratan como requerimientos base, no como un extra.",
       },
     },
