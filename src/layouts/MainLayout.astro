@@ -17,8 +17,8 @@ export interface Props {
 
 const {
   title = "CHRod - Web Developer",
-  description = "Full-stack web developer specializing in React, Node.js & modern web technologies. Available for freelance projects. Landing pages, web apps, e-commerce & API development.",
-  keywords = "web developer, full-stack developer, React, Node.js, freelance, portfolio, landing pages, web apps, e-commerce",
+  description = "Full stack web developer specializing in React, Node.js & modern web technologies. Available for freelance projects. Landing pages, web apps, e-commerce & API development.",
+  keywords = "web developer, full-stack developer, full stack developer, React, Node.js, freelance, portfolio, landing pages, web apps, e-commerce, ecommerce",
   lang = "en",
   canonicalUrl,
   alternatePath = "/",
@@ -80,7 +80,9 @@ const ogImage = `${siteUrl}/og-image.png`;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="icon" type="image/png" href="/chrod-logo.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/chrod-logo.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
