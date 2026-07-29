@@ -166,6 +166,11 @@ export const ui: Record<Locale, Record<string, string>> = {
     "contact.button": "Get in touch",
 
     // Footer
+    "footer.tagline":
+      "I build platforms, automations, and integrated digital solutions focused on business.",
+    "footer.explore": "Explore",
+    "footer.contact": "Contact",
+    "footer.location": "Barranquilla, Colombia · Remote LATAM / global",
     "footer.rights": "All rights reserved.",
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms & Conditions",
@@ -409,6 +414,11 @@ export const ui: Record<Locale, Record<string, string>> = {
     "contact.button": "Hablemos",
 
     // Footer
+    "footer.tagline":
+      "Construyo plataformas, automatizaciones y soluciones digitales integradas, enfocadas en negocio.",
+    "footer.explore": "Explorar",
+    "footer.contact": "Contacto",
+    "footer.location": "Barranquilla, Colombia · Remoto LATAM / global",
     "footer.rights": "Todos los derechos reservados.",
     "footer.privacy": "Política de privacidad",
     "footer.terms": "Términos y condiciones",

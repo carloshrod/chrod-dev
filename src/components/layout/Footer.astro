@@ -11,65 +11,110 @@ const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
 const homeUrl = getRelativeLocaleUrl(lang, "/");
+const servicesUrl = getRelativeLocaleUrl(lang, "/services");
+const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
+const aboutUrl = `${homeUrl}#about`;
 const privacyUrl = getRelativeLocaleUrl(lang, "/privacy-policy");
 const termsUrl = getRelativeLocaleUrl(lang, "/terms");
 ---
 
-<footer class="border-t border-border bg-[#080808] py-10">
+<footer class="border-t border-border bg-[#080808]">
   <Container>
-    <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
-      <a href={homeUrl} id="footer-logo-link" aria-label="Home">
-        <Image
-          src={logo}
-          alt="chrod logo"
-          class="h-8 w-auto opacity-60 transition-opacity hover:opacity-100"
-        />
-      </a>
-
-      <div
-        class="flex flex-col items-center gap-1.5 text-center sm:items-start"
-      >
-        <p class="text-sm text-slate-600">
-          &copy; {year} CHRod. {t("footer.rights")}
+    <div
+      class="grid gap-10 py-14 sm:grid-cols-[1.3fr_0.7fr] lg:grid-cols-[1.2fr_0.6fr_1.2fr] xl:grid-cols-[1.2fr_0.8fr_1fr]"
+    >
+      <div class="flex flex-col gap-4">
+        <a href={homeUrl} id="footer-logo-link" aria-label="Home" class="w-fit">
+          <Image
+            src={logo}
+            alt="chrod logo"
+            class="h-8 w-auto opacity-60 transition-opacity hover:opacity-100"
+          />
+        </a>
+        <p class="max-w-xs text-sm leading-relaxed text-slate-500">
+          {t("footer.tagline")}
         </p>
-        <div class="flex items-center gap-3 text-xs text-slate-700">
-          <a
-            href={privacyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="transition-colors hover:text-slate-400"
-            >{t("footer.privacy")}</a
-          >
-          <span aria-hidden="true">·</span>
-          <a
-            href={termsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="transition-colors hover:text-slate-400"
-            >{t("footer.terms")}</a
-          >
-        </div>
       </div>
 
-      <div class="flex items-center gap-5">
+      <div class="flex flex-col gap-3">
+        <h3 class="text-sm font-semibold text-slate-200">
+          {t("footer.explore")}
+        </h3>
+        <nav class="flex flex-col gap-2">
+          <a
+            href={servicesUrl}
+            class="w-fit text-sm text-slate-500 transition-colors hover:text-red-400"
+            >{t("nav.services")}</a
+          >
+          <a
+            href={projectsUrl}
+            class="w-fit text-sm text-slate-500 transition-colors hover:text-red-400"
+            >{t("nav.projects")}</a
+          >
+          <a
+            href={aboutUrl}
+            class="w-fit text-sm text-slate-500 transition-colors hover:text-red-400"
+            >{t("nav.about")}</a
+          >
+        </nav>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <h3 class="text-sm font-semibold text-slate-200">
+          {t("footer.contact")}
+        </h3>
         <a
-          href="https://github.com/carloshrod"
+          href="mailto:chrod.dev@gmail.com"
+          class="flex w-fit items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
+        >
+          <Icon name="mail" size={16} />
+          chrod.dev@gmail.com
+        </a>
+        <p class="text-sm text-slate-500">{t("footer.location")}</p>
+        <div class="flex items-center gap-5 pt-1">
+          <a
+            href="https://github.com/carloshrod"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            class="text-slate-500 transition-colors hover:text-slate-100"
+          >
+            <Icon name="github" />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/chrod"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            class="text-slate-500 transition-colors hover:text-[#0A66C2] hover:bg-white rounded-2xl"
+          >
+            <Icon name="linkedin" size={20} />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col items-center justify-between gap-4 border-t border-border py-6 sm:flex-row"
+    >
+      <p class="text-sm text-slate-600">
+        &copy; {year} CHRod. {t("footer.rights")}
+      </p>
+      <div class="flex items-center gap-3 text-xs text-slate-700">
+        <a
+          href={privacyUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="GitHub"
-          class="text-slate-500 transition-colors hover:text-slate-100"
+          class="transition-colors hover:text-slate-400"
+          >{t("footer.privacy")}</a
         >
-          <Icon name="github" />
-        </a>
+        <span aria-hidden="true">·</span>
         <a
-          href="https://www.linkedin.com/in/chrod"
+          href={termsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          class="text-slate-500 transition-colors hover:text-[#0A66C2] hover:bg-white rounded-2xl"
+          class="transition-colors hover:text-slate-400">{t("footer.terms")}</a
         >
-          <Icon name="linkedin" size={20} />
-        </a>
       </div>
     </div>
   </Container>
