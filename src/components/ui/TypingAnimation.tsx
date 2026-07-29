@@ -8,7 +8,7 @@ const PAUSE_AFTER_DELETE = 400;
 const PREFIXES = [
   "Frontend",
   "Backend",
-  "Full-Stack",
+  "Full Stack",
   "React & Next.js",
   "Automation",
 ];

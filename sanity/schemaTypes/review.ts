@@ -71,7 +71,7 @@ export const reviewSchema = defineType({
       name: "rating",
       title: "Rating (1–5)",
       type: "number",
-      description: "Shown as stars — most relevant for Workana reviews",
+      description: "Shown as stars - most relevant for Workana reviews",
       validation: (r) => r.min(1).max(5),
       hidden: ({ document }) =>
         document?.source !== "workana" && document?.source !== "direct",
@@ -114,7 +114,7 @@ export const reviewSchema = defineType({
       title: "Company Logo",
       type: "image",
       options: { hotspot: false },
-      description: "Optional — shown instead of role · company text",
+      description: "Optional - shown instead of role · company text",
     }),
     defineField({
       name: "order",

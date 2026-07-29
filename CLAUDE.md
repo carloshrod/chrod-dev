@@ -4,20 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A bilingual (EN/ES) portfolio website for a full-stack web developer, built with **Astro 5.x** as a static site generator. Content for projects and reviews is managed via **Sanity CMS**, and the site uses **React** for interactive components, **Tailwind CSS** for styling, and deploys to **Netlify**.
+A bilingual (EN/ES) portfolio website for a full stack web developer, built with **Astro 5.x** as a static site generator. Content for projects and reviews is managed via **Sanity CMS**, and the site uses **React** for interactive components, **Tailwind CSS** for styling, and deploys to **Netlify**.
 
 ## Commands
 
 All commands run from the project root:
 
-| Command | Action |
-|---------|--------|
-| `npm run dev` | Start dev server at `localhost:4321` (pre-clears `.vite` cache to prevent stale builds) |
-| `npm run build` | Build production site to `./dist/` |
-| `npm run preview` | Preview build locally before deployment |
-| `npm run astro` | Raw Astro CLI (e.g., `npm run astro add`) |
+| Command           | Action                                                                                  |
+| ----------------- | --------------------------------------------------------------------------------------- |
+| `npm run dev`     | Start dev server at `localhost:4321` (pre-clears `.vite` cache to prevent stale builds) |
+| `npm run build`   | Build production site to `./dist/`                                                      |
+| `npm run preview` | Preview build locally before deployment                                                 |
+| `npm run astro`   | Raw Astro CLI (e.g., `npm run astro add`)                                               |
 
 **Notes:**
+
 - Dev server requires environment variables (see setup below)
 - Build pre-clears `.vite/` and `node_modules/.vite` to prevent Vite cache issues
 
@@ -50,6 +51,7 @@ Copy `.env.example` to `.env.local` and populate with:
 ### Content Management
 
 **Sanity Integration** (`src/lib/sanity.ts`):
+
 - `getProjects(lang)`: Fetches projects with language-aware GROQ queries; falls back to EN if ES field missing
 - `getReviews(lang)`: Fetches published reviews, also language-aware
 - Queries include inline translations via GROQ's `select()` for title, description, role, etc.
@@ -58,6 +60,7 @@ Copy `.env.example` to `.env.local` and populate with:
 ### Internationalization
 
 **Simple i18n pattern** in `src/i18n/`:
+
 - `ui.ts`: Key-value translation object keyed by locale ("en", "es")
 - `utils.ts`: `useTranslations(lang)` hook returns a `t(key)` function; falls back to EN if key missing in target locale
 - Components receive `lang` prop and call `t()` to retrieve strings
