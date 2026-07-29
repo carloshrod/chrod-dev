@@ -27,6 +27,10 @@ import {
   siStrapi,
   siContentful,
   siDecapcms,
+  siWordpress,
+  siAxios,
+  siWhatsapp,
+  siRedis,
 } from "simple-icons";
 
 export function safeColor(hex: string) {
@@ -65,4 +69,16 @@ export const iconMap: Record<string, { path: string; hex: string }> = {
   n8n: siN8n,
   Supabase: siSupabase,
   Docker: siDocker,
+
+  // Aliases: same icon, different literal string used in project tech
+  // stacks (Sanity content is free text, so it doesn't always match the
+  // labels above).
+  SCSS: siSass,
+  AntDesign: siAntdesign,
+
+  // Real brand icons used only in project tech stacks so far.
+  "Headless WordPress": siWordpress,
+  Axios: siAxios,
+  "WhatsApp API": siWhatsapp,
+  Redis: siRedis,
 };
