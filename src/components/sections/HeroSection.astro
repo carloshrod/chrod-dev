@@ -4,9 +4,72 @@ import TypingAnimation from "../ui/TypingAnimation.tsx";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { iconMap } from "../../lib/techIcons";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
+
+// Diagonal cluster sitting on top of the ambient glow (the glow div is
+// inset-12 inside a 420px box, so its visible circle spans roughly
+// 11%-88% on both axes — icons are positioned inside that range, not
+// pinned to the far edge). Communicates a Next.js-focused full-stack
+// profile: Next.js is the principal glyph (largest, most visible),
+// TypeScript/Node.js are mid-weight support, and React/n8n sit further
+// back — smaller and dimmer, but still legible (no blur, that read as
+// broken rendering rather than depth). `depth` drives both the
+// mouse-parallax range (px) and the idle float amplitude.
+const heroDecorIcons = [
+  {
+    name: "React",
+    top: "10%",
+    right: "40%",
+    depth: 4,
+    size: 20,
+    opacity: 0.2,
+    duration: "7.8s",
+    delay: "-1.4s",
+  },
+  {
+    name: "TypeScript",
+    top: "28%",
+    right: "62%",
+    depth: 8,
+    size: 25,
+    opacity: 0.26,
+    duration: "7s",
+    delay: "-3.1s",
+  },
+  {
+    name: "Next.js",
+    top: "42%",
+    right: "45%",
+    depth: 12,
+    size: 36,
+    opacity: 0.36,
+    duration: "8.4s",
+    delay: "-0.6s",
+  },
+  {
+    name: "Node.js",
+    top: "58%",
+    right: "65%",
+    depth: 8,
+    size: 25,
+    opacity: 0.26,
+    duration: "7.3s",
+    delay: "-4.2s",
+  },
+  {
+    name: "n8n",
+    top: "76%",
+    right: "42%",
+    depth: 4,
+    size: 20,
+    opacity: 0.2,
+    duration: "8s",
+    delay: "-2s",
+  },
+];
 ---
 
 <section id="hero" class="relative flex min-h-screen items-center pt-16">
@@ -25,7 +88,37 @@ const t = useTranslations(lang);
     </div>
   </div>
 
-  <Container>
+  <Container class="relative">
+    <!-- Decorative visual: floating tech glyphs, cluster on the right.
+         Hidden below lg (there's no room to fit it without crowding
+         the header text/CTAs) and behind everything (-z-10) so it
+         never competes with the header content. -->
+    <div
+      class="pointer-events-none absolute right-0 top-1/2 -z-10 hidden h-105 w-105 -translate-y-1/2 lg:block"
+      aria-hidden="true"
+      data-hero-parallax-track
+    >
+      <div class="absolute inset-12 rounded-full bg-red-600/15 blur-3xl"></div>
+
+      {
+        heroDecorIcons.map((item) => (
+          <div
+            class="hero-parallax absolute"
+            data-depth={item.depth}
+            style={`top:${item.top}; right:${item.right};`}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="hero-float text-slate-300"
+              style={`--float-amp:${item.depth}px; width:${item.size}px; height:${item.size}px; opacity:${item.opacity}; animation-duration:${item.duration}; animation-delay:${item.delay};`}
+            >
+              <path d={iconMap[item.name]?.path} fill="currentColor" />
+            </svg>
+          </div>
+        ))
+      }
+    </div>
+
     <div class="relative z-10 py-24 lg:py-32">
       <h1
         class="mb-5 text-5xl font-bold leading-tight text-slate-100 sm:text-6xl lg:text-7xl"
@@ -35,7 +128,13 @@ const t = useTranslations(lang);
         <span class="text-red-400">Dev</span>
       </h1>
 
-      <TypingAnimation client:load />
+      <p
+        class="mb-6 text-xl font-medium text-slate-400 md:text-2xl lg:text-3xl"
+      >
+        {t("hero.subtitle")}
+      </p>
+
+      <TypingAnimation lang={lang} client:load />
 
       <div class="flex flex-wrap gap-4">
         <a
@@ -53,14 +152,160 @@ const t = useTranslations(lang);
           {t("hero.cta.projects")}
         </a>
       </div>
-      <div
-        class="mt-16 flex items-center gap-3 text-slate-600"
-        data-hero-scroll
-      >
-        <div class="h-px w-10 bg-slate-800"></div>
-        <span class="text-xs uppercase tracking-widest">{t("hero.scroll")}</span
-        >
-      </div>
     </div>
   </Container>
+
+  <div
+    class="absolute inset-x-0 bottom-8 z-10 flex flex-col items-center gap-2 text-slate-600"
+    data-hero-scroll
+  >
+    <span class="text-xs uppercase tracking-widest">{t("hero.scroll")}</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="animate-bounce"
+      aria-hidden="true"
+    >
+      <path d="M12 5v14"></path>
+      <path d="m19 12-7 7-7-7"></path>
+    </svg>
+  </div>
 </section>
+
+<style>
+  @keyframes hero-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(calc(var(--float-amp, 8px) * -1));
+    }
+  }
+
+  .hero-float {
+    animation-name: hero-float;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+
+  .hero-parallax {
+    transition: transform 0.3s ease-out;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float {
+      animation: none;
+    }
+    .hero-parallax {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  let heroParallaxAbort: AbortController | undefined;
+
+  function initHeroParallax() {
+    heroParallaxAbort?.abort();
+
+    const track = document.querySelector(
+      "[data-hero-parallax-track]",
+    ) as HTMLElement | null;
+    if (!track) return;
+    const trackEl: HTMLElement = track;
+
+    const heroSection = trackEl.closest("section") as HTMLElement | null;
+
+    const items = Array.from(
+      trackEl.querySelectorAll("[data-depth]"),
+    ) as HTMLElement[];
+    if (items.length === 0) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const canHover = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+    if (prefersReducedMotion || !canHover) return;
+
+    heroParallaxAbort = new AbortController();
+    const { signal } = heroParallaxAbort;
+
+    let targetX = 0;
+    let targetY = 0;
+    let scrollT = 0;
+    let rafId: number | null = null;
+
+    function apply() {
+      rafId = null;
+      for (const el of items) {
+        const depth = parseFloat(el.dataset.depth || "0");
+        const x = targetX * depth;
+        const y = targetY * depth + scrollT * depth * 2.2;
+        el.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+      }
+    }
+
+    function schedule() {
+      if (rafId === null) rafId = requestAnimationFrame(apply);
+    }
+
+    function onMouseMove(e: MouseEvent) {
+      const rect = trackEl.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      targetX = Math.max(
+        -1,
+        Math.min(
+          1,
+          (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2),
+        ),
+      );
+      targetY = Math.max(
+        -1,
+        Math.min(
+          1,
+          (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2),
+        ),
+      );
+      schedule();
+    }
+
+    // Icons sit vertically centered in the hero, so they scroll out of
+    // view well before a full viewport of scrolling. Ramp scrollT to
+    // full strength over a short, fixed distance so the shift is
+    // clearly visible within that window instead of maxing out after
+    // the icons are already gone.
+    const SCROLL_RAMP_PX = 180;
+
+    function onScroll() {
+      if (!heroSection) return;
+      const rect = heroSection.getBoundingClientRect();
+      scrollT = Math.max(0, Math.min(1, -rect.top / SCROLL_RAMP_PX));
+      schedule();
+    }
+
+    window.addEventListener("mousemove", onMouseMove, {
+      passive: true,
+      signal,
+    });
+    window.addEventListener("scroll", onScroll, { passive: true, signal });
+    onScroll();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeroParallax);
+  } else {
+    initHeroParallax();
+  }
+  document.addEventListener("astro:page-load", initHeroParallax);
+</script>

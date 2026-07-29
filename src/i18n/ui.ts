@@ -12,9 +12,10 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.lang.label": "ES",
 
     // Hero
+    "hero.subtitle": "Web Development & Automation",
     "hero.cta.services": "View Services",
     "hero.cta.projects": "View Work",
-    "hero.scroll": "Scroll to explore",
+    "hero.scroll": "Explore",
 
     // About
     "about.label": "About Me",
@@ -258,9 +259,10 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.lang.label": "EN",
 
     // Hero
+    "hero.subtitle": "Desarrollo Web & Automatización",
     "hero.cta.services": "Ver servicios",
     "hero.cta.projects": "Ver proyectos",
-    "hero.scroll": "Desplázate para explorar",
+    "hero.scroll": "Explorar",
 
     // About
     "about.label": "Sobre mí",
