@@ -8,7 +8,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.skills": "Skills",
     "nav.projects": "Projects",
     "nav.testimonials": "Testimonials",
-    "nav.contact": "Contact",
+    "nav.contact": "Let's talk",
     "nav.lang.label": "ES",
 
     // Hero
@@ -18,13 +18,14 @@ export const ui: Record<Locale, Record<string, string>> = {
 
     // About
     "about.label": "About Me",
-    "about.heading": "Passionate about building great web experiences",
+    "about.heading":
+      "I build digital products that connect technology and business",
     "about.p1":
-      "A full-stack developer with a strong focus on frontend, dedicated to building responsive, accessible, and high-performance interfaces using modern tools and frameworks.",
+      "I’m a full stack developer with a strong focus on frontend. I build web applications, e-commerce platforms, and integrated solutions by combining development, automation, and artificial intelligence.",
     "about.p2":
-      "Enjoys working across the entire stack—from designing clean UI components, to connecting APIs and managing databases. Deeply values code quality, developer experience, and delivering real value.",
+      "I get involved across the entire process, from designing clean, functional interfaces to integrating APIs, automating workflows, and structuring the business logic behind each product. My focus is on creating fast, maintainable solutions aligned with real-world goals, not just writing code.",
     "about.p3":
-      "Outside of coding, explores new technologies and sharpens design sensibilities.",
+      "Outside of development, I continuously explore new technologies and refine my design thinking to build better user experiences.",
     "about.stat1.label": "Years experience",
     "about.stat2.label": "Projects shipped",
     "about.stat3.label": "Happy clients",
@@ -182,10 +183,9 @@ export const ui: Record<Locale, Record<string, string>> = {
     "form.privacy.notice.suffix": " for more information.",
 
     // Contact Drawer
-    "drawer.title": "Get in touch",
+    "drawer.title": "Let’s talk about your project",
     "drawer.close.label": "Close contact form",
-    "drawer.form.intro":
-      "Fill out the form below and I'll respond as soon as possible.",
+    "drawer.form.intro": "I’ll get back to you within 24 hours.",
     "drawer.name.label": "Name",
     "drawer.name.placeholder": "Your name",
     "drawer.email.label": "Email",
@@ -198,7 +198,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "drawer.error.email.invalid": "Please enter a valid email address.",
     "drawer.error.message.required": "Message is required.",
     "drawer.error.message.short": "Message must be at least 10 characters.",
-    "drawer.submit": "Send Message",
+    "drawer.submit": "Send Request",
     "drawer.sending": "Sending…",
     "drawer.success.title": "Message sent!",
     "drawer.success.body":
@@ -254,7 +254,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.skills": "Tecnologías",
     "nav.projects": "Proyectos",
     "nav.testimonials": "Testimonios",
-    "nav.contact": "Contacto",
+    "nav.contact": "Hablemos",
     "nav.lang.label": "EN",
 
     // Hero
@@ -264,13 +264,14 @@ export const ui: Record<Locale, Record<string, string>> = {
 
     // About
     "about.label": "Sobre mí",
-    "about.heading": "Apasionado por crear experiencias web increíbles",
+    "about.heading":
+      "Desarrollo productos digitales que conectan tecnología y negocio",
     "about.p1":
-      "Soy desarrollador full-stack con enfoque en frontend. Me gusta construir interfaces rápidas, accesibles y bien diseñadas utilizando herramientas y frameworks modernos.",
+      "Soy desarrollador full stack con enfoque en frontend. Construyo aplicaciones web, e-commerce y soluciones integradas que combinan desarrollo, automatización e inteligencia artificial.",
     "about.p2":
-      "Disfruto involucrarme en diferentes etapas del desarrollo: desde diseñar componentes de UI limpios y funcionales, hasta conectar APIs y gestionar bases de datos. Siempre busco escribir código limpio, crear proyectos fáciles de mantener y desarrollar productos que realmente aporten valor.",
+      "Me involucro en todo el proceso: desde diseñar interfaces claras y funcionales, hasta integrar APIs, automatizar flujos y estructurar la lógica del negocio detrás del producto. Me enfoco en crear soluciones rápidas, mantenibles y alineadas a objetivos reales, no solo en escribir código.",
     "about.p3":
-      "Cuando no estoy programando, exploro nuevas tecnologías y sigo desarrollando mi criterio de diseño.",
+      "Fuera del desarrollo, sigo explorando nuevas tecnologías y afinando mi criterio de diseño para construir mejores experiencias.",
     "about.stat1.label": "Años de experiencia",
     "about.stat2.label": "Proyectos entregados",
     "about.stat3.label": "Clientes satisfechos",
@@ -430,10 +431,9 @@ export const ui: Record<Locale, Record<string, string>> = {
     "form.privacy.notice.suffix": " para más información.",
 
     // Contact Drawer
-    "drawer.title": "Escríbeme",
+    "drawer.title": "Hablemos de tu proyecto",
     "drawer.close.label": "Cerrar formulario de contacto",
-    "drawer.form.intro":
-      "Completa el formulario y te responderé lo antes posible.",
+    "drawer.form.intro": "Te responderé en menos de 24 horas.",
     "drawer.name.label": "Nombre",
     "drawer.name.placeholder": "Tu nombre",
     "drawer.email.label": "Correo electrónico",
@@ -448,7 +448,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "drawer.error.message.required": "El mensaje es obligatorio.",
     "drawer.error.message.short":
       "El mensaje debe tener al menos 10 caracteres.",
-    "drawer.submit": "Enviar mensaje",
+    "drawer.submit": "Enviar Solicitud",
     "drawer.sending": "Enviando…",
     "drawer.success.title": "¡Mensaje enviado!",
     "drawer.success.body":
