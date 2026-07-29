@@ -33,7 +33,7 @@ const t = useTranslations(lang);
         services.map((service, index) => (
           <a
             href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
-            class="group relative rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
+            class="group relative flex h-full flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
             data-scroll-animate={`${index <= 2 ? "right" : "left"}`}
           >
             <!-- Glow on hover -->
@@ -43,21 +43,23 @@ const t = useTranslations(lang);
               aria-hidden="true"
             />
 
-            <!-- Icon -->
-            <div class="mb-5 inline-flex items-center justify-center rounded-xl border border-border bg-background p-3 text-red-400 transition-colors duration-300 group-hover:border-red-600/40 group-hover:text-red-300">
-              <Fragment set:html={service.icon} />
+            <!-- Icon + title -->
+            <div class="mb-4 flex items-center gap-3">
+              <div class="flex shrink-0 items-center justify-center rounded-xl border border-border bg-background p-3 text-red-400 transition-colors duration-300 group-hover:border-red-600/40 group-hover:text-red-300">
+                <Fragment set:html={service.icon} />
+              </div>
+              <h3 class="text-base font-semibold text-slate-100">
+                {service.card.title[lang]}
+              </h3>
             </div>
 
             <!-- Text -->
-            <h3 class="mb-2 text-base font-semibold text-slate-100">
-              {service.card.title[lang]}
-            </h3>
             <p class="mb-4 text-sm leading-relaxed text-slate-400">
               {service.card.description[lang]}
             </p>
 
             <!-- Discreet, always-visible affordance that the card is clickable -->
-            <span class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400">
+            <span class="mt-auto inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400">
               {t("services.card.cta")}
               <svg
                 class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
