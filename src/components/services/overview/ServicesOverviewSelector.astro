@@ -1,5 +1,4 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../../layout/Container.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
@@ -31,7 +30,8 @@ const items = services.map((service) => ({
       {
         items.map(({ service, overview }, index) => (
           <a
-            href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
+            href={`#service-${service.slug}`}
+            data-service-jump={service.slug}
             class="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-2.5 text-sm font-medium text-slate-300 transition-all hover:border-red-600/50 hover:text-slate-100"
             data-scroll-animate={index % 2 === 0 ? "left" : "right"}
           >
@@ -46,3 +46,105 @@ const items = services.map((service) => ({
     </div>
   </Container>
 </section>
+
+<script>
+  // Grid cards use [data-scroll-animate] + an IntersectionObserver (see
+  // MainLayout.astro) that fades them in via a CSS `animation` the first
+  // time they cross into view. scrollIntoView() below causes that same
+  // observer to fire for the target card mid-highlight, and a CSS
+  // `animation` always wins over inline styles/transitions for the
+  // properties it drives — so the entrance fade would silently replace
+  // our highlight. ensureRevealed() permanently disables that entrance
+  // animation per-card (once) and snaps it to its final visible state, so
+  // our own inline-style-driven highlight/dim never races against it. The
+  // pulse itself runs via the Web Animations API, which lives outside the
+  // CSS `animation` cascade entirely and so can never collide either.
+  const HIGHLIGHT_MS = 2600;
+  let highlightTimeout: ReturnType<typeof setTimeout> | undefined;
+
+  function ensureRevealed(el: HTMLElement) {
+    if (el.dataset.jumpRevealed) return;
+    el.dataset.jumpRevealed = "true";
+    el.style.setProperty("animation", "none", "important");
+    el.style.opacity = "1";
+    el.style.transform = "none";
+  }
+
+  function clearHighlight() {
+    document
+      .querySelectorAll<HTMLElement>("[data-service-card]")
+      .forEach((el) => {
+        el.getAnimations().forEach((anim) => anim.cancel());
+        el.style.opacity = "1";
+        el.style.transform = "none";
+        el.style.borderColor = "";
+        el.style.boxShadow = "";
+        el.style.position = "";
+        el.style.zIndex = "";
+      });
+  }
+
+  document.addEventListener("click", (e) => {
+    const trigger = (e.target as HTMLElement).closest<HTMLElement>(
+      "[data-service-jump]",
+    );
+    if (!trigger) return;
+
+    const slug = trigger.getAttribute("data-service-jump");
+    const target = document.getElementById(`service-${slug}`);
+    if (!target) return;
+
+    e.preventDefault();
+
+    const cards = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-service-card]"),
+    );
+    cards.forEach(ensureRevealed);
+
+    clearTimeout(highlightTimeout);
+    clearHighlight();
+
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    cards.forEach((el) => {
+      if (el === target) {
+        el.style.position = "relative";
+        el.style.zIndex = "10";
+        el.style.borderColor = "rgba(220, 38, 38, 0.85)";
+        el.style.transform = "translateY(-6px) scale(1.035)";
+        el.animate(
+          [
+            {
+              boxShadow:
+                "0 0 0 3px rgba(220,38,38,0.25), 0 18px 40px rgba(220,38,38,0.16)",
+            },
+            {
+              boxShadow:
+                "0 0 0 7px rgba(220,38,38,0.12), 0 22px 55px rgba(220,38,38,0.26)",
+            },
+            {
+              boxShadow:
+                "0 0 0 3px rgba(220,38,38,0.25), 0 18px 40px rgba(220,38,38,0.16)",
+            },
+          ],
+          { duration: HIGHLIGHT_MS / 2, iterations: 2, easing: "ease-in-out" },
+        );
+      } else {
+        el.style.opacity = "0.32";
+        el.style.transform = "scale(0.98)";
+      }
+    });
+
+    highlightTimeout = setTimeout(clearHighlight, HIGHLIGHT_MS);
+  });
+</script>
+
+<style is:global>
+  [data-service-card] {
+    transition:
+      border-color 0.3s ease,
+      opacity 0.35s ease,
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+</style>

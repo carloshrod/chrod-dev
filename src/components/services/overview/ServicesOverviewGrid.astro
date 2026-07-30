@@ -31,8 +31,10 @@ const items = services.map((service) => ({
       {
         items.map(({ service, overview }, index) => (
           <a
+            id={`service-${service.slug}`}
             href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
-            class="group relative flex h-full flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
+            class="group relative flex h-full scroll-mt-28 flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
+            data-service-card={service.slug}
             data-scroll-animate={`${index <= 2 ? "right" : "left"}`}
           >
             {/* Glow on hover */}

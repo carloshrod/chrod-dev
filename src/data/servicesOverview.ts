@@ -1,5 +1,10 @@
 import type { LocalizedText } from "./services/types";
 
+export interface ServiceOverviewSituation {
+  title: LocalizedText;
+  subtext?: LocalizedText;
+}
+
 export interface ServiceOverviewEntry {
   slug: string;
   /** Represents the need/intent (used in the selector), not the deliverable — kept visually distinct from `service.icon`. */
@@ -7,7 +12,9 @@ export interface ServiceOverviewEntry {
   selectorLabel: LocalizedText;
   useCase: LocalizedText;
   idealFor: LocalizedText;
-  comparisonOutcome: LocalizedText;
+  /** Situations shown in the "not sure what you need?" scenario cards. */
+  scenarioSituations: ServiceOverviewSituation[];
+  scenarioCtaLabel: LocalizedText;
 }
 
 export const servicesOverview: ServiceOverviewEntry[] = [
@@ -26,9 +33,27 @@ export const servicesOverview: ServiceOverviewEntry[] = [
       en: "Ideal for communicating what you do and building trust.",
       es: "Ideal para comunicar lo que haces y generar confianza.",
     },
-    comparisonOutcome: {
-      en: "Online presence",
-      es: "Presencia online",
+    scenarioSituations: [
+      {
+        title: {
+          en: "Your business has no online presence",
+          es: "Tu negocio no tiene presencia online",
+        },
+        subtext: {
+          en: "or your current website doesn't reflect what you do",
+          es: "o tu web actual no transmite lo que haces",
+        },
+      },
+      {
+        title: {
+          en: "You struggle to build trust",
+          es: "Te cuesta generar confianza",
+        },
+      },
+    ],
+    scenarioCtaLabel: {
+      en: "Build a professional website",
+      es: "Crear una web profesional",
     },
   },
   {
@@ -46,9 +71,27 @@ export const servicesOverview: ServiceOverviewEntry[] = [
       en: "Ideal if you need to convert traffic into leads or sales.",
       es: "Ideal si necesitas convertir tráfico en leads o ventas.",
     },
-    comparisonOutcome: {
-      en: "Capture leads",
-      es: "Captar leads",
+    scenarioSituations: [
+      {
+        title: {
+          en: "You have an idea and want to validate it fast",
+          es: "Tienes una idea y quieres validarla rápido",
+        },
+        subtext: {
+          en: "without investing too much upfront",
+          es: "sin invertir demasiado al inicio",
+        },
+      },
+      {
+        title: {
+          en: "You're not sure it will actually work",
+          es: "No tienes claro si realmente funcionará",
+        },
+      },
+    ],
+    scenarioCtaLabel: {
+      en: "Build a landing page to validate your idea",
+      es: "Crear una landing para validar tu idea",
     },
   },
   {
@@ -66,9 +109,27 @@ export const servicesOverview: ServiceOverviewEntry[] = [
       en: "Ideal if you want to scale your sales with your own store.",
       es: "Ideal si quieres escalar ventas con una tienda propia.",
     },
-    comparisonOutcome: {
-      en: "Sell online",
-      es: "Vender online",
+    scenarioSituations: [
+      {
+        title: {
+          en: "You sell through social media or WhatsApp",
+          es: "Vendes por redes sociales o WhatsApp",
+        },
+        subtext: {
+          en: "but don't have a platform of your own",
+          es: "pero no tienes una plataforma propia",
+        },
+      },
+      {
+        title: {
+          en: "Your process relies too much on manual messages",
+          es: "Tu proceso depende demasiado de mensajes manuales",
+        },
+      },
+    ],
+    scenarioCtaLabel: {
+      en: "Build or improve your e-commerce",
+      es: "Crear o mejorar tu e-commerce",
     },
   },
   {
@@ -86,9 +147,27 @@ export const servicesOverview: ServiceOverviewEntry[] = [
       en: "Ideal if you need custom logic or advanced functionality.",
       es: "Ideal si necesitas lógica compleja o funcionalidades a medida.",
     },
-    comparisonOutcome: {
-      en: "Build a product",
-      es: "Construir un producto",
+    scenarioSituations: [
+      {
+        title: {
+          en: "You need something more specific than a website",
+          es: "Necesitas algo más específico que una web",
+        },
+        subtext: {
+          en: "like an internal tool or your own system",
+          es: "como una herramienta interna o sistema propio",
+        },
+      },
+      {
+        title: {
+          en: "Nothing you find quite fits your needs",
+          es: "Nada de lo que encuentras encaja contigo",
+        },
+      },
+    ],
+    scenarioCtaLabel: {
+      en: "Develop a custom application",
+      es: "Desarrollar una aplicación a medida",
     },
   },
   {
@@ -106,9 +185,27 @@ export const servicesOverview: ServiceOverviewEntry[] = [
       en: "Ideal for saving time and reducing manual errors.",
       es: "Ideal para ahorrar tiempo y reducir errores manuales.",
     },
-    comparisonOutcome: {
-      en: "Automate tasks",
-      es: "Automatizar tareas",
+    scenarioSituations: [
+      {
+        title: {
+          en: "You lose time on repetitive tasks",
+          es: "Pierdes tiempo en tareas repetitivas",
+        },
+        subtext: {
+          en: "or manual processes that could be automated",
+          es: "o procesos manuales que podrían automatizarse",
+        },
+      },
+      {
+        title: {
+          en: "You feel like you could grow further",
+          es: "Sientes que podrías crecer más",
+        },
+      },
+    ],
+    scenarioCtaLabel: {
+      en: "Automate processes",
+      es: "Automatizar procesos",
     },
   },
   {
@@ -126,9 +223,27 @@ export const servicesOverview: ServiceOverviewEntry[] = [
       en: "Ideal if you need a solid, scalable foundation for a growing product or complex logic.",
       es: "Ideal si necesitas una base sólida y escalable para un producto en crecimiento o con lógica compleja.",
     },
-    comparisonOutcome: {
-      en: "Backend & integrations",
-      es: "Backend e integraciones",
+    scenarioSituations: [
+      {
+        title: {
+          en: "You use several tools that don't talk to each other",
+          es: "Usas varias herramientas que no se conectan entre sí",
+        },
+        subtext: {
+          en: "and end up duplicating work",
+          es: "y acabas duplicando trabajo",
+        },
+      },
+      {
+        title: {
+          en: "Your information is scattered",
+          es: "La información está dispersa",
+        },
+      },
+    ],
+    scenarioCtaLabel: {
+      en: "Connect and integrate tools",
+      es: "Conectar e integrar herramientas",
     },
   },
 ];

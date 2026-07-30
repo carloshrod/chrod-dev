@@ -96,9 +96,11 @@ export const ui: Record<Locale, Record<string, string>> = {
     "servicesOverview.selector.heading": "What do you need?",
     "servicesOverview.grid.heading": "Available services",
     "servicesOverview.grid.cta": "View service",
-    "servicesOverview.comparison.heading": "Not sure which one to choose?",
+    "servicesOverview.comparison.heading": "Not sure what you actually need?",
     "servicesOverview.comparison.subheading":
-      "Based on your needs, this is a good starting point:",
+      "It’s normal not to be sure at the start.",
+    "servicesOverview.comparison.subheading2":
+      "If you’re in any of these situations:",
     "servicesOverview.cta.heading":
       "I can help you find the right approach for your project.",
 
@@ -344,9 +346,12 @@ export const ui: Record<Locale, Record<string, string>> = {
     "servicesOverview.selector.heading": "¿Qué necesitas?",
     "servicesOverview.grid.heading": "Servicios disponibles",
     "servicesOverview.grid.cta": "Ver servicio",
-    "servicesOverview.comparison.heading": "¿No estás seguro cuál elegir?",
+    "servicesOverview.comparison.heading":
+      "¿No estás seguro de qué necesitas exactamente?",
     "servicesOverview.comparison.subheading":
-      "Según lo que necesitas, este es un buen punto de partida:",
+      "Es normal no tenerlo claro al inicio.",
+    "servicesOverview.comparison.subheading2":
+      "Estas son algunas situaciones comunes:",
     "servicesOverview.cta.heading":
       "Puedo ayudarte a definir el mejor enfoque para tu proyecto.",
 

@@ -28,26 +28,49 @@ const items = services.map((service) => ({
       {t("servicesOverview.comparison.heading")}
     </h2>
     <p
-      class="mb-8 text-center text-sm text-slate-400"
+      class="mx-auto max-w-xl text-center text-sm text-slate-400"
       data-scroll-animate="up"
     >
       {t("servicesOverview.comparison.subheading")}
     </p>
-    <div class="mx-auto grid max-w-2xl gap-3 sm:grid-cols-2">
+    <p
+      class="mb-8 text-center text-sm font-medium text-slate-300"
+      data-scroll-animate="up"
+    >
+      {t("servicesOverview.comparison.subheading2")}
+    </p>
+    <div class="mx-auto grid max-w-4xl gap-5 sm:grid-cols-2">
       {
         items.map(({ service, overview }, index) => (
           <a
             href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
-            class="group flex items-center justify-between gap-3 rounded-xl border border-border bg-surface px-5 py-3.5 text-sm transition-all hover:border-red-600/40"
+            class="group flex flex-col gap-4 rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:border-red-600/60"
             data-scroll-animate={index % 2 === 0 ? "left" : "right"}
           >
-            <span class="text-slate-400">
-              {overview.comparisonOutcome[lang]}
-            </span>
-            <span class="flex items-center gap-1 font-semibold text-slate-100 transition-colors group-hover:text-red-400">
-              {service.card.title[lang]}
+            <ul class="flex flex-1 flex-col gap-3">
+              {overview.scenarioSituations.map((situation) => (
+                <li class="flex gap-2.5">
+                  <span
+                    class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-red-600/50"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <span class="block text-sm font-medium text-slate-200">
+                      {situation.title[lang]}
+                    </span>
+                    {situation.subtext && (
+                      <span class="block text-sm text-slate-500">
+                        {situation.subtext[lang]}
+                      </span>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            <span class="flex items-center gap-2 border-t border-border pt-4 text-sm font-semibold text-slate-200 transition-colors duration-300 group-hover:text-red-400">
               <svg
-                class="h-3 w-3 shrink-0"
+                class="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -58,6 +81,12 @@ const items = services.map((service) => ({
               >
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
+              <span
+                class="shrink-0 [&>svg]:h-4 [&>svg]:w-4"
+                aria-hidden="true"
+                set:html={service.icon}
+              />
+              {overview.scenarioCtaLabel[lang]}
             </span>
           </a>
         ))
