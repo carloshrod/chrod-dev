@@ -38,7 +38,7 @@ const navLinks: NavLink[] = [
   {
     label: t("nav.about"),
     href: aboutUrl,
-    active: restPath === "/about",
+    active: restPath === "/about" || restPath.startsWith("/about/"),
   },
 ];
 ---
