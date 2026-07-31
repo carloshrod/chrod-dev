@@ -10,33 +10,23 @@ const t = useTranslations(lang);
 
 const skillGroups = [
   {
-    category: t("skills.category.languages"),
-    skills: ["JavaScript", "TypeScript", "HTML5", "CSS3"],
-  },
-  {
-    category: t("skills.category.frameworks"),
-    skills: ["React", "Next.js", "Astro", "Express.js"],
-  },
-  {
-    category: t("skills.category.ui"),
-    skills: [
-      "Tailwind CSS",
-      "Bootstrap",
-      "SASS/SCSS",
-      "Ant Design",
-      "Material UI",
-    ],
+    category: t("skills.category.frontend"),
+    skills: ["React", "Next.js", "Astro", "TypeScript"],
   },
   {
     category: t("skills.category.backend"),
     skills: [
       "Node.js",
+      "Express.js",
       "PostgreSQL",
-      "MySQL",
       "MongoDB",
-      "Firebase",
       "Supabase",
+      "Firebase",
     ],
+  },
+  {
+    category: t("skills.category.ui"),
+    skills: ["Tailwind CSS", "SASS/SCSS", "Ant Design", "Material UI"],
   },
   {
     category: t("skills.category.cms"),
@@ -44,7 +34,7 @@ const skillGroups = [
   },
   {
     category: t("skills.category.tools"),
-    skills: ["Git", "GitHub", "n8n", "Shopify", "Docker"],
+    skills: ["Git", "GitHub", "Docker", "n8n", "Shopify"],
   },
 ];
 ---

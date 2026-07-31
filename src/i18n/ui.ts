@@ -144,13 +144,12 @@ export const ui: Record<Locale, Record<string, string>> = {
       "I can help you find the right approach for your project.",
 
     // Skills
-    "skills.heading": "Technologies I work with",
-    "skills.category.languages": "Languages",
-    "skills.category.frameworks": "Frameworks & Libraries",
-    "skills.category.ui": "UI & Styling",
-    "skills.category.backend": "Backend & Databases",
-    "skills.category.cms": "Content Management",
-    "skills.category.tools": "Tools & Workflow",
+    "skills.heading": "Technologies I use",
+    "skills.category.frontend": "Frontend",
+    "skills.category.backend": "Backend & Data",
+    "skills.category.ui": "UI & Experience",
+    "skills.category.cms": "CMS & Content",
+    "skills.category.tools": "Tools",
 
     // Projects
     "projects.label": "Work",
@@ -373,7 +372,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "breadcrumb.home": "Inicio",
 
     // Service page (páginas individuales de servicio)
-    "service.page.backToServices": "Ver todos los servicios",
+    "service.page.backToServices": "Todos los servicios",
     "service.page.hero.cta": "Solicitar presupuesto",
     "service.page.hero.microcopy": "Respuesta en menos de 24h • Sin compromiso",
     "service.page.problem.heading": "Donde empiezan los problemas",
@@ -392,7 +391,8 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.related.heading": "Proyectos relacionados",
     "service.page.related.viewProject": "Ver proyecto",
     "service.page.faq.heading": "Preguntas frecuentes",
-    "service.page.exploreMore.heading": "¿Quieres explorar más servicios?",
+    "service.page.exploreMore.heading":
+      "También puedes explorar otros enfoques",
     "service.page.cta.heading": "¿Listo para comenzar?",
     "service.page.cta.subheading":
       "Cuéntame sobre tu proyecto y te contactaré con los siguientes pasos.",
@@ -433,12 +433,11 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Puedo ayudarte a definir el mejor enfoque para tu proyecto.",
 
     // Skills
-    "skills.heading": "Tecnologías con las que trabajo",
-    "skills.category.languages": "Lenguajes",
-    "skills.category.frameworks": "Frameworks y Librerías",
-    "skills.category.ui": "UI y Estilos",
-    "skills.category.backend": "Backend y Bases de datos",
-    "skills.category.cms": "Gestión de Contenidos",
+    "skills.heading": "Tecnologías que utilizo",
+    "skills.category.frontend": "Frontend",
+    "skills.category.backend": "Backend & Datos",
+    "skills.category.ui": "UI & Experiencia",
+    "skills.category.cms": "CMS & Contenido",
     "skills.category.tools": "Herramientas",
 
     // Projects
@@ -448,7 +447,7 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Una selección de proyectos en los que he trabajado, desde webs y dashboards hasta aplicaciones más completas.",
     "projects.showMore": "Ver más",
     "projects.showLess": "Ver menos",
-    "projects.viewAll": "Ver todos los proyectos",
+    "projects.viewAll": "Todos los proyectos",
     "projects.cta.text": "¿Te gusta lo que ves? Hablemos de tu proyecto.",
     "projects.cta.button": "Iniciar mi proyecto",
 
@@ -481,7 +480,8 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Hablemos y veamos cómo puedo ayudarte.",
     "project.page.finalCta.button": "Iniciar mi proyecto",
     "project.page.relatedServices.heading": "Servicios relacionados",
-    "project.page.exploreMore.heading": "¿Quieres ver más proyectos?",
+    "project.page.exploreMore.heading":
+      "También puedes explorar otros enfoques.",
     "project.page.sticky.cta": "Hablemos",
 
     // Reviews
