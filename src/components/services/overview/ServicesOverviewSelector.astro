@@ -105,6 +105,11 @@ const items = services.map((service) => ({
     clearHighlight();
 
     target.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Safari/WebKit focuses focusable elements as a side effect of
+    // scrollIntoView() (unlike Chrome/Firefox), which draws the browser's
+    // default blue focus ring on top of our red highlight. Blur it since
+    // this focus wasn't a real keyboard/user focus interaction.
+    target.blur();
 
     cards.forEach((el) => {
       if (el === target) {

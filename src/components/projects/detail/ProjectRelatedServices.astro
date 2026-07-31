@@ -1,6 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../../layout/Container.astro";
+import Icon from "../../../components/ui/icons.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
 import type { Project } from "../../../types/project";
@@ -16,7 +17,11 @@ const t = useTranslations(lang);
 
 const relatedServices = (project.services ?? [])
   .map((slug) => getServiceBySlug(slug))
-  .filter((service): service is NonNullable<typeof service> => Boolean(service));
+  .filter((service): service is NonNullable<typeof service> =>
+    Boolean(service),
+  );
+
+const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
 ---
 
 {
@@ -29,7 +34,7 @@ const relatedServices = (project.services ?? [])
         >
           {t("project.page.relatedServices.heading")}
         </h2>
-        <div class="flex flex-wrap justify-center gap-3">
+        <div class="flex flex-wrap justify-center gap-3 mb-16">
           {relatedServices.map((service) => (
             <a
               href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
@@ -42,6 +47,20 @@ const relatedServices = (project.services ?? [])
               {service.card.title[lang]}
             </a>
           ))}
+        </div>
+
+        <div class="group flex justify-center">
+          <a
+            href={projectsUrl}
+            class="inline-flex items-center gap-1 px-7 py-3 text-sm font-semibold text-slate-200 transition-all hover:border-red-400 hover:text-red-400"
+            data-scroll-animate="up"
+          >
+            <Icon
+              name="arrowLeft"
+              class="h-3 w-3 transition-transform duration-300 group-hover:-translate-x-0.5"
+            />{" "}
+            {t("projects.viewAll")}
+          </a>
         </div>
       </Container>
     </section>

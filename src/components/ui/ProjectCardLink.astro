@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import Icon from "./icons.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 import type { Project } from "../../types/project";
@@ -81,18 +82,10 @@ const thumbnail = project.coverImage ?? project.screenshots?.[0];
       class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400"
     >
       {t("projectsOverview.grid.cta")}
-      <svg
+      <Icon
+        name="arrowRight"
         class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M5 12h14M13 6l6 6-6 6"></path>
-      </svg>
+      />
     </span>
   </div>
 </a>

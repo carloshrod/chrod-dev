@@ -1,5 +1,6 @@
 ---
 import Container from "../../layout/Container.astro";
+import Icon from "../../ui/icons.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
 import type { Service } from "../../../data/services/types";
@@ -51,7 +52,7 @@ const t = useTranslations(lang);
         class="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-red-400 transition-colors hover:text-red-300"
       >
         {t("service.page.process.cta.label")}
-        <span aria-hidden="true">→</span>
+        <Icon name="arrowRight" class="h-3.5 w-3.5" />
       </a>
     </div>
   </Container>

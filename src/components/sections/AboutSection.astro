@@ -1,6 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../layout/Container.astro";
+import Icon from "../ui/icons.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 
@@ -29,7 +30,7 @@ const aboutUrl = getRelativeLocaleUrl(lang, "/about");
         </div>
 
         <div
-          class="mt-10 flex flex-wrap gap-6 text-sm"
+          class="mt-10 flex flex-wrap justify-center gap-10 text-sm"
           data-scroll-animate="left"
         >
           <div>
@@ -42,7 +43,7 @@ const aboutUrl = getRelativeLocaleUrl(lang, "/about");
             </p>
             <p class="mt-1 text-slate-500">{t("about.stat1.label")}</p>
           </div>
-          <div class="border-l border-border pl-6">
+          <div>
             <p
               class="text-3xl font-bold text-red-400"
               data-count-to="15"
@@ -52,7 +53,7 @@ const aboutUrl = getRelativeLocaleUrl(lang, "/about");
             </p>
             <p class="mt-1 text-slate-500">{t("about.stat2.label")}</p>
           </div>
-          <div class="border-l border-border pl-6">
+          <div>
             <p
               class="text-3xl font-bold text-red-400"
               data-count-to="15"
@@ -64,14 +65,16 @@ const aboutUrl = getRelativeLocaleUrl(lang, "/about");
           </div>
         </div>
 
-        <a
-          href={aboutUrl}
-          class="mt-8 inline-flex items-center gap-2 rounded-lg border border-red-600/50 px-5 py-2.5 text-sm font-medium text-red-400 transition-all hover:border-red-400 hover:text-red-300"
-          data-scroll-animate="left"
-        >
-          {t("about.cta.learnMore")}
-          <span aria-hidden="true">→</span>
-        </a>
+        <div class="max-[1121px]:flex max-[1121px]:justify-center">
+          <a
+            href={aboutUrl}
+            class="mt-8 inline-flex items-center gap-2 rounded-lg border border-red-600/50 px-5 py-2.5 text-sm font-medium text-red-400 transition-all hover:border-red-400 hover:text-red-300"
+            data-scroll-animate="left"
+          >
+            {t("about.cta.learnMore")}
+            <Icon name="arrowRight" class="h-3.5 w-3.5" />
+          </a>
+        </div>
       </div>
 
       <!-- Code card -->

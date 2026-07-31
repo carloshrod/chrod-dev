@@ -1,6 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../../layout/Container.astro";
+import Icon from "../../ui/icons.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
 import { services } from "../../../data/services";
@@ -65,18 +66,10 @@ const items = services.map((service) => ({
             {/* Discreet, always-visible affordance that the card is clickable */}
             <span class="mt-auto inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400">
               {t("servicesOverview.grid.cta")}
-              <svg
+              <Icon
+                name="arrowRight"
                 class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
+              />
             </span>
           </a>
         ))

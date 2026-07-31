@@ -3,6 +3,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../../layout/Container.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
+import Icons from "../../ui/icons.astro";
 
 interface Props {
   lang: Locale;
@@ -21,9 +22,13 @@ const servicesUrl = getRelativeLocaleUrl(lang, "/services");
       </p>
       <a
         href={servicesUrl}
-        class="inline-flex rounded-lg border border-border bg-surface px-7 py-3 text-sm font-semibold text-slate-200 transition-all hover:border-red-400 hover:text-red-400"
+        class="group inline-flex items-center gap-1 px-7 py-3 text-sm font-semibold text-slate-200 transition-all hover:border-red-400 hover:text-red-400"
         data-scroll-animate="up"
       >
+        <Icons
+          name="arrowLeft"
+          class="h-3 w-3 transition-transform duration-300 group-hover:-translate-x-0.5"
+        />{" "}
         {t("service.page.backToServices")}
       </a>
     </div>
