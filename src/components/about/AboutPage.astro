@@ -1,0 +1,40 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../layout/Navbar.astro";
+import Footer from "../layout/Footer.astro";
+import ContactDrawer from "../ui/ContactDrawer.tsx";
+import AboutHero from "./AboutHero.astro";
+import AboutIntro from "./AboutIntro.astro";
+import AboutProcess from "./AboutProcess.astro";
+import AboutFocus from "./AboutFocus.astro";
+import SkillsSection from "./AboutSkills.astro";
+import AboutCTA from "./AboutCTA.astro";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<MainLayout
+  lang={lang}
+  title={t("about.page.seo.title")}
+  description={t("about.page.seo.description")}
+  alternatePath="/about"
+>
+  <Navbar lang={lang} />
+  <main>
+    <AboutHero lang={lang} />
+    <AboutIntro lang={lang} />
+    <AboutProcess lang={lang} />
+    <AboutFocus lang={lang} />
+    <SkillsSection lang={lang} />
+    <AboutCTA lang={lang} />
+  </main>
+  <Footer lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>

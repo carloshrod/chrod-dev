@@ -1,0 +1,63 @@
+---
+import Container from "../layout/Container.astro";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const steps = [
+  {
+    title: t("about.page.process.step1.title"),
+    description: t("about.page.process.step1.description"),
+  },
+  {
+    title: t("about.page.process.step2.title"),
+    description: t("about.page.process.step2.description"),
+  },
+  {
+    title: t("about.page.process.step3.title"),
+    description: t("about.page.process.step3.description"),
+  },
+  {
+    title: t("about.page.process.step4.title"),
+    description: t("about.page.process.step4.description"),
+  },
+];
+---
+
+<section class="bg-surface-alt py-16">
+  <Container>
+    <h2
+      class="mb-14 text-center text-3xl font-bold text-slate-100 sm:text-4xl"
+      data-scroll-animate="up"
+    >
+      {t("about.page.process.heading")}
+    </h2>
+
+    <div class="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((step, index) => (
+          <div
+            class="relative rounded-2xl border border-border bg-surface p-6"
+            data-scroll-animate="up"
+          >
+            <span class="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-red-600/40 bg-background text-sm font-semibold text-red-400">
+              {index + 1}
+            </span>
+            <h3 class="mb-2 text-base font-semibold text-slate-100">
+              {step.title}
+            </h3>
+            <p class="text-sm leading-relaxed text-slate-400">
+              {step.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</section>

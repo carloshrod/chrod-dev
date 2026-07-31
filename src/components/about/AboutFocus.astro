@@ -1,0 +1,55 @@
+---
+import Container from "../layout/Container.astro";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const items = [
+  t("about.page.focus.item1"),
+  t("about.page.focus.item2"),
+  t("about.page.focus.item3"),
+  t("about.page.focus.item4"),
+  t("about.page.focus.item5"),
+];
+---
+
+<section class="py-16">
+  <Container>
+    <h2
+      class="mb-10 text-center text-3xl font-bold text-slate-100 sm:text-4xl"
+      data-scroll-animate="up"
+    >
+      {t("about.page.focus.heading")}
+    </h2>
+
+    <div class="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2">
+      {
+        items.map((item, index) => (
+          <div
+            class="flex items-center gap-3 rounded-xl border border-border bg-surface p-4"
+            data-scroll-animate={index % 2 === 0 ? "right" : "left"}
+          >
+            <svg
+              class="h-5 w-5 shrink-0 text-red-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+            <span class="text-sm leading-relaxed text-slate-300">{item}</span>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</section>

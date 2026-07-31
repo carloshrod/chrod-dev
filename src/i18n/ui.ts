@@ -5,9 +5,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     // Navbar
     "nav.about": "About",
     "nav.services": "Services",
-    "nav.skills": "Skills",
     "nav.projects": "Projects",
-    "nav.testimonials": "Testimonials",
     "nav.contact": "Let's talk",
     "nav.lang.label": "ES",
 
@@ -22,16 +20,57 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.heading":
       "I build digital products that connect technology and business",
     "about.p1":
-      "I’m a full stack developer with a strong focus on frontend. I build web applications, e-commerce platforms, and integrated solutions by combining development, automation, and artificial intelligence.",
+      "I'm a full stack developer and I work on well-thought-out solutions from a practical perspective: understanding the problem clearly, defining a clean solution, and building something that actually works.",
     "about.p2":
-      "I get involved across the entire process, from designing clean, functional interfaces to integrating APIs, automating workflows, and structuring the business logic behind each product. My focus is on creating fast, maintainable solutions aligned with real-world goals, not just writing code.",
-    "about.p3":
-      "Outside of development, I continuously explore new technologies and refine my design thinking to build better user experiences.",
+      "I get involved across the entire process, not just the implementation, to make sure what gets built makes sense both technically and for the business.",
     "about.stat1.label": "Years experience",
     "about.stat2.label": "Projects shipped",
     "about.stat3.label": "Happy clients",
-    "about.resume": "Download Resume",
+    "about.cta.learnMore": "Learn more",
+    "about.resume": "View Resume",
     "about.resume.url": "/resume-en.pdf",
+
+    // About page (/about)
+    "about.page.seo.title": "About | CHRod - Web Developer",
+    "about.page.seo.description":
+      "Full stack developer with a business-first approach: understanding the problem, defining a clear solution, and building something that actually works.",
+    "about.page.hero.heading":
+      "I build digital products with a business-first approach",
+    "about.page.hero.subheading":
+      "I don't just write code. I design solutions that are clear, functional, and built to grow.",
+    "about.page.hero.cta.contact": "Let's work together",
+    "about.page.intro.heading": "Who I am",
+    "about.page.intro.p1":
+      "I'm a full stack developer with a practical approach to how applications are built and evolve. I've worked on projects of varying complexity, which has helped me develop the judgment to make technical decisions that actually add value.",
+    "about.page.intro.p2":
+      "I get involved across the entire process, not just the implementation: from how a solution is defined to how each part is structured and connected so it works in a coherent, sustainable way.",
+    "about.page.intro.p3":
+      "I aim to create solutions that are clear, well thought out, and aligned with real goals, where technology has a purpose instead of becoming an unnecessary layer of complexity.",
+    "about.page.process.heading": "How I work",
+    "about.page.process.step1.title": "Understand the problem",
+    "about.page.process.step1.description":
+      "Before writing any code, I understand the context and the goal.",
+    "about.page.process.step2.title": "Define a clear solution",
+    "about.page.process.step2.description":
+      "Simple, scalable, and aligned with the business.",
+    "about.page.process.step3.title": "Build and validate",
+    "about.page.process.step3.description":
+      "I iterate quickly and prioritize what matters.",
+    "about.page.process.step4.title": "Optimize",
+    "about.page.process.step4.description":
+      "I refine it to keep it maintainable and ready to grow.",
+    "about.page.focus.heading": "What I focus on",
+    "about.page.focus.item1": "Simplicity",
+    "about.page.focus.item2": "User experience",
+    "about.page.focus.item3": "Performance",
+    "about.page.focus.item4": "Maintainable code",
+    "about.page.focus.item5": "Real business impact",
+    "about.page.experience.body":
+      "I've worked on projects ranging from landing pages to applications with business logic, integrations, and automation.",
+    "about.page.cta.heading": "What are you working on?",
+    "about.page.cta.subheading":
+      "Tell me your idea and let's see how to bring it to life.",
+    "about.page.cta.button": "Tell me about your project",
 
     // Services
     "services.label": "Services",
@@ -105,7 +144,6 @@ export const ui: Record<Locale, Record<string, string>> = {
       "I can help you find the right approach for your project.",
 
     // Skills
-    "skills.label": "Skills",
     "skills.heading": "Technologies I work with",
     "skills.category.languages": "Languages",
     "skills.category.frameworks": "Frameworks & Libraries",
@@ -254,9 +292,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     // Navbar
     "nav.about": "Sobre mí",
     "nav.services": "Servicios",
-    "nav.skills": "Tecnologías",
     "nav.projects": "Proyectos",
-    "nav.testimonials": "Testimonios",
     "nav.contact": "Hablemos",
     "nav.lang.label": "EN",
 
@@ -271,18 +307,59 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.heading":
       "Desarrollo productos digitales que conectan tecnología y negocio",
     "about.p1":
-      "Soy desarrollador full stack con enfoque en frontend. Construyo aplicaciones web, e-commerce y soluciones integradas que combinan desarrollo, automatización e inteligencia artificial.",
+      "Soy desarrollador full stack y trabajo en soluciones bien pensadas desde una perspectiva práctica: entender bien el problema, definir una solución clara y construir algo que realmente funcione.",
     "about.p2":
-      "Me involucro en todo el proceso: desde diseñar interfaces claras y funcionales, hasta integrar APIs, automatizar flujos y estructurar la lógica del negocio detrás del producto. Me enfoco en crear soluciones rápidas, mantenibles y alineadas a objetivos reales, no solo en escribir código.",
-    "about.p3":
-      "Fuera del desarrollo, sigo explorando nuevas tecnologías y afinando mi criterio de diseño para construir mejores experiencias.",
+      "Me involucro en todo el proceso, no solo en la implementación, para asegurar que lo que se desarrolla tenga sentido a nivel técnico y también a nivel de negocio.",
     "about.stat1.label": "Años de experiencia",
     "about.stat2.label": "Proyectos entregados",
     "about.stat3.label": "Clientes satisfechos",
-    "about.resume": "Descargar CV",
+    "about.cta.learnMore": "Conocer más",
+    "about.resume": "Ver CV",
     "about.resume.url": "/resume-es.pdf",
 
-    // Services
+    // Página de sobre mí (/about)
+    "about.page.seo.title": "Sobre mí | CHRod - Desarrollador Web",
+    "about.page.seo.description":
+      "Desarrollador full stack con enfoque en negocio: entender el problema, definir una solución clara y construir algo que realmente funcione.",
+    "about.page.hero.heading":
+      "Desarrollo productos digitales con enfoque en negocio",
+    "about.page.hero.subheading":
+      "No solo escribo código. Diseño soluciones claras, funcionales y pensadas para crecer.",
+    "about.page.hero.cta.contact": "Trabajemos juntos",
+    "about.page.intro.heading": "Quién soy",
+    "about.page.intro.p1":
+      "Soy desarrollador full stack con un enfoque práctico en cómo se construyen y evolucionan las aplicaciones. He trabajado en proyectos de distinta complejidad, lo que me ha permitido desarrollar criterio para tomar decisiones técnicas que realmente aporten valor.",
+    "about.page.intro.p2":
+      "Me involucro en todo el proceso, no solo en la implementación: desde cómo se define una solución hasta cómo se estructura y se conecta cada parte para que funcione de forma coherente y sostenible.",
+    "about.page.intro.p3":
+      "Busco crear soluciones claras, bien pensadas y alineadas a objetivos reales, donde la tecnología tenga un propósito y no se convierta en una capa innecesaria de complejidad.",
+    "about.page.process.heading": "Cómo trabajo",
+    "about.page.process.step1.title": "Entender el problema",
+    "about.page.process.step1.description":
+      "Antes de escribir código, entiendo el contexto y el objetivo.",
+    "about.page.process.step2.title": "Definir una solución clara",
+    "about.page.process.step2.description":
+      "Simple, escalable y alineada al negocio.",
+    "about.page.process.step3.title": "Construir y validar",
+    "about.page.process.step3.description":
+      "Itero rápido y priorizo lo importante.",
+    "about.page.process.step4.title": "Optimizar",
+    "about.page.process.step4.description":
+      "Refino para que sea mantenible y lista para crecer.",
+    "about.page.focus.heading": "En qué me enfoco",
+    "about.page.focus.item1": "Simplicidad",
+    "about.page.focus.item2": "Experiencia de usuario",
+    "about.page.focus.item3": "Rendimiento",
+    "about.page.focus.item4": "Código mantenible",
+    "about.page.focus.item5": "Impacto real en negocio",
+    "about.page.experience.body":
+      "He trabajado en proyectos desde landing pages hasta aplicaciones con lógica de negocio, integraciones y automatización.",
+    "about.page.cta.heading": "¿En qué estás trabajando?",
+    "about.page.cta.subheading":
+      "Cuéntame tu idea y vemos cómo llevarla a la práctica.",
+    "about.page.cta.button": "Cuéntame tu proyecto",
+
+    // Servicios
     "services.label": "Servicios",
     "services.heading": "Cómo puedo ayudarte",
     "services.subtitle":
@@ -356,7 +433,6 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Puedo ayudarte a definir el mejor enfoque para tu proyecto.",
 
     // Skills
-    "skills.label": "Tecnologías",
     "skills.heading": "Tecnologías con las que trabajo",
     "skills.category.languages": "Lenguajes",
     "skills.category.frameworks": "Frameworks y Librerías",

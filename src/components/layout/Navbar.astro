@@ -14,38 +14,33 @@ const restPath = Astro.url.pathname.replace(/^\/(en|es)(?=\/|$)/, "") || "/";
 const enUrl = getRelativeLocaleUrl("en", restPath);
 const esUrl = getRelativeLocaleUrl("es", restPath);
 
-const isHome = restPath === "/";
 const servicesUrl = getRelativeLocaleUrl(lang, "/services");
 const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
+const aboutUrl = getRelativeLocaleUrl(lang, "/about");
 
 interface NavLink {
   label: string;
   href: string;
-  sectionId?: string;
-  active?: boolean;
+  active: boolean;
 }
 
-const navLinks: NavLink[] = isHome
-  ? [
-      { sectionId: "about", label: t("nav.about") },
-      { sectionId: "services", label: t("nav.services") },
-      { sectionId: "skills", label: t("nav.skills") },
-      { sectionId: "projects", label: t("nav.projects") },
-      { sectionId: "reviews", label: t("nav.testimonials") },
-    ].map((link) => ({ ...link, href: `${homeUrl}#${link.sectionId}` }))
-  : [
-      {
-        label: t("nav.services"),
-        href: servicesUrl,
-        active: restPath === "/services" || restPath.startsWith("/services/"),
-      },
-      {
-        label: t("nav.projects"),
-        href: projectsUrl,
-        active: restPath === "/projects" || restPath.startsWith("/projects/"),
-      },
-      { label: t("nav.about"), href: `${homeUrl}#about` },
-    ];
+const navLinks: NavLink[] = [
+  {
+    label: t("nav.services"),
+    href: servicesUrl,
+    active: restPath === "/services" || restPath.startsWith("/services/"),
+  },
+  {
+    label: t("nav.projects"),
+    href: projectsUrl,
+    active: restPath === "/projects" || restPath.startsWith("/projects/"),
+  },
+  {
+    label: t("nav.about"),
+    href: aboutUrl,
+    active: restPath === "/about",
+  },
+];
 ---
 
 <header
@@ -74,8 +69,7 @@ const navLinks: NavLink[] = isHome
             <li>
               <a
                 href={link.href}
-                data-nav-link={link.sectionId ? `#${link.sectionId}` : undefined}
-                class={`nav-link text-sm font-medium transition-colors hover:text-red-400 active:text-red-400 ${
+                class={`text-sm font-medium transition-colors hover:text-red-400 active:text-red-400 ${
                   link.active ? "text-red-400" : "text-slate-400"
                 }`}
               >
@@ -172,7 +166,6 @@ const navLinks: NavLink[] = isHome
             <li>
               <a
                 href={link.href}
-                data-nav-link={link.sectionId ? `#${link.sectionId}` : undefined}
                 class={`mobile-nav-link block rounded-md px-3 py-2 text-center text-sm font-medium transition-colors hover:bg-border hover:text-red-400 active:bg-border active:text-red-400 ${
                   link.active ? "text-red-400" : "text-slate-400"
                 }`}
@@ -202,11 +195,7 @@ const navLinks: NavLink[] = isHome
 <script>
   // Re-run on the initial load and after every View Transitions navigation,
   // since the DOM elements below get replaced on each page swap.
-  let navbarObserver: IntersectionObserver | undefined;
-
   function initNavbar() {
-    navbarObserver?.disconnect();
-
     const toggle = document.getElementById("mobile-menu-toggle");
     const menu = document.getElementById("mobile-menu");
     const iconMenu = document.getElementById("icon-menu");
@@ -229,75 +218,6 @@ const navLinks: NavLink[] = isHome
         toggle?.setAttribute("aria-expanded", "false");
       });
     });
-
-    // Active section highlighting
-    const navLinks =
-      document.querySelectorAll<HTMLAnchorElement>("a[data-nav-link]");
-    const sectionIds = Array.from(navLinks).map((a) =>
-      a.getAttribute("data-nav-link")!.replace("#", ""),
-    );
-    const sections = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter(Boolean) as HTMLElement[];
-
-    const visibleSections = new Map<string, boolean>();
-    sections.forEach((s) => visibleSections.set(s.id, false));
-
-    const langLinks =
-      document.querySelectorAll<HTMLAnchorElement>("a[data-lang-link]");
-
-    function updateLangLinks(hash: string) {
-      const restPath =
-        window.location.pathname.replace(/^\/(en|es)(?=\/|$)/, "") || "/";
-      const suffix = restPath === "/" ? "" : restPath;
-      langLinks.forEach((a) => {
-        const lang = a.getAttribute("data-lang-link");
-        const base = lang === "es" ? `/es${suffix}` : `/en${suffix}`;
-        a.href = hash ? `${base}${hash}` : base;
-      });
-    }
-
-    // Initialise with the current hash if any
-    updateLangLinks(window.location.hash);
-
-    function updateActive() {
-      let activeId: string | null = null;
-      let minTop = Infinity;
-
-      visibleSections.forEach((isVisible, id) => {
-        if (isVisible) {
-          const top = Math.abs(
-            document.getElementById(id)!.getBoundingClientRect().top,
-          );
-          if (top < minTop) {
-            minTop = top;
-            activeId = id;
-          }
-        }
-      });
-
-      navLinks.forEach((a) => {
-        const isActive =
-          activeId !== null &&
-          a.getAttribute("data-nav-link") === `#${activeId}`;
-        a.classList.toggle("text-red-400", isActive);
-        a.classList.toggle("text-slate-400", !isActive);
-      });
-
-      updateLangLinks(activeId ? `#${activeId}` : "");
-    }
-
-    navbarObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) =>
-          visibleSections.set(entry.target.id, entry.isIntersecting),
-        );
-        updateActive();
-      },
-      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
-    );
-
-    sections.forEach((s) => navbarObserver!.observe(s));
 
     // Logo: scroll to top without reload when already on the home page
     const logoLink = document.getElementById(

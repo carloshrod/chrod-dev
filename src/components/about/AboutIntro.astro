@@ -1,0 +1,76 @@
+---
+import Container from "../layout/Container.astro";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="py-16">
+  <Container>
+    <h2
+      class="mb-10 text-3xl font-bold text-slate-100 max-lg:text-center sm:text-4xl"
+      data-scroll-animate="up"
+    >
+      {t("about.page.intro.heading")}
+    </h2>
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div
+        class="space-y-4 leading-relaxed text-slate-400"
+        data-scroll-animate="left"
+      >
+        <p>{t("about.page.intro.p1")}</p>
+        <p>{t("about.page.intro.p2")}</p>
+        <p>{t("about.page.intro.p3")}</p>
+      </div>
+
+      <div data-scroll-animate="right" class="h-full">
+        <div
+          class="flex h-full gap-8 items-center justify-center max-sm:pl-6 sm:gap-12"
+        >
+          <div class="flex lg:flex-col flex-wrap justify-center gap-8 text-sm">
+            <div>
+              <p
+                class="text-3xl font-bold text-red-400"
+                data-count-to="3"
+                data-count-suffix="+"
+              >
+                0+
+              </p>
+              <p class="mt-1 text-slate-500">{t("about.stat1.label")}</p>
+            </div>
+            <div class="">
+              <p
+                class="text-3xl font-bold text-red-400"
+                data-count-to="15"
+                data-count-suffix="+"
+              >
+                0+
+              </p>
+              <p class="mt-1 text-slate-500">{t("about.stat2.label")}</p>
+            </div>
+            <div class="">
+              <p
+                class="text-3xl font-bold text-red-400"
+                data-count-to="15"
+                data-count-suffix="+"
+              >
+                0+
+              </p>
+              <p class="mt-1 text-slate-500">{t("about.stat3.label")}</p>
+            </div>
+          </div>
+
+          <p class="leading-relaxed text-slate-500 max-w-60 italic">
+            {t("about.page.experience.body")}
+          </p>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

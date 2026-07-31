@@ -1,11 +1,12 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../layout/Container.astro";
-import Icon from "../ui/icons.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
+const aboutUrl = getRelativeLocaleUrl(lang, "/about");
 ---
 
 <section id="about" class="py-24 bg-surface-alt">
@@ -13,12 +14,6 @@ const t = useTranslations(lang);
     <div class="grid gap-16 lg:grid-cols-2 lg:items-center">
       <!-- Text -->
       <div>
-        <p
-          class="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400"
-          data-scroll-animate="left"
-        >
-          {t("about.label")}
-        </p>
         <h2
           class="mb-6 text-3xl font-bold text-slate-100 sm:text-4xl"
           data-scroll-animate="left"
@@ -31,7 +26,6 @@ const t = useTranslations(lang);
         >
           <p>{t("about.p1")}</p>
           <p>{t("about.p2")}</p>
-          <p>{t("about.p3")}</p>
         </div>
 
         <div
@@ -71,14 +65,12 @@ const t = useTranslations(lang);
         </div>
 
         <a
-          href={t("about.resume.url")}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={aboutUrl}
           class="mt-8 inline-flex items-center gap-2 rounded-lg border border-red-600/50 px-5 py-2.5 text-sm font-medium text-red-400 transition-all hover:border-red-400 hover:text-red-300"
           data-scroll-animate="left"
         >
-          <Icon name="download" />
-          {t("about.resume")}
+          {t("about.cta.learnMore")}
+          <span aria-hidden="true">→</span>
         </a>
       </div>
 
