@@ -33,8 +33,8 @@ const thumbnail = project.coverImage ?? project.screenshots?.[0];
         <Image
           src={thumbnail}
           alt={project.title}
-          width={480}
-          height={270}
+          width={960}
+          height={540}
           class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
           loading={eager ? "eager" : "lazy"}
         />
