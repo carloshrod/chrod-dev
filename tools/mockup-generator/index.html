@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Generador de mockups — covers de proyectos</title>
+<style>
+  :root {
+    --bg: #0c0b0e;
+    --panel: #131117;
+    --ink: #ece7ec;
+    --ink-2: #a49da6;
+    --ink-3: #746d77;
+    --rule: #262129;
+    --accent: #e85c62;
+    --accent-solid: #d52c33;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "Cascadia Code", "Consolas", "SF Mono", monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(24px, 5vw, 56px) clamp(16px, 4vw, 32px) 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  header { display: flex; flex-direction: column; gap: 8px; }
+  h1 { margin: 0; font-size: clamp(24px, 3.6vw, 32px); letter-spacing: -.02em; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 880px) { .layout { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field > label {
+    font-size: 10px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .field input[type="text"] {
+    font: inherit; font-size: 13px; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--rule); border-radius: 8px;
+    padding: 9px 11px; width: 100%;
+  }
+  .field input[type="text"]:focus, .filebtn:focus-visible, .seg button:focus-visible, .primary:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  .hint { font-size: 11.5px; color: var(--ink-3); }
+
+  .filerow { display: flex; gap: 8px; align-items: center; }
+  .filebtn {
+    font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    padding: 8px 12px; border-radius: 8px; border: 1px solid var(--rule);
+    background: transparent; color: var(--ink-2); white-space: nowrap;
+  }
+  .filebtn:hover { color: var(--ink); border-color: var(--ink-3); }
+  .thumb {
+    width: 34px; height: 34px; border-radius: 6px; overflow: hidden;
+    border: 1px solid var(--rule); background: #000; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb.empty::after { content: "—"; color: var(--ink-3); font-size: 12px; }
+
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg button {
+    font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    padding: 7px 12px; border-radius: 8px; border: 1px solid var(--rule);
+    background: transparent; color: var(--ink-2);
+  }
+  .seg button:hover { color: var(--ink); border-color: var(--ink-3); }
+  .seg button[aria-pressed="true"] {
+    background: var(--accent-solid); border-color: var(--accent-solid); color: #fff;
+  }
+
+  .gradient-guide {
+    list-style: none; margin: 4px 0 0; padding: 0;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .gradient-guide li {
+    font-size: 12px; color: var(--ink-3); line-height: 1.5;
+    padding-left: 10px; border-left: 2px solid var(--rule);
+  }
+  .gradient-guide li b { color: var(--ink-2); font-weight: 600; }
+  .gradient-guide li.active { color: var(--ink-2); border-left-color: var(--accent-solid); }
+  .gradient-guide li.active b { color: var(--ink); }
+
+  hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+
+  .primary {
+    font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer;
+    padding: 12px 16px; border-radius: 10px; border: none;
+    background: var(--accent-solid); color: #fff;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .primary:hover { background: #c22831; }
+  .primary:disabled { opacity: .5; cursor: not-allowed; }
+  .status { font-size: 12px; color: var(--ink-3); text-align: center; min-height: 16px; }
+
+  .stage {
+    background: #050505;
+    border: 1px solid #1a1a1a;
+    border-radius: 16px;
+    padding: clamp(16px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .stage-note {
+    margin: 0; font-family: var(--mono); font-size: 11px;
+    letter-spacing: .06em; text-transform: uppercase; color: #5c5c66;
+  }
+
+  /* ═════ mismo sistema .mk que en el portafolio ═════ */
+  .mk {
+    container-type: inline-size;
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 4px;
+  }
+
+  .mk--ember {
+    background:
+      radial-gradient(85% 110% at 14% 0%, rgba(213, 44, 51, .30), transparent 58%),
+      radial-gradient(70% 95% at 100% 100%, rgba(140, 30, 42, .30), transparent 62%),
+      linear-gradient(158deg, #191920 0%, #101016 46%, #0a0a0e 100%);
+  }
+  .mk--graphite {
+    background:
+      radial-gradient(80% 110% at 50% -12%, rgba(226, 232, 240, .11), transparent 60%),
+      radial-gradient(65% 85% at 6% 105%, rgba(213, 44, 51, .16), transparent 65%),
+      linear-gradient(158deg, #1c1c22 0%, #121217 50%, #0a0a0d 100%);
+  }
+  .mk--signal {
+    background:
+      radial-gradient(65% 95% at 84% 4%, rgba(232, 92, 98, .40), transparent 55%),
+      radial-gradient(95% 120% at -5% 100%, rgba(213, 44, 51, .24), transparent 60%),
+      linear-gradient(200deg, #2b0e14 0%, #160a10 45%, #0b0a0f 100%);
+  }
+
+  .mk::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, .05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, .05) 1px, transparent 1px);
+    background-size: 5cqw 5cqw;
+    -webkit-mask-image: radial-gradient(75% 78% at 50% 42%, #000 25%, transparent 100%);
+    mask-image: radial-gradient(75% 78% at 50% 42%, #000 25%, transparent 100%);
+    z-index: 0;
+  }
+  .mk::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(115% 90% at 50% 38%, transparent 45%, rgba(0, 0, 0, .55) 100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .mk__scene { position: absolute; inset: 0; z-index: 2; }
+
+  .mk-mac { position: absolute; top: 50%; translate: 0 -52%; }
+  .mk-mac__lid {
+    position: relative; padding: 1cqw 1cqw 1.6cqw; border-radius: 1.7cqw;
+    background: linear-gradient(158deg, #4a4a53 0%, #26262c 38%, #17171b 100%);
+    box-shadow: 0 1.8cqw 3.2cqw rgba(0, 0, 0, .55), inset 0 0 0 .12cqw rgba(255, 255, 255, .10);
+  }
+  .mk-mac__cam {
+    position: absolute; top: .42cqw; left: 50%; translate: -50% 0;
+    width: .3cqw; height: .3cqw; border-radius: 50%; background: rgba(255, 255, 255, .22);
+  }
+  .mk-mac__screen {
+    position: relative; aspect-ratio: 16 / 10; border-radius: .9cqw; overflow: hidden;
+    background: #0b0b0f; box-shadow: inset 0 0 0 .1cqw rgba(0, 0, 0, .8);
+  }
+  .mk-mac__screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .mk-mac__screen::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(112deg, rgba(255, 255, 255, .14) 0%, rgba(255, 255, 255, .03) 32%, transparent 55%);
+    pointer-events: none;
+  }
+  .mk-mac__base {
+    position: relative; width: 116%; margin-left: -8%; height: 1.5cqw;
+    background: linear-gradient(180deg, #43434b 0%, #2a2a30 55%, #17171b 100%);
+    border-radius: 0 0 1.1cqw 1.1cqw; box-shadow: 0 1cqw 1.8cqw rgba(0, 0, 0, .5);
+  }
+  .mk-mac__base span {
+    position: absolute; top: 0; left: 50%; translate: -50% 0;
+    width: 13%; height: .5cqw; border-radius: 0 0 .5cqw .5cqw; background: rgba(0, 0, 0, .45);
+  }
+
+  .mk-phone {
+    position: absolute; top: 50%; translate: 0 -48%; aspect-ratio: 9 / 19;
+    padding: .45cqw; border-radius: 2.4cqw;
+    background: linear-gradient(152deg, #52525b 0%, #232329 42%, #141418 100%);
+    box-shadow: 0 1.8cqw 2.8cqw rgba(0, 0, 0, .6), inset 0 0 0 .1cqw rgba(255, 255, 255, .14);
+  }
+  .mk-phone__screen { position: relative; height: 100%; border-radius: 2cqw; overflow: hidden; background: #0b0b0f; }
+  .mk-phone__screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .mk-phone__island {
+    position: absolute; top: .55cqw; left: 50%; translate: -50% 0;
+    width: 36%; height: .8cqw; border-radius: 1cqw; background: #000; z-index: 2;
+  }
+  .mk-phone__screen::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(118deg, rgba(255, 255, 255, .16) 0%, rgba(255, 255, 255, .03) 30%, transparent 52%);
+    pointer-events: none;
+  }
+
+  .mk--macbook .mk-mac { width: 66cqw; left: 17cqw; }
+  .mk--duo .mk-mac { width: 55cqw; left: 9cqw; }
+  .mk--duo .mk-phone { width: 13.5cqw; right: 8cqw; translate: 0 -44%; }
+  .mk--iphone .mk-phone { width: 17.5cqw; left: 50%; margin-left: -8.75cqw; }
+
+  .empty-frame {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #4a4a54; font-size: 12px; text-align: center; padding: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Generador de mockups</h1>
+  </header>
+
+  <div class="layout">
+    <div class="panel">
+
+      <div class="field">
+        <label for="main-url">Imagen principal (Mac)</label>
+        <input type="text" id="main-url" placeholder="Pega una URL de Sanity…" />
+        <div class="filerow">
+          <button type="button" class="filebtn" data-pick="main">Elegir archivo</button>
+          <div class="thumb empty" id="main-thumb"></div>
+        </div>
+        <input type="file" id="main-file" accept="image/*" hidden />
+      </div>
+
+      <div class="field">
+        <label for="phone-url">Imagen del teléfono (opcional)</label>
+        <input type="text" id="phone-url" placeholder="Pega una URL de Sanity…" />
+        <div class="filerow">
+          <button type="button" class="filebtn" data-pick="phone">Elegir archivo</button>
+          <div class="thumb empty" id="phone-thumb"></div>
+        </div>
+        <input type="file" id="phone-file" accept="image/*" hidden />
+        <p class="hint">Si el dispositivo es "iPhone" y no cargas esta, usa la principal.</p>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="field">
+        <label id="lbl-device">Dispositivo</label>
+        <div class="seg" role="group" aria-labelledby="lbl-device" data-group="device">
+          <button type="button" data-value="macbook" aria-pressed="false">MacBook</button>
+          <button type="button" data-value="duo" aria-pressed="true">Mac + iPhone</button>
+          <button type="button" data-value="iphone" aria-pressed="false">iPhone</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="lbl-variant">Degradado</label>
+        <div class="seg" role="group" aria-labelledby="lbl-variant" data-group="variant">
+          <button type="button" data-value="ember" aria-pressed="true">Ember</button>
+          <button type="button" data-value="graphite" aria-pressed="false">Graphite</button>
+          <button type="button" data-value="signal" aria-pressed="false">Signal</button>
+        </div>
+        <ul class="gradient-guide" id="gradient-guide">
+          <li data-for="ember"><b>Ember</b> — default. Sirve para casi cualquier captura.</li>
+          <li data-for="graphite"><b>Graphite</b> — capturas con colores fuertes o UI saturada.</li>
+          <li data-for="signal"><b>Signal</b> — proyectos destacados. No usar en toda la grilla.</li>
+        </ul>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="field">
+        <label for="filename">Nombre de archivo</label>
+        <input type="text" id="filename" value="proyecto-cover" />
+      </div>
+
+      <button type="button" class="primary" id="download" disabled>
+        Descargar PNG (2×)
+      </button>
+      <p class="status" id="status">Carga al menos una imagen para exportar.</p>
+    </div>
+
+    <div class="stage">
+      <p class="stage-note">Preview · exporta a 2400 × 1350</p>
+      <div class="mk mk--duo mk--ember" id="mk">
+        <div class="mk__scene" id="scene"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
+<script>
+  const state = {
+    device: "duo",
+    variant: "ember",
+    mainSrc: "",
+    phoneSrc: "",
+  };
+
+  const mk = document.getElementById("mk");
+  const scene = document.getElementById("scene");
+  const downloadBtn = document.getElementById("download");
+  const statusEl = document.getElementById("status");
+
+  const mainUrlInput = document.getElementById("main-url");
+  const phoneUrlInput = document.getElementById("phone-url");
+  const mainFileInput = document.getElementById("main-file");
+  const phoneFileInput = document.getElementById("phone-file");
+  const mainThumb = document.getElementById("main-thumb");
+  const phoneThumb = document.getElementById("phone-thumb");
+
+  function setThumb(el, src) {
+    if (src) {
+      el.classList.remove("empty");
+      el.innerHTML = `<img src="${src}" alt="" />`;
+    } else {
+      el.classList.add("empty");
+      el.innerHTML = "";
+    }
+  }
+
+  function frameHTML(src, kind) {
+    if (!src) {
+      return `<div class="empty-frame">sin imagen</div>`;
+    }
+    return `<img src="${src}" alt="" crossorigin="anonymous" />`;
+  }
+
+  function sceneFor() {
+    const { device, mainSrc, phoneSrc } = state;
+    const effectivePhone = phoneSrc || mainSrc;
+    let html = "";
+    if (device !== "iphone") {
+      html += `
+        <div class="mk-mac">
+          <div class="mk-mac__lid">
+            <span class="mk-mac__cam"></span>
+            <div class="mk-mac__screen">${frameHTML(mainSrc, "mac")}</div>
+          </div>
+          <div class="mk-mac__base"><span></span></div>
+        </div>`;
+    }
+    if (device !== "macbook") {
+      html += `
+        <div class="mk-phone">
+          <div class="mk-phone__screen">
+            <span class="mk-phone__island"></span>
+            ${frameHTML(effectivePhone, "phone")}
+          </div>
+        </div>`;
+    }
+    return html;
+  }
+
+  function render() {
+    mk.className = `mk mk--${state.device} mk--${state.variant}`;
+    scene.innerHTML = sceneFor();
+
+    document.querySelectorAll("#gradient-guide li").forEach((li) => {
+      li.classList.toggle("active", li.dataset.for === state.variant);
+    });
+
+    const hasImage = Boolean(state.mainSrc || state.phoneSrc);
+    downloadBtn.disabled = !hasImage;
+    statusEl.textContent = hasImage
+      ? "Listo para exportar."
+      : "Carga al menos una imagen para exportar.";
+  }
+
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  mainUrlInput.addEventListener("input", () => {
+    state.mainSrc = mainUrlInput.value.trim();
+    setThumb(mainThumb, state.mainSrc);
+    render();
+  });
+
+  phoneUrlInput.addEventListener("input", () => {
+    state.phoneSrc = phoneUrlInput.value.trim();
+    setThumb(phoneThumb, state.phoneSrc);
+    render();
+  });
+
+  document.querySelectorAll("[data-pick]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.pick;
+      (target === "main" ? mainFileInput : phoneFileInput).click();
+    });
+  });
+
+  mainFileInput.addEventListener("change", async () => {
+    const file = mainFileInput.files?.[0];
+    if (!file) return;
+    const dataUrl = await readFileAsDataURL(file);
+    state.mainSrc = dataUrl;
+    mainUrlInput.value = "";
+    setThumb(mainThumb, dataUrl);
+    render();
+  });
+
+  phoneFileInput.addEventListener("change", async () => {
+    const file = phoneFileInput.files?.[0];
+    if (!file) return;
+    const dataUrl = await readFileAsDataURL(file);
+    state.phoneSrc = dataUrl;
+    phoneUrlInput.value = "";
+    setThumb(phoneThumb, dataUrl);
+    render();
+  });
+
+  document.querySelectorAll("[data-group]").forEach((group) => {
+    group.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-value]");
+      if (!btn) return;
+      const key = group.dataset.group;
+      state[key] = btn.dataset.value;
+      group.querySelectorAll("button").forEach((b) =>
+        b.setAttribute("aria-pressed", String(b === btn))
+      );
+      render();
+    });
+  });
+
+  downloadBtn.addEventListener("click", async () => {
+    if (typeof htmlToImage === "undefined") {
+      statusEl.textContent = "No se pudo cargar html-to-image (¿sin conexión?).";
+      return;
+    }
+    downloadBtn.disabled = true;
+    statusEl.textContent = "Generando…";
+    try {
+      const dataUrl = await htmlToImage.toPng(mk, {
+        pixelRatio: 2,
+        cacheBust: true,
+      });
+      const link = document.createElement("a");
+      const name = document.getElementById("filename").value.trim() || "cover";
+      link.download = `${name}.png`;
+      link.href = dataUrl;
+      link.click();
+      statusEl.textContent = "Descargado.";
+    } catch (err) {
+      console.error(err);
+      statusEl.textContent =
+        "Falló la exportación (probablemente una URL externa sin CORS). Descarga la imagen y usa 'Elegir archivo' en vez de la URL.";
+    } finally {
+      downloadBtn.disabled = false;
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>
