@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "../../i18n/utils";
+import { getRouteUrl } from "../../i18n/routes";
 
 interface ReviewFormProps {
   lang: "en" | "es";
@@ -18,6 +19,7 @@ interface FormState {
 interface FormErrors {
   name?: string;
   text?: string;
+  rating?: string;
   linkedinUrl?: string;
 }
 
@@ -45,6 +47,7 @@ export default function ReviewForm({ lang, token }: ReviewFormProps) {
     if (!form.text.trim()) e.text = t("review.error.required");
     else if (form.text.trim().length < 50)
       e.text = t("review.error.text.short");
+    if (form.rating < 1) e.rating = t("review.error.rating.required");
     if (
       form.linkedinUrl.trim() &&
       !form.linkedinUrl.trim().startsWith("https://") &&
@@ -74,7 +77,7 @@ export default function ReviewForm({ lang, token }: ReviewFormProps) {
           role: form.role || undefined,
           company: form.company || undefined,
           text: form.text,
-          rating: form.rating > 0 ? form.rating : undefined,
+          rating: form.rating,
           linkedinUrl: form.linkedinUrl || undefined,
           lang,
           accessToken: token,
@@ -88,8 +91,16 @@ export default function ReviewForm({ lang, token }: ReviewFormProps) {
     }
   };
 
+  // The page's intro copy ("share your experience…") stops making sense once
+  // the form has been submitted, so the page hides it on this signal.
+  useEffect(() => {
+    if (status === "success" || status === "error") {
+      document.dispatchEvent(new CustomEvent("review-submitted"));
+    }
+  }, [status]);
+
   const inputBase =
-    "w-full rounded-lg border bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-red-600 focus:ring-2 focus:ring-red-600/30";
+    "w-full rounded-lg border bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30";
 
   const inputClass = (hasError?: boolean) =>
     `${inputBase} ${hasError ? "border-red-500" : "border-border"}`;
@@ -217,25 +228,28 @@ export default function ReviewForm({ lang, token }: ReviewFormProps) {
       {/* Star Rating */}
       <div className="space-y-1.5">
         <p className="block text-sm font-medium text-slate-300">
-          {t("review.form.rating")}
+          {t("review.form.rating")} <span className="text-red-400">*</span>
         </p>
         <div
           className="flex gap-1.5"
           role="radiogroup"
           aria-label={t("review.form.rating")}
+          aria-required="true"
+          aria-invalid={!!errors.rating}
         >
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
               type="button"
-              onClick={() =>
-                setForm({ ...form, rating: form.rating === star ? 0 : star })
-              }
+              onClick={() => {
+                setForm({ ...form, rating: form.rating === star ? 0 : star });
+                if (errors.rating) setErrors({ ...errors, rating: undefined });
+              }}
               onMouseEnter={() => setHoverRating(star)}
               onMouseLeave={() => setHoverRating(0)}
               aria-label={`${star} star${star !== 1 ? "s" : ""}`}
               aria-pressed={form.rating >= star}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 cursor-pointer rounded transition-transform hover:scale-110 active:scale-95"
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 cursor-pointer rounded transition-transform hover:scale-110 active:scale-95"
             >
               <svg
                 className={`w-7 h-7 transition-colors ${
@@ -251,7 +265,13 @@ export default function ReviewForm({ lang, token }: ReviewFormProps) {
             </button>
           ))}
         </div>
-        <p className="text-slate-600 text-xs">{t("review.form.rating.hint")}</p>
+        {errors.rating ? (
+          <p className="text-xs text-red-400">{errors.rating}</p>
+        ) : (
+          <p className="text-slate-600 text-xs">
+            {t("review.form.rating.hint")}
+          </p>
+        )}
       </div>
 
       {/* LinkedIn */}
@@ -282,6 +302,30 @@ export default function ReviewForm({ lang, token }: ReviewFormProps) {
           <p className="text-sm text-red-400">{t("review.error")}</p>
         </div>
       )}
+
+      {/* Privacy + terms notice. Worded for publication, not for a private
+          enquiry like the contact/quote forms: a review goes on the site. */}
+      <p className="text-xs text-slate-500">
+        {t("review.privacy.notice.prefix")}
+        <a
+          href={getRouteUrl(lang, "privacyPolicy")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-slate-600 underline-offset-2 transition-colors hover:text-slate-300"
+        >
+          {t("review.privacy.notice.privacy")}
+        </a>
+        {t("review.privacy.notice.middle")}
+        <a
+          href={getRouteUrl(lang, "terms")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-slate-600 underline-offset-2 transition-colors hover:text-slate-300"
+        >
+          {t("review.privacy.notice.terms")}
+        </a>
+        {t("review.privacy.notice.suffix")}
+      </p>
 
       {/* Submit */}
       <button

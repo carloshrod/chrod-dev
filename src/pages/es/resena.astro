@@ -7,7 +7,7 @@ import { getRouteUrl } from "../../i18n/routes";
 
 export const prerender = false;
 
-const lang = "en" as const;
+const lang = "es" as const;
 const t = useTranslations(lang);
 const token = Astro.url.searchParams.get("t") ?? "";
 const validToken = import.meta.env.REVIEW_ACCESS_TOKEN;
@@ -19,19 +19,19 @@ const homeUrl = getRouteUrl(lang, "home");
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="es" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Leave a review - CHRod</title>
+    <title>Deja tu reseña - CHRod</title>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Leave a review - CHRod" />
+    <meta property="og:title" content="Deja tu reseña - CHRod" />
     <meta
       property="og:description"
-      content="Share your experience working with CHRod·Dev"
+      content="Comparte tu experiencia trabajando con CHRod·Dev"
     />
     <meta property="og:image" content="https://chrod.dev/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -39,14 +39,14 @@ const homeUrl = getRouteUrl(lang, "home");
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content="CHRod - Web Developer" />
     <meta property="og:site_name" content="CHRod" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content="es_CO" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Leave a review - CHRod" />
+    <meta name="twitter:title" content="Deja tu reseña - CHRod" />
     <meta
       name="twitter:description"
-      content="Share your experience working with CHRod·Dev"
+      content="Comparte tu experiencia trabajando con CHRod·Dev"
     />
     <meta name="twitter:image" content="https://chrod.dev/og-image.png" />
 
@@ -76,11 +76,11 @@ const homeUrl = getRouteUrl(lang, "home");
           >
             <a
               href={`${getRouteUrl("es", "review")}${tokenQuery}`}
-              class="px-3 py-1 transition-colors text-slate-400 hover:text-slate-200"
+              class="px-3 py-1 transition-colors bg-surface-raised text-red-400"
               aria-label="Cambiar a Español">ES</a
             ><a
               href={`${getRouteUrl("en", "review")}${tokenQuery}`}
-              class="px-3 py-1 transition-colors bg-surface-raised text-red-400"
+              class="px-3 py-1 transition-colors text-slate-400 hover:text-slate-200"
               aria-label="Switch to English">EN</a
             >
           </div>
@@ -125,7 +125,7 @@ const homeUrl = getRouteUrl(lang, "home");
           >
             {
               isValid ? (
-                <ReviewForm lang="en" token={token} client:load />
+                <ReviewForm lang="es" token={token} client:load />
               ) : (
                 <div class="flex flex-col items-center justify-center text-center py-16 px-4">
                   <div class="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mb-5">
@@ -181,16 +181,14 @@ const homeUrl = getRouteUrl(lang, "home");
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
-                const animationType: string =
-                  entry.target.getAttribute("data-scroll-animate") ?? "up";
+                const animationType: string = entry.target.getAttribute("data-scroll-animate") ?? "up";
                 const animationMap: Record<string, string> = {
                   up: "animate-in-up",
                   left: "animate-in-left",
                   right: "animate-in-right",
                   scale: "animate-in-scale",
                 };
-                const animClass =
-                  animationMap[animationType] || "animate-in-up";
+                const animClass = animationMap[animationType] || "animate-in-up";
                 entry.target.classList.add(animClass);
                 observer.unobserve(entry.target);
               }
@@ -199,7 +197,7 @@ const homeUrl = getRouteUrl(lang, "home");
           {
             threshold: 0.1,
             rootMargin: "0px 0px -50px 0px",
-          },
+          }
         );
 
         document.querySelectorAll("[data-scroll-animate]").forEach((el) => {

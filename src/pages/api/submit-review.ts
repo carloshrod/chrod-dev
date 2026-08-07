@@ -48,6 +48,13 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { "Content-Type": "application/json" },
     });
   }
+  const ratingNum = Number(rating);
+  if (!Number.isInteger(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+    return new Response(
+      JSON.stringify({ error: "A rating between 1 and 5 is required." }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
 
   const sanitize = (val: unknown, max: number): string | undefined => {
     if (!val || typeof val !== "string") return undefined;
@@ -78,12 +85,7 @@ export const POST: APIRoute = async ({ request }) => {
   const companyVal = sanitize(company, 100);
   if (companyVal) doc.company = companyVal;
 
-  if (rating !== undefined && rating !== null) {
-    const ratingNum = Number(rating);
-    if (!isNaN(ratingNum) && ratingNum >= 1 && ratingNum <= 5) {
-      doc.rating = ratingNum;
-    }
-  }
+  doc.rating = ratingNum;
 
   const linkedinVal = sanitize(linkedinUrl, 300);
   if (linkedinVal) {
