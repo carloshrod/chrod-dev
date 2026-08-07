@@ -34,12 +34,15 @@ Copy `.env.example` to `.env.local` and populate with:
 
 ### Page Structure
 
-- **`src/pages/`**: Route files. Language variants nested as `src/pages/es/` for Spanish routes.
-  - `index.astro` (EN) + `es/index.astro` (ES): homepage
-  - `projects/index.astro` / `projects/[slug].astro` (+ `es/` variants): projects listing and case-study detail pages
-  - `review.astro` / `es/review.astro`: client review submission form
-  - `privacy-policy.astro` / `terms.astro`: legal pages
-- **Layout**: `MainLayout.astro` wraps every page with SEO meta tags, fonts, and WhatsApp button
+- **`src/pages/`**: Route files, nested per locale under `src/pages/en/` and `src/pages/es/`. **URL segments are translated**, so the two locale trees do not mirror each other by name (see Internationalization below).
+  - `en/index.astro` / `es/index.astro`: homepage
+  - `en/services/…` / `es/servicios/…`: services overview + `[slug].astro` detail pages
+  - `en/projects/…` / `es/proyectos/…`: projects listing + `[slug].astro` case-study pages
+  - `en/about.astro` / `es/acerca-de.astro`: about page
+  - `en/review.astro` / `es/resena.astro`: client review submission form (SSR, token-gated)
+  - `en/privacy-policy.astro` / `es/politica-de-privacidad.astro`, `en/terms.astro` / `es/terminos-y-condiciones.astro`: legal pages
+  - `404.astro`: **must stay `prerender = false`.** A prerendered 404 gets baked into a single static HTML string that the Netlify adapter returns for every unmatched path, which would serve the Spanish page to someone who mistyped an `/en` URL. Rendering per request lets it read the locale off `Astro.url.pathname`. Markup lives in `src/components/NotFoundPage.astro`.
+- **Layout**: `MainLayout.astro` wraps every page with SEO meta tags, fonts, and WhatsApp button. Pass `noindex` to drop the canonical/hreflang set and mark the page `noindex, follow` (used by the 404).
 
 ### Component Organization
 
@@ -66,6 +69,20 @@ Copy `.env.example` to `.env.local` and populate with:
 - Components receive `lang` prop and call `t()` to retrieve strings
 - No build-time extraction; keys hardcoded in component calls
 
+**Localized URLs** (`src/i18n/routes.ts`) — the single source of truth for route segments:
+
+- `routeBases` maps a stable `RouteKey` (`services`, `projects`, `about`, …) to its per-locale path. Terms that read the same in both languages (landing pages, ecommerce, API, backend) stay untranslated on purpose.
+- **Never hardcode a route.** Build hrefs with `getRouteUrl(lang, key, slug?)`, not `getRelativeLocaleUrl(lang, "/services")`.
+- `getAlternatePaths(key, slugs?)` returns both locales' paths. Every page passes the result to `MainLayout` (`alternates` → hreflang tags) **and** to `Navbar` (language switcher) — the switcher cannot derive the counterpart URL from the current path, since the segments differ per language.
+- `isRouteActive(stripLocale(pathname), lang, key)` drives nav highlighting.
+- Changing a segment requires two coordinated edits: the value in `routes.ts` and the folder/file name under `src/pages/<locale>/`. No redirects are kept for old URLs — `netlify.toml` only holds the `netlify.app` → `chrod.dev` domain redirect.
+- `routes.ts` is deliberately free of `astro:i18n` (it hand-rolls `withLocale`) so client-side React components can import it.
+
+**Slugs are localized too:**
+
+- Services: `Service.id` is a stable identifier (what Sanity stores in a project's `services` array, and what the overview anchors use) — it never appears in a URL. `Service.slug` is a `LocalizedText` holding the URL segment per language. Note `id: "business-websites"` maps to the EN slug `professional-websites`; the id is deliberately frozen so existing Sanity content keeps matching.
+- Projects: Sanity has `slug` (EN, required) and `slugEs` (optional). `getProjects(lang)` returns `slug` for the requested language plus `slugs: { en, es }` for hreflang. ES falls back to the EN slug when `slugEs` is empty.
+
 ### Styling
 
 - **Tailwind CSS**: via `@tailwindcss/vite` plugin (Vite-first integration)
@@ -78,13 +95,13 @@ Copy `.env.example` to `.env.local` and populate with:
 2. **WhatsAppButton**: Astro component in layout, renders floating WhatsApp link
 3. **Sanity SSR Config**: `astro.config.mjs` includes `noExternal` and `optimizeDeps` rules for Sanity/React dependencies—critical for SSR builds
 4. **Vite Cache Issue**: `.vite` directory cleared on `predev` to prevent stale dependency resolution (Sanity + Vite can conflict)
-5. **Language URLs**: Spanish routes at `/es` prefix; EN is root
+5. **Language URLs**: both locales are prefixed (`/en`, `/es`) and their segments are translated — see `src/i18n/routes.ts`
 6. **Review Form Auth**: `/review` endpoint requires `?t=REVIEW_ACCESS_TOKEN` query parameter; missing/wrong token blocks form
 
 ## Common Workflows
 
-- **Add a new project**: Edit Sanity CMS, ensure project has `titleEs` + `descriptionEs` for bilingual support. Add a `slug` field (Sanity slug type) for stable URLs at `/projects/[slug]`; without it, the slug is derived from the English title
-- **Add a new review**: Publish in Sanity with `published: true`; form at `/review?t=TOKEN` submits reviews to Sanity
+- **Add a new project**: Edit Sanity CMS, ensure project has `titleEs` + `descriptionEs` for bilingual support. `Slug (EN)` is required and drives `/en/projects/[slug]`; `Slug (ES)` is optional and drives `/es/proyectos/[slug]`, falling back to the EN slug when empty
+- **Add a new review**: Publish in Sanity with `published: true`; form at `/en/review?t=TOKEN` (ES: `/es/resena?t=TOKEN`) submits reviews to Sanity
 - **Update text/copy**: Edit `src/i18n/ui.ts` for static UI strings; Sanity for dynamic content (projects, reviews)
 - **Add a React component**: Use `client:load` directive to hydrate; Astro handles SSR
 - **Deploy**: Push to main branch; Netlify auto-deploys (see `netlify.toml` if exists, or Netlify UI config)

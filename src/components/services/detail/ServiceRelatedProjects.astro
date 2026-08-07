@@ -17,7 +17,7 @@ const t = useTranslations(lang);
 const allProjects = await getProjects(lang);
 
 const relatedProjects = allProjects
-  .filter((project) => project.services?.includes(service.slug))
+  .filter((project) => project.services?.includes(service.id))
   .slice(0, 3);
 ---
 

@@ -3,7 +3,7 @@ import Container from "../layout/Container.astro";
 import TypingAnimation from "../ui/TypingAnimation.tsx";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { getRouteUrl } from "../../i18n/routes";
 import { iconMap } from "../../lib/techIcons";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
@@ -138,14 +138,14 @@ const heroDecorIcons = [
 
       <div class="flex flex-wrap gap-4">
         <a
-          href={getRelativeLocaleUrl(lang, "/services")}
+          href={getRouteUrl(lang, "services")}
           class="rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25"
           data-hero-cta
         >
           {t("hero.cta.services")}
         </a>
         <a
-          href={getRelativeLocaleUrl(lang, "/projects")}
+          href={getRouteUrl(lang, "projects")}
           class="rounded-lg border border-red-600/50 px-6 py-3 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300 cursor-pointer"
           data-hero-cta
         >

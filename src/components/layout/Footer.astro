@@ -1,21 +1,21 @@
 ---
 import { Image } from "astro:assets";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "./Container.astro";
 import logo from "../../assets/chrod-logo.png";
 import Icon from "../ui/icons.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
+import { getRouteUrl } from "../../i18n/routes";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
-const homeUrl = getRelativeLocaleUrl(lang, "/");
-const servicesUrl = getRelativeLocaleUrl(lang, "/services");
-const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
-const aboutUrl = getRelativeLocaleUrl(lang, "/about");
-const privacyUrl = getRelativeLocaleUrl(lang, "/privacy-policy");
-const termsUrl = getRelativeLocaleUrl(lang, "/terms");
+const homeUrl = getRouteUrl(lang, "home");
+const servicesUrl = getRouteUrl(lang, "services");
+const projectsUrl = getRouteUrl(lang, "projects");
+const aboutUrl = getRouteUrl(lang, "about");
+const privacyUrl = getRouteUrl(lang, "privacyPolicy");
+const termsUrl = getRouteUrl(lang, "terms");
 ---
 
 <footer class="border-t border-border bg-[#080808]">

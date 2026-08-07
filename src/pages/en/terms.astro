@@ -1,18 +1,20 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Icon from "../../components/ui/icons.astro";
+import { getAlternatePaths, getRouteUrl } from "../../i18n/routes";
 
-const lastUpdated = "March 11, 2026";
+const lastUpdated = "August 6, 2026";
 ---
 
 <MainLayout
   lang="en"
+  alternates={getAlternatePaths("terms")}
   title="Terms & Conditions - CHRod"
   description="Terms and conditions governing the use of CHRod's developer portfolio website. Please read before using this site."
 >
   <main class="mx-auto max-w-3xl px-6 py-32 text-slate-300">
     <a
-      href="/en"
+      href={getRouteUrl("en", "home")}
       class="mb-10 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
     >
       <Icon name="back" />
@@ -29,7 +31,7 @@ const lastUpdated = "March 11, 2026";
         </h2>
         <p>
           By accessing and using this website (<strong class="text-slate-200"
-            >CHRod</strong
+            >CHRod Dev</strong
           >), operated by Carlos Hernández, you agree to be bound by these Terms
           and Conditions. If you do not agree with any part of these terms,
           please do not use this website.

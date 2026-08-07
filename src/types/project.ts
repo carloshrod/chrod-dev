@@ -6,7 +6,10 @@ export interface GitHubRepo {
 }
 
 export interface Project {
+  /** URL segment for the language the project was fetched in. */
   slug: string;
+  /** Every language's slug — needed for hreflang and the language switcher. */
+  slugs: Record<"en" | "es", string>;
   title: string;
   description: string;
   longDescription?: string;

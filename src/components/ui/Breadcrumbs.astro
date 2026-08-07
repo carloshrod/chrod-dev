@@ -1,7 +1,7 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
+import { getRouteUrl } from "../../i18n/routes";
 
 interface Crumb {
   label: string;
@@ -16,7 +16,7 @@ interface Props {
 
 const { lang, items } = Astro.props;
 const t = useTranslations(lang);
-const homeUrl = getRelativeLocaleUrl(lang, "/");
+const homeUrl = getRouteUrl(lang, "home");
 
 const crumbs: Crumb[] = [
   { label: t("breadcrumb.home"), href: homeUrl },

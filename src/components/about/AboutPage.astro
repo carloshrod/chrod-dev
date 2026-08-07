@@ -11,6 +11,7 @@ import SkillsSection from "./AboutSkills.astro";
 import AboutCTA from "./AboutCTA.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
+import { getAlternatePaths } from "../../i18n/routes";
 
 interface Props {
   lang: Locale;
@@ -18,15 +19,16 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const alternates = getAlternatePaths("about");
 ---
 
 <MainLayout
   lang={lang}
   title={t("about.page.seo.title")}
   description={t("about.page.seo.description")}
-  alternatePath="/about"
+  alternates={alternates}
 >
-  <Navbar lang={lang} />
+  <Navbar lang={lang} alternates={alternates} />
   <main>
     <AboutHero lang={lang} />
     <AboutIntro lang={lang} />

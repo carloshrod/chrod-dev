@@ -46,11 +46,17 @@ export async function getProjects(
   const isEs = lang === "es";
 
   const raw = await sanityClient.fetch<
-    (Project & { _titleEn?: string; testimonial?: Review })[]
+    (Omit<Project, "slug" | "slugs"> & {
+      _slugEn?: string;
+      _slugEs?: string;
+      _titleEn?: string;
+      testimonial?: Review;
+    })[]
   >(
     `
     *[_type == "project"] | order(order asc) {
-      "slug": slug.current,
+      "_slugEn": slug.current,
+      "_slugEs": slugEs.current,
       "_titleEn": title,
       "title": select(
         $isEs && defined(titleEs) => titleEs,
@@ -91,25 +97,33 @@ export async function getProjects(
     { isEs },
   );
 
-  return raw.map((p) => ({
-    slug: p.slug || slugify(p._titleEn ?? p.title),
-    title: p.title,
-    description: p.description,
-    longDescription: p.longDescription,
-    role: p.role,
-    company: p.company,
-    year: p.year,
-    techStack: p.techStack ?? [],
-    services: p.services ?? [],
-    keyContributions: p.keyContributions,
-    githubRepos: p.githubRepos,
-    liveUrl: p.liveUrl,
-    websiteUrl: p.websiteUrl,
-    videoUrl: p.videoUrl,
-    coverImage: p.coverImage,
-    screenshots: p.screenshots ?? [],
-    testimonial: p.testimonial ? mapReview(p.testimonial) : undefined,
-  }));
+  return raw.map((p) => {
+    // The EN slug is the fallback for every language: it is required in Sanity
+    // and, failing that, derived from the (also required) English title.
+    const slugEn = p._slugEn || slugify(p._titleEn ?? p.title);
+    const slugs = { en: slugEn, es: p._slugEs || slugEn };
+
+    return {
+      slug: slugs[lang],
+      slugs,
+      title: p.title,
+      description: p.description,
+      longDescription: p.longDescription,
+      role: p.role,
+      company: p.company,
+      year: p.year,
+      techStack: p.techStack ?? [],
+      services: p.services ?? [],
+      keyContributions: p.keyContributions,
+      githubRepos: p.githubRepos,
+      liveUrl: p.liveUrl,
+      websiteUrl: p.websiteUrl,
+      videoUrl: p.videoUrl,
+      coverImage: p.coverImage,
+      screenshots: p.screenshots ?? [],
+      testimonial: p.testimonial ? mapReview(p.testimonial) : undefined,
+    };
+  });
 }
 
 export async function getReviews(lang: "en" | "es" = "en"): Promise<Review[]> {

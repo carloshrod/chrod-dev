@@ -1,7 +1,8 @@
 import type { Service } from "./types";
 
 export const landingPages: Service = {
-  slug: "landing-pages",
+  id: "landing-pages",
+  slug: { en: "landing-pages", es: "landing-pages" },
   icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`,
 
   card: {

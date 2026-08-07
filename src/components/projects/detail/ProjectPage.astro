@@ -12,6 +12,7 @@ import ProjectFinalCTA from "./ProjectFinalCTA.astro";
 import ProjectRelatedServices from "./ProjectRelatedServices.astro";
 import ProjectStickyCTA from "./ProjectStickyCTA.astro";
 import type { Locale } from "../../../i18n/ui";
+import { getAlternatePaths } from "../../../i18n/routes";
 import type { Project } from "../../../types/project";
 
 interface Props {
@@ -20,16 +21,17 @@ interface Props {
 }
 
 const { project, lang } = Astro.props;
+const alternates = getAlternatePaths("projects", project.slugs);
 ---
 
 <MainLayout
   lang={lang}
   title={`${project.title} | CHRod - Web Developer`}
   description={project.description}
-  alternatePath={`/projects/${project.slug}`}
+  alternates={alternates}
   showWhatsAppButton={false}
 >
-  <Navbar lang={lang} />
+  <Navbar lang={lang} alternates={alternates} />
   <main>
     <ProjectHero project={project} lang={lang} />
     <ProjectShowcase project={project} lang={lang} />

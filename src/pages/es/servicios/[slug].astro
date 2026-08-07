@@ -3,15 +3,15 @@ import ServicePage from "../../../components/services/detail/ServicePage.astro";
 import { getServiceBySlug, getServiceSlugs } from "../../../data/services";
 
 export function getStaticPaths() {
-  return getServiceSlugs("en").map((slug) => ({ params: { slug } }));
+  return getServiceSlugs("es").map((slug) => ({ params: { slug } }));
 }
 
 const { slug } = Astro.params;
-const service = getServiceBySlug(slug!, "en");
+const service = getServiceBySlug(slug!, "es");
 
 if (!service) {
-  return Astro.redirect("/en");
+  return Astro.redirect("/es");
 }
 ---
 
-<ServicePage service={service} lang="en" />
+<ServicePage service={service} lang="es" />

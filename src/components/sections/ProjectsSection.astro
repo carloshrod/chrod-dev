@@ -1,9 +1,9 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../layout/Container.astro";
 import ProjectCardLink from "../ui/ProjectCardLink.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
+import { getRouteUrl } from "../../i18n/routes";
 import { getProjects } from "../../lib/sanity";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
@@ -13,7 +13,7 @@ const PROJECTS_TO_SHOW = 6;
 const allProjects = await getProjects(lang);
 const projects = allProjects.slice(0, PROJECTS_TO_SHOW);
 const hasMore = allProjects.length > PROJECTS_TO_SHOW;
-const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
+const projectsUrl = getRouteUrl(lang, "projects");
 ---
 
 <section id="projects" class="py-24">

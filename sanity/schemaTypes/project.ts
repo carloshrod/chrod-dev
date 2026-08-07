@@ -18,10 +18,19 @@ export const projectSchema = defineType({
     }),
     defineField({
       name: "slug",
-      title: "Slug",
+      title: "Slug (EN)",
       type: "slug",
+      description: "URL segment for /en/projects/[slug]",
       options: { source: "title" },
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "slugEs",
+      title: "Slug (ES)",
+      type: "slug",
+      description:
+        "URL segment for /es/proyectos/[slug]. Falls back to the EN slug when empty.",
+      options: { source: "titleEs" },
     }),
     defineField({
       name: "role",
@@ -146,7 +155,8 @@ export const projectSchema = defineType({
       type: "array",
       description:
         "Services this project should appear under in the 'Related Projects' section",
-      // Keep in sync with slugs/titles in src/data/services/*.ts
+      // Values are the stable `id` fields in src/data/services/*.ts — NOT the
+      // URL slugs, which differ per language. Keep this list in sync with them.
       of: [{ type: "string" }],
       options: {
         list: [

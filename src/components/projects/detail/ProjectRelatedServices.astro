@@ -1,11 +1,11 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../../layout/Container.astro";
 import Icon from "../../../components/ui/icons.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
+import { getRouteUrl } from "../../../i18n/routes";
 import type { Project } from "../../../types/project";
-import { getServiceBySlug } from "../../../data/services";
+import { getServiceById } from "../../../data/services";
 
 interface Props {
   project: Project;
@@ -16,12 +16,12 @@ const { project, lang } = Astro.props;
 const t = useTranslations(lang);
 
 const relatedServices = (project.services ?? [])
-  .map((slug) => getServiceBySlug(slug))
+  .map((id) => getServiceById(id))
   .filter((service): service is NonNullable<typeof service> =>
     Boolean(service),
   );
 
-const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
+const projectsUrl = getRouteUrl(lang, "projects");
 ---
 
 {
@@ -37,7 +37,7 @@ const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
         <div class="flex flex-wrap justify-center gap-3 mb-16">
           {relatedServices.map((service) => (
             <a
-              href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
+              href={getRouteUrl(lang, "services", service.slug[lang])}
               class="group inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:border-red-600/40 hover:text-red-400"
               data-scroll-animate="up"
             >

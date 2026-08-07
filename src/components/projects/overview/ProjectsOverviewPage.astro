@@ -8,6 +8,7 @@ import ProjectsOverviewGrid from "./ProjectsOverviewGrid.astro";
 import ProjectsOverviewCTA from "./ProjectsOverviewCTA.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
+import { getAlternatePaths } from "../../../i18n/routes";
 import { getProjects } from "../../../lib/sanity";
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const alternates = getAlternatePaths("projects");
 
 const projects = await getProjects(lang);
 ---
@@ -24,9 +26,9 @@ const projects = await getProjects(lang);
   lang={lang}
   title={t("projectsOverview.seo.title")}
   description={t("projectsOverview.seo.description")}
-  alternatePath="/projects"
+  alternates={alternates}
 >
-  <Navbar lang={lang} />
+  <Navbar lang={lang} alternates={alternates} />
   <main>
     <ProjectsOverviewHero lang={lang} />
     <ProjectsOverviewGrid projects={projects} lang={lang} />

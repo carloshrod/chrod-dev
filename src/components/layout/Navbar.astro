@@ -1,22 +1,35 @@
 ---
 import { Image } from "astro:assets";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import logo from "../../assets/chrod-logo.png";
 import Container from "./Container.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
+import {
+  getAlternatePaths,
+  getRouteUrl,
+  isRouteActive,
+  stripLocale,
+  withLocale,
+  type AlternatePaths,
+} from "../../i18n/routes";
 import Icon from "../ui/icons.astro";
 
-const { lang = "en" } = Astro.props as { lang?: Locale };
-const t = useTranslations(lang);
-const homeUrl = getRelativeLocaleUrl(lang, "/");
-const restPath = Astro.url.pathname.replace(/^\/(en|es)(?=\/|$)/, "") || "/";
-const enUrl = getRelativeLocaleUrl("en", restPath);
-const esUrl = getRelativeLocaleUrl("es", restPath);
+interface Props {
+  lang?: Locale;
+  /** This page's unprefixed path in each language, for the language switcher. */
+  alternates?: AlternatePaths;
+}
 
-const servicesUrl = getRelativeLocaleUrl(lang, "/services");
-const projectsUrl = getRelativeLocaleUrl(lang, "/projects");
-const aboutUrl = getRelativeLocaleUrl(lang, "/about");
+const { lang = "en", alternates = getAlternatePaths("home") } =
+  Astro.props as Props;
+const t = useTranslations(lang);
+const homeUrl = getRouteUrl(lang, "home");
+const currentPath = stripLocale(Astro.url.pathname);
+
+// The two languages use different URL segments, so the switcher can't reuse
+// the current path — each page hands down its counterpart via `alternates`.
+const enUrl = withLocale("en", alternates.en);
+const esUrl = withLocale("es", alternates.es);
 
 interface NavLink {
   label: string;
@@ -27,18 +40,18 @@ interface NavLink {
 const navLinks: NavLink[] = [
   {
     label: t("nav.services"),
-    href: servicesUrl,
-    active: restPath === "/services" || restPath.startsWith("/services/"),
+    href: getRouteUrl(lang, "services"),
+    active: isRouteActive(currentPath, lang, "services"),
   },
   {
     label: t("nav.projects"),
-    href: projectsUrl,
-    active: restPath === "/projects" || restPath.startsWith("/projects/"),
+    href: getRouteUrl(lang, "projects"),
+    active: isRouteActive(currentPath, lang, "projects"),
   },
   {
     label: t("nav.about"),
-    href: aboutUrl,
-    active: restPath === "/about" || restPath.startsWith("/about/"),
+    href: getRouteUrl(lang, "about"),
+    active: isRouteActive(currentPath, lang, "about"),
   },
 ];
 ---

@@ -35,7 +35,14 @@ export interface ServiceFAQItem {
 }
 
 export interface Service {
-  slug: string;
+  /**
+   * Stable identifier. Never appears in a URL — it is what Sanity stores in a
+   * project's `services` array and what the overview anchors key off, so it
+   * must not change once content references it.
+   */
+  id: string;
+  /** URL segment, per language. See `src/i18n/routes.ts`. */
+  slug: LocalizedText;
   icon: string;
   card: {
     title: LocalizedText;

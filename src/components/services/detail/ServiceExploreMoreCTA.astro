@@ -1,8 +1,8 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../../layout/Container.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
+import { getRouteUrl } from "../../../i18n/routes";
 import Icons from "../../ui/icons.astro";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const servicesUrl = getRelativeLocaleUrl(lang, "/services");
+const servicesUrl = getRouteUrl(lang, "services");
 ---
 
 <section class="border-t border-border py-16">

@@ -1,9 +1,9 @@
 ---
 import { Image } from "astro:assets";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import Icon from "./icons.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
+import { getRouteUrl } from "../../i18n/routes";
 import type { Project } from "../../types/project";
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 
 const { project, lang, index, animate = false, eager = false } = Astro.props;
 const t = useTranslations(lang);
-const href = getRelativeLocaleUrl(lang, `/projects/${project.slug}`);
+const href = getRouteUrl(lang, "projects", project.slug);
 const thumbnail = project.coverImage ?? project.screenshots?.[0];
 ---
 

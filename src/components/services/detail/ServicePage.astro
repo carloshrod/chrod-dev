@@ -14,6 +14,7 @@ import ServiceQuoteForm from "../form/ServiceQuoteForm.tsx";
 import ServiceExploreMoreCTA from "./ServiceExploreMoreCTA.astro";
 import ServiceStickyCTA from "./ServiceStickyCTA.astro";
 import type { Locale } from "../../../i18n/ui";
+import { getAlternatePaths } from "../../../i18n/routes";
 import type { Service } from "../../../data/services/types";
 
 interface Props {
@@ -22,16 +23,17 @@ interface Props {
 }
 
 const { service, lang } = Astro.props;
+const alternates = getAlternatePaths("services", service.slug);
 ---
 
 <MainLayout
   lang={lang}
   title={service.seo.title[lang]}
   description={service.seo.description[lang]}
-  alternatePath={`/services/${service.slug}`}
+  alternates={alternates}
   showWhatsAppButton={false}
 >
-  <Navbar lang={lang} />
+  <Navbar lang={lang} alternates={alternates} />
   <main>
     <ServiceHero service={service} lang={lang} />
     <ServiceProblemSolution service={service} lang={lang} />

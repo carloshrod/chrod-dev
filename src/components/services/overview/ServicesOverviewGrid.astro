@@ -1,9 +1,9 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "../../layout/Container.astro";
 import Icon from "../../ui/icons.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
+import { getRouteUrl } from "../../../i18n/routes";
 import { services } from "../../../data/services";
 import { servicesOverview } from "../../../data/servicesOverview";
 
@@ -16,7 +16,7 @@ const t = useTranslations(lang);
 
 const items = services.map((service) => ({
   service,
-  overview: servicesOverview.find((entry) => entry.slug === service.slug)!,
+  overview: servicesOverview.find((entry) => entry.id === service.id)!,
 }));
 ---
 
@@ -32,10 +32,10 @@ const items = services.map((service) => ({
       {
         items.map(({ service, overview }, index) => (
           <a
-            id={`service-${service.slug}`}
-            href={getRelativeLocaleUrl(lang, `/services/${service.slug}`)}
+            id={`service-${service.id}`}
+            href={getRouteUrl(lang, "services", service.slug[lang])}
             class="group relative flex h-full scroll-mt-28 flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
-            data-service-card={service.slug}
+            data-service-card={service.id}
             data-scroll-animate={`${index <= 2 ? "right" : "left"}`}
           >
             {/* Glow on hover */}

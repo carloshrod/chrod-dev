@@ -1,9 +1,13 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import WhatsAppButton from "../components/ui/WhatsAppButton.astro";
 import "../styles/global.css";
 import type { Locale } from "../i18n/ui";
+import {
+  getAlternatePaths,
+  withLocale,
+  type AlternatePaths,
+} from "../i18n/routes";
 
 export interface Props {
   title?: string;
@@ -11,7 +15,10 @@ export interface Props {
   keywords?: string;
   lang?: Locale;
   canonicalUrl?: string;
-  alternatePath?: string;
+  /** This page's unprefixed path in each language — see `src/i18n/routes.ts`. */
+  alternates?: AlternatePaths;
+  /** Keeps the page out of search results and drops its canonical/hreflang tags. */
+  noindex?: boolean;
   showWhatsAppButton?: boolean;
 }
 
@@ -21,7 +28,8 @@ const {
   keywords = "web developer, full-stack developer, full stack developer, React, Node.js, freelance, portfolio, landing pages, web apps, e-commerce, ecommerce",
   lang = "en",
   canonicalUrl,
-  alternatePath = "/",
+  alternates = getAlternatePaths("home"),
+  noindex = false,
   showWhatsAppButton = true,
 } = Astro.props;
 
@@ -38,28 +46,41 @@ const ogImage = `${siteUrl}/og-image.png`;
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
     <meta name="author" content="Carlos Hernández - CHRod" />
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, follow" : "index, follow"}
+    />
     <meta name="theme-color" content="#06060c" />
 
-    <!-- Canonical -->
-    <link rel="canonical" href={canonical} />
+    {
+      /* A noindex page (404) has no stable URL of its own, so a canonical and
+         hreflang set would only point crawlers at the wrong thing. */
+    }
+    {
+      !noindex && (
+        <Fragment>
+          {/* Canonical */}
+          <link rel="canonical" href={canonical} />
 
-    <!-- hreflang -->
-    <link
-      rel="alternate"
-      hreflang="en"
-      href={`${siteUrl}${getRelativeLocaleUrl("en", alternatePath)}`}
-    />
-    <link
-      rel="alternate"
-      hreflang="es"
-      href={`${siteUrl}${getRelativeLocaleUrl("es", alternatePath)}`}
-    />
-    <link
-      rel="alternate"
-      hreflang="x-default"
-      href={`${siteUrl}${getRelativeLocaleUrl("es", alternatePath)}`}
-    />
+          {/* hreflang */}
+          <link
+            rel="alternate"
+            hreflang="en"
+            href={`${siteUrl}${withLocale("en", alternates.en)}`}
+          />
+          <link
+            rel="alternate"
+            hreflang="es"
+            href={`${siteUrl}${withLocale("es", alternates.es)}`}
+          />
+          <link
+            rel="alternate"
+            hreflang="x-default"
+            href={`${siteUrl}${withLocale("es", alternates.es)}`}
+          />
+        </Fragment>
+      )
+    }
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
