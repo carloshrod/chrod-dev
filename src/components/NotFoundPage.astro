@@ -1,0 +1,121 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "./layout/Navbar.astro";
+import Footer from "./layout/Footer.astro";
+import Container from "./layout/Container.astro";
+import ContactDrawer from "./ui/ContactDrawer.tsx";
+import Icon from "./ui/icons.astro";
+import { useTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/ui";
+import { getAlternatePaths, getRouteUrl } from "../i18n/routes";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// A 404 is served for arbitrary unknown paths, so there is no counterpart page
+// to switch to — the language toggle falls back to the home page.
+const alternates = getAlternatePaths("home");
+---
+
+<MainLayout
+  lang={lang}
+  title={t("notFound.seo.title")}
+  description={t("notFound.seo.description")}
+  alternates={alternates}
+  noindex
+  showWhatsAppButton={false}
+>
+  <Navbar lang={lang} alternates={alternates} />
+  <main>
+    <section class="relative overflow-hidden">
+      <div
+        class="pointer-events-none absolute left-1/2 top-0 h-125 w-150 -translate-x-1/2 -translate-y-1/3"
+        aria-hidden="true"
+        style="background: radial-gradient(ellipse at center, rgba(220,38,38,0.12) 0%, rgba(220,38,38,0.04) 40%, transparent 70%);"
+      >
+      </div>
+
+      <Container>
+        <div
+          class="relative z-10 flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center py-24 text-center"
+        >
+          <p
+            class="mb-4 text-sm font-semibold uppercase tracking-widest text-red-400"
+            data-scroll-animate="up"
+          >
+            {t("notFound.label")}
+          </p>
+
+          <p
+            class="mb-2 select-none font-display text-8xl font-bold leading-none text-slate-100 sm:text-9xl"
+            aria-hidden="true"
+            data-scroll-animate="scale"
+          >
+            4<span class="text-red-500">0</span>4
+          </p>
+
+          <h1
+            class="mb-4 text-3xl font-bold text-slate-100 sm:text-4xl"
+            data-scroll-animate="up"
+          >
+            {t("notFound.heading")}
+          </h1>
+
+          <p
+            class="mb-10 max-w-md text-base leading-relaxed text-slate-400"
+            data-scroll-animate="up"
+          >
+            {t("notFound.subtitle")}
+          </p>
+
+          <div
+            class="flex flex-wrap items-center justify-center gap-4"
+            data-scroll-animate="up"
+          >
+            <a
+              href={getRouteUrl(lang, "home")}
+              class="rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25"
+            >
+              {t("notFound.cta.home")}
+            </a>
+            <a
+              href={getRouteUrl(lang, "services")}
+              class="rounded-lg border border-red-600/50 px-6 py-3 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300"
+            >
+              {t("notFound.cta.services")}
+            </a>
+            <a
+              href={getRouteUrl(lang, "projects")}
+              class="group inline-flex items-center gap-1.5 px-2 py-3 text-sm font-semibold text-slate-300 transition-colors hover:text-red-400"
+            >
+              {t("notFound.cta.projects")}
+              <Icon
+                name="arrowRight"
+                class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
+              />
+            </a>
+          </div>
+
+          <p
+            class="mt-12 text-sm text-slate-500"
+            data-scroll-animate="up"
+          >
+            {t("notFound.help")}{" "}
+            <button
+              data-open-contact
+              class="cursor-pointer font-medium text-slate-300 underline decoration-slate-600 underline-offset-4 transition-colors hover:text-red-400"
+            >
+              {t("notFound.help.cta")}
+            </button>
+          </p>
+        </div>
+      </Container>
+    </section>
+  </main>
+  <Footer lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>

@@ -1,0 +1,16 @@
+---
+import NotFoundPage from "../components/NotFoundPage.astro";
+import type { Locale } from "../i18n/ui";
+
+// Rendered on demand rather than prerendered: a prerendered 404 gets baked
+// into a single static HTML string that the Netlify adapter serves for every
+// unmatched path, which would show the Spanish page to someone who mistyped an
+// /en URL. Rendering per request lets us read the locale off the path.
+export const prerender = false;
+
+const lang: Locale = Astro.url.pathname.startsWith("/en") ? "en" : "es";
+
+Astro.response.status = 404;
+---
+
+<NotFoundPage lang={lang} />

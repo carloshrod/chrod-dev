@@ -85,6 +85,20 @@ export const ui: Record<Locale, Record<string, string>> = {
     // Breadcrumbs
     "breadcrumb.home": "Home",
 
+    // 404 page
+    "notFound.seo.title": "Page not found | CHRod - Web Developer",
+    "notFound.seo.description":
+      "The page you are looking for doesn't exist or has been moved.",
+    "notFound.label": "Error 404",
+    "notFound.heading": "This page doesn't exist",
+    "notFound.subtitle":
+      "The link may be broken, or the page may have been moved or renamed. Here's where you can go instead.",
+    "notFound.cta.home": "Back to home",
+    "notFound.cta.services": "View services",
+    "notFound.cta.projects": "View projects",
+    "notFound.help": "Looking for something specific?",
+    "notFound.help.cta": "Let's talk",
+
     // Service page (individual service landing pages)
     "service.page.backToServices": "View all services",
     "service.page.hero.cta": "Request a quote",
@@ -264,8 +278,7 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Tell others about your experience working with me\u2026",
     "review.form.text.hint": "Minimum 50 characters",
     "review.form.rating": "Rating",
-    "review.form.rating.hint":
-      "Optional \u2014 how would you rate the overall experience?",
+    "review.form.rating.hint": "How would you rate the overall experience?",
     "review.form.linkedin": "LinkedIn Profile",
     "review.form.linkedin.placeholder":
       "https://linkedin.com/in/yourprofile (optional)",
@@ -279,6 +292,13 @@ export const ui: Record<Locale, Record<string, string>> = {
     "review.error.text.short": "Please write at least 50 characters.",
     "review.error.linkedin.invalid":
       "Please enter a valid URL (starting with https://).",
+    "review.error.rating.required": "Please select a rating.",
+    "review.privacy.notice.prefix":
+      "By submitting this review, you agree that your name, role, company and comments may be published on this website. You can review the ",
+    "review.privacy.notice.privacy": "privacy policy",
+    "review.privacy.notice.middle": " and the ",
+    "review.privacy.notice.terms": "terms & conditions",
+    "review.privacy.notice.suffix": " for more information.",
     "review.invalid.heading": "Invalid link",
     "review.invalid.body":
       "This link is invalid or has expired. Please ask for a new one.",
@@ -370,6 +390,20 @@ export const ui: Record<Locale, Record<string, string>> = {
 
     // Breadcrumbs
     "breadcrumb.home": "Inicio",
+
+    // Página 404
+    "notFound.seo.title": "Página no encontrada | CHRod - Desarrollador Web",
+    "notFound.seo.description":
+      "La página que buscas no existe o fue movida.",
+    "notFound.label": "Error 404",
+    "notFound.heading": "Esta página no existe",
+    "notFound.subtitle":
+      "Puede que el enlace esté roto, o que la página haya sido movida o renombrada. Desde aquí puedes seguir explorando.",
+    "notFound.cta.home": "Volver al inicio",
+    "notFound.cta.services": "Ver servicios",
+    "notFound.cta.projects": "Ver proyectos",
+    "notFound.help": "¿Buscas algo en concreto?",
+    "notFound.help.cta": "Hablemos",
 
     // Service page (páginas individuales de servicio)
     "service.page.backToServices": "Todos los servicios",
@@ -558,8 +592,7 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Cu\u00e9ntale a otros sobre tu experiencia trabajando conmigo\u2026",
     "review.form.text.hint": "M\u00ednimo 50 caracteres",
     "review.form.rating": "Calificaci\u00f3n",
-    "review.form.rating.hint":
-      "Opcional \u2014 \u00bfc\u00f3mo calificar\u00edas la experiencia general?",
+    "review.form.rating.hint": "\u00bfC\u00f3mo calificar\u00edas la experiencia general?",
     "review.form.linkedin": "Perfil de LinkedIn",
     "review.form.linkedin.placeholder":
       "https://linkedin.com/in/tuperfil (opcional)",
@@ -573,6 +606,13 @@ export const ui: Record<Locale, Record<string, string>> = {
     "review.error.text.short": "Por favor escribe al menos 50 caracteres.",
     "review.error.linkedin.invalid":
       "Por favor ingresa una URL v\u00e1lida (que comience con https://).",
+    "review.error.rating.required": "Por favor selecciona una calificaci\u00f3n.",
+    "review.privacy.notice.prefix":
+      "Al enviar esta rese\u00f1a, aceptas que tu nombre, cargo, empresa y comentarios puedan publicarse en este sitio web. Puedes consultar la ",
+    "review.privacy.notice.privacy": "pol\u00edtica de privacidad",
+    "review.privacy.notice.middle": " y los ",
+    "review.privacy.notice.terms": "t\u00e9rminos y condiciones",
+    "review.privacy.notice.suffix": " para m\u00e1s informaci\u00f3n.",
     "review.invalid.heading": "Enlace inv\u00e1lido",
     "review.invalid.body":
       "Este enlace es inv\u00e1lido o ha expirado. Por favor solicita uno nuevo.",
