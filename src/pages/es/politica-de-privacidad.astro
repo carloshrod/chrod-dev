@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Icon from "../../components/ui/icons.astro";
+import LanguageToggle from "../../components/ui/LanguageToggle.astro";
 import { getAlternatePaths, getRouteUrl } from "../../i18n/routes";
 
 const lastUpdated = "6 de agosto de 2026";
@@ -13,13 +14,20 @@ const lastUpdated = "6 de agosto de 2026";
   description="Lee la política de privacidad del portafolio de CHRod, cómo se recopila, usa y protege tu información personal."
 >
   <main class="mx-auto max-w-3xl px-6 py-32 text-slate-300">
-    <a
-      href={getRouteUrl("es", "home")}
-      class="mb-10 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
-    >
-      <Icon name="back" />
-      Volver al inicio
-    </a>
+    <div class="mb-10 flex items-center justify-between">
+      <a
+        href={getRouteUrl("es", "home")}
+        class="inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
+      >
+        <Icon name="back" />
+        Volver al inicio
+      </a>
+      <LanguageToggle
+        lang="es"
+        esHref={getRouteUrl("es", "privacyPolicy")}
+        enHref={getRouteUrl("en", "privacyPolicy")}
+      />
+    </div>
 
     <h1 class="mb-2 text-3xl font-bold text-slate-100">
       Política de Privacidad

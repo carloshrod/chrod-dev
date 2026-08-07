@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Icon from "../../components/ui/icons.astro";
+import LanguageToggle from "../../components/ui/LanguageToggle.astro";
 import { getAlternatePaths, getRouteUrl } from "../../i18n/routes";
 
 const lastUpdated = "August 6, 2026";
@@ -13,13 +14,20 @@ const lastUpdated = "August 6, 2026";
   description="Terms and conditions governing the use of CHRod's developer portfolio website. Please read before using this site."
 >
   <main class="mx-auto max-w-3xl px-6 py-32 text-slate-300">
-    <a
-      href={getRouteUrl("en", "home")}
-      class="mb-10 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
-    >
-      <Icon name="back" />
-      Back to home
-    </a>
+    <div class="mb-10 flex items-center justify-between">
+      <a
+        href={getRouteUrl("en", "home")}
+        class="inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
+      >
+        <Icon name="back" />
+        Back to home
+      </a>
+      <LanguageToggle
+        lang="en"
+        esHref={getRouteUrl("es", "terms")}
+        enHref={getRouteUrl("en", "terms")}
+      />
+    </div>
 
     <h1 class="mb-2 text-3xl font-bold text-slate-100">Terms & Conditions</h1>
     <p class="mb-12 text-sm text-slate-500">Last updated: {lastUpdated}</p>
