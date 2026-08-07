@@ -1,0 +1,205 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Icon from "../../components/ui/icons.astro";
+import { getAlternatePaths, getRouteUrl } from "../../i18n/routes";
+
+const lastUpdated = "6 de agosto de 2026";
+---
+
+<MainLayout
+  lang="es"
+  alternates={getAlternatePaths("privacyPolicy")}
+  title="Política de Privacidad - CHRod"
+  description="Lee la política de privacidad del portafolio de CHRod, cómo se recopila, usa y protege tu información personal."
+>
+  <main class="mx-auto max-w-3xl px-6 py-32 text-slate-300">
+    <a
+      href={getRouteUrl("es", "home")}
+      class="mb-10 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
+    >
+      <Icon name="back" />
+      Volver al inicio
+    </a>
+
+    <h1 class="mb-2 text-3xl font-bold text-slate-100">
+      Política de Privacidad
+    </h1>
+    <p class="mb-12 text-sm text-slate-500">
+      Última actualización: {lastUpdated}
+    </p>
+
+    <div class="space-y-10 leading-relaxed">
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">
+          1. Introducción
+        </h2>
+        <p>
+          Bienvenido/a a <strong class="text-slate-200">CHRod Dev</strong> (el "Sitio
+          Web"), operado por Carlos Hernández. Esta Política de Privacidad explica
+          cómo recopilo, uso y protejo la información que me proporcionas al visitar
+          este sitio web o contactarme a través del formulario de contacto o por WhatsApp.
+        </p>
+        <p class="mt-3">
+          Al usar este sitio web o enviarme información a través de los
+          formularios, aceptas los términos descritos en esta política. Si no
+          estás de acuerdo, por favor no uses este sitio.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">
+          2. Información que recopilo
+        </h2>
+        <p>
+          Solo recopilo la información que proporcionas voluntariamente a través
+          de:
+        </p>
+        <ul class="mt-3 list-disc space-y-3 pl-5 text-slate-400">
+          <li>
+            <strong class="text-slate-300">Formulario de contacto:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Nombre</li>
+              <li>Correo electrónico</li>
+              <li>Mensaje</li>
+            </ul>
+          </li>
+          <li>
+            <strong class="text-slate-300">Formulario de reseñas:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Nombre</li>
+              <li>Reseña</li>
+              <li>Calificación</li>
+              <li>Cargo (opcional)</li>
+              <li>Empresa (opcional)</li>
+              <li>Perfil de LinkedIn (opcional)</li>
+            </ul>
+          </li>
+          <li>
+            <strong class="text-slate-300">Formulario de presupuesto:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Nombre</li>
+              <li>Correo electrónico</li>
+              <li>Número de teléfono/WhatsApp</li>
+              <li>Presupuesto estimado</li>
+              <li>Plazo deseado</li>
+              <li>Mensaje</li>
+            </ul>
+          </li>
+          <li>
+            <strong class="text-slate-300">WhatsApp:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Número de teléfono</li>
+            </ul>
+          </li>
+        </ul>
+        <p class="mt-3">
+          No recopilo ningún dato de forma automática (sin cookies, sin scripts
+          de seguimiento ni analítica) salvo que se indique expresamente lo
+          contrario.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">
+          3. Cómo uso tu información
+        </h2>
+        <p>La información que proporcionas se utiliza exclusivamente para:</p>
+        <ul class="mt-3 list-inside list-disc space-y-1 text-slate-400">
+          <li>
+            Responder a tu mensaje o consulta (formularios de contacto y
+            presupuesto).
+          </li>
+          <li>
+            Dar seguimiento a posibles oportunidades de colaboración o
+            proyectos.
+          </li>
+          <li>
+            Publicar tu reseña/testimonio en el sitio web (solo formulario de
+            reseñas).
+          </li>
+        </ul>
+        <p class="mt-3">
+          Nunca vendo, alquilo ni comparto tu información personal con terceros
+          para fines de marketing.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">
+          4. Conservación de datos
+        </h2>
+        <p>
+          Conservo tu información de contacto únicamente durante el tiempo
+          necesario para responder a tu consulta o mantener una relación
+          profesional. Puedes solicitar la eliminación de tus datos en cualquier
+          momento contactándome directamente.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">
+          5. Servicios de terceros
+        </h2>
+        <p>
+          Este sitio utiliza servicios de terceros para el manejo de
+          formularios, alojamiento y comunicación (por ejemplo, EmailJS,
+          Netlify, WhatsApp / Meta Platforms, Inc.).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">
+          6. Tus derechos
+        </h2>
+        <p>Tienes derecho a:</p>
+        <ul class="mt-3 list-inside list-disc space-y-1 text-slate-400">
+          <li>Acceder a los datos personales que tengo sobre ti.</li>
+          <li>Solicitar la corrección o eliminación de tus datos.</li>
+          <li>
+            Retirar el consentimiento para cualquier procesamiento de datos en
+            cualquier momento.
+          </li>
+        </ul>
+        <p class="mt-3">
+          Para ejercer cualquiera de estos derechos, contáctame usando la
+          información indicada a continuación.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">7. Seguridad</h2>
+        <p>
+          Tomo medidas razonables para proteger la información que envías. Sin
+          embargo, ningún método de transmisión por internet es 100% seguro, y
+          no puedo garantizar seguridad absoluta.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">
+          8. Cambios en esta política
+        </h2>
+        <p>
+          Puedo actualizar esta Política de Privacidad de vez en cuando.
+          Cualquier cambio se reflejará en esta página con una fecha
+          actualizada. El uso continuado del sitio web después de los cambios
+          implica tu aceptación de la política actualizada.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-3 text-lg font-semibold text-slate-100">9. Contacto</h2>
+        <p>
+          Si tienes preguntas sobre esta Política de Privacidad o sobre cómo
+          manejo tus datos, puedes contactarme en:
+        </p>
+        <p class="mt-3 font-medium text-slate-200">
+          Carlos Hernández - <a
+            href="mailto:chrod.dev@gmail.com"
+            class="text-red-400 hover:underline">chrod.dev@gmail.com</a
+          >
+        </p>
+      </section>
+    </div>
+  </main>
+</MainLayout>

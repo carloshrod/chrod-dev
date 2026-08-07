@@ -1,18 +1,20 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Icon from "../../components/ui/icons.astro";
+import { getAlternatePaths, getRouteUrl } from "../../i18n/routes";
 
-const lastUpdated = "March 11, 2026";
+const lastUpdated = "August 6, 2026";
 ---
 
 <MainLayout
   lang="en"
+  alternates={getAlternatePaths("privacyPolicy")}
   title="Privacy Policy - CHRod"
   description="Read the privacy policy for CHRod's developer portfolio, how your data is collected, used, and protected."
 >
   <main class="mx-auto max-w-3xl px-6 py-32 text-slate-300">
     <a
-      href="/en"
+      href={getRouteUrl("en", "home")}
       class="mb-10 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-red-400"
     >
       <Icon name="back" />
@@ -28,7 +30,7 @@ const lastUpdated = "March 11, 2026";
           1. Introduction
         </h2>
         <p>
-          Welcome to <strong class="text-slate-200">CHRod</strong> (the "Portfolio"),
+          Welcome to <strong class="text-slate-200">CHRod Dev</strong> (the "Website"),
           operated by Carlos Hernández ("I", "me", or "my"). This Privacy Policy explains
           how I collect, use, and protect any information you provide when you visit
           this website or contact me through the contact form or via WhatsApp.
@@ -44,25 +46,43 @@ const lastUpdated = "March 11, 2026";
         <h2 class="mb-3 text-lg font-semibold text-slate-100">
           2. Information I Collect
         </h2>
-        <p>
-          I only collect information you voluntarily provide through the contact
-          form or via WhatsApp:
-        </p>
-        <ul class="mt-3 list-inside list-disc space-y-1 text-slate-400">
+        <p>I only collect information you voluntarily provide through:</p>
+        <ul class="mt-3 list-disc space-y-3 pl-5 text-slate-400">
           <li>
-            <strong class="text-slate-300">Name</strong> - to address you properly.
+            <strong class="text-slate-300">Contact form:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Name</li>
+              <li>Email address</li>
+              <li>Message</li>
+            </ul>
           </li>
           <li>
-            <strong class="text-slate-300">Email address</strong> - to respond to
-            your inquiry (contact form only).
+            <strong class="text-slate-300">Review form:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Name</li>
+              <li>Review</li>
+              <li>Rating</li>
+              <li>Position (optional)</li>
+              <li>Company (optional)</li>
+              <li>LinkedIn profile (optional)</li>
+            </ul>
           </li>
           <li>
-            <strong class="text-slate-300">Phone number</strong> - visible when you
-            initiate contact via WhatsApp.
+            <strong class="text-slate-300">Estimate/Quote form:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Name</li>
+              <li>Email address</li>
+              <li>Phone/WhatsApp number</li>
+              <li>Estimated budget</li>
+              <li>Desired timeline</li>
+              <li>Message</li>
+            </ul>
           </li>
           <li>
-            <strong class="text-slate-300">Message</strong> - the content of your
-            inquiry.
+            <strong class="text-slate-300">WhatsApp:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Phone number</li>
+            </ul>
           </li>
         </ul>
         <p class="mt-3">
@@ -77,10 +97,11 @@ const lastUpdated = "March 11, 2026";
         </h2>
         <p>The information you provide is used exclusively to:</p>
         <ul class="mt-3 list-inside list-disc space-y-1 text-slate-400">
-          <li>Respond to your message or inquiry.</li>
+          <li>Respond to your message or inquiry (contact and quote forms).</li>
           <li>
             Follow up on potential collaboration or project opportunities.
           </li>
+          <li>Display your review/testimonial on the website (review form only).</li>
         </ul>
         <p class="mt-3">
           I will never sell, rent, or share your personal information with third
