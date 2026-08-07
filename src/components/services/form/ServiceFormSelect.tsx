@@ -74,7 +74,7 @@ const ServiceFormSelect = ({
         aria-expanded={open}
         aria-invalid={invalid}
         onClick={() => setOpen((prev) => !prev)}
-        className={`flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg border ${invalid ? "border-red-500" : "border-border"} bg-surface-alt px-4 py-2.5 text-left text-sm outline-none transition-all focus:border-red-600 focus:ring-2 focus:ring-red-600/30 ${selected ? "text-slate-200" : "text-slate-600"}`}
+        className={`flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg border ${invalid ? "border-red-500" : "border-border"} bg-surface-alt px-4 py-2.5 text-left text-sm outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30 ${selected ? "text-slate-200" : "text-slate-600"}`}
       >
         <span className="truncate">{selected ? selected.label[lang] : placeholder}</span>
         <ChevronDownIcon />

@@ -2,6 +2,7 @@ import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { ui } from "../../../i18n/ui";
 import type { Locale } from "../../../i18n/ui";
+import { getRouteUrl } from "../../../i18n/routes";
 import type { Service, ServiceFormField } from "../../../data/services/types";
 import { buildWhatsAppMessage, buildWhatsAppUrl } from "../../../lib/whatsapp";
 import { ErrorIcon, SuccessIcon, WhatsAppIcon } from "../../ui/icons";
@@ -231,7 +232,7 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
             rows={4}
             placeholder={field.placeholder?.[lang]}
             onChange={(e) => handleChange(field.name, e.target.value)}
-            className={`w-full resize-none rounded-lg border ${errors[field.name] ? "border-red-500" : "border-border"} bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-red-600 focus:ring-2 focus:ring-red-600/30`}
+            className={`w-full resize-none rounded-lg border ${errors[field.name] ? "border-red-500" : "border-border"} bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30`}
           />
         )}
 
@@ -279,7 +280,7 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
             autoComplete={inputAttrsByField[field.name]?.autoComplete}
             placeholder={field.placeholder?.[lang]}
             onChange={(e) => handleChange(field.name, e.target.value)}
-            className={`w-full rounded-lg border ${errors[field.name] ? "border-red-500" : "border-border"} bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-red-600 focus:ring-2 focus:ring-red-600/30`}
+            className={`w-full rounded-lg border ${errors[field.name] ? "border-red-500" : "border-border"} bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30`}
           />
         )}
 
@@ -373,7 +374,7 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
           <p className="text-center text-xs text-slate-500">
             {t("form.privacy.notice.prefix")}
             <a
-              href={`/${lang}/privacy-policy`}
+              href={getRouteUrl(lang, "privacyPolicy")}
               target="_blank"
               rel="noopener noreferrer"
               className="underline decoration-slate-600 underline-offset-2 transition-colors hover:text-slate-300"

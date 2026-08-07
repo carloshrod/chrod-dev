@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { ui } from "../../i18n/ui";
 import type { Locale } from "../../i18n/ui";
+import { getRouteUrl } from "../../i18n/routes";
 import { CloseIcon, ErrorIcon, SuccessIcon } from "./icons";
 
 const EMAILJS_SERVICE_ID = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID as string;
@@ -194,7 +195,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
                   aria-describedby={errors.name ? "error-name" : undefined}
                   className={`w-full rounded-lg border ${
                     errors.name ? "border-red-500" : "border-border"
-                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-red-600 focus:ring-2 focus:ring-red-600/30`}
+                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30`}
                 />
                 {errors.name && (
                   <p id="error-name" className="mt-1 text-xs text-red-400">
@@ -222,7 +223,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
                   aria-describedby={errors.email ? "error-email" : undefined}
                   className={`w-full rounded-lg border ${
                     errors.email ? "border-red-500" : "border-border"
-                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-red-600 focus:ring-2 focus:ring-red-600/30`}
+                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30`}
                 />
                 {errors.email && (
                   <p id="error-email" className="mt-1 text-xs text-red-400">
@@ -251,7 +252,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
                   }
                   className={`w-full resize-none rounded-lg border ${
                     errors.message ? "border-red-500" : "border-border"
-                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-red-600 focus:ring-2 focus:ring-red-600/30`}
+                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30`}
                 />
                 {errors.message && (
                   <p id="error-message" className="mt-1 text-xs text-red-400">
@@ -270,7 +271,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
               <p className="text-xs text-slate-500">
                 {t("form.privacy.notice.prefix")}
                 <a
-                  href={`/${lang}/privacy-policy`}
+                  href={getRouteUrl(lang, "privacyPolicy")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline decoration-slate-600 underline-offset-2 transition-colors hover:text-slate-300"
