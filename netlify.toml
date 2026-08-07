@@ -3,3 +3,95 @@
   to = "https://chrod.dev/:splat"
   status = 301
   force = true
+
+# Old un-prefixed EN routes now live under /en
+[[redirects]]
+  from = "/privacy-policy"
+  to = "/en/privacy-policy"
+  status = 301
+
+[[redirects]]
+  from = "/terms"
+  to = "/en/terms"
+  status = 301
+
+[[redirects]]
+  from = "/review"
+  to = "/en/review"
+  status = 301
+
+# Spanish routes are now translated (see src/i18n/routes.ts).
+# Detail pages come first: splat rules would otherwise swallow them.
+[[redirects]]
+  from = "/es/services/business-websites"
+  to = "/es/servicios/sitios-web-profesionales"
+  status = 301
+
+[[redirects]]
+  from = "/es/services/ecommerce-development"
+  to = "/es/servicios/desarrollo-ecommerce"
+  status = 301
+
+[[redirects]]
+  from = "/es/services/web-applications"
+  to = "/es/servicios/aplicaciones-web"
+  status = 301
+
+[[redirects]]
+  from = "/es/services/workflow-automation"
+  to = "/es/servicios/automatizacion-de-procesos"
+  status = 301
+
+[[redirects]]
+  from = "/es/services/api-backend-development"
+  to = "/es/servicios/desarrollo-api-backend"
+  status = 301
+
+# landing-pages keeps its slug in both languages
+[[redirects]]
+  from = "/es/services/*"
+  to = "/es/servicios/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/es/services"
+  to = "/es/servicios"
+  status = 301
+
+# Project slugs fall back to the EN slug until a Slug (ES) is set in Sanity,
+# so the splat stays correct for every project that has not been translated.
+[[redirects]]
+  from = "/es/projects/*"
+  to = "/es/proyectos/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects"
+  to = "/es/proyectos"
+  status = 301
+
+[[redirects]]
+  from = "/es/about"
+  to = "/es/acerca-de"
+  status = 301
+
+[[redirects]]
+  from = "/es/privacy-policy"
+  to = "/es/politica-de-privacidad"
+  status = 301
+
+[[redirects]]
+  from = "/es/terms"
+  to = "/es/terminos-y-condiciones"
+  status = 301
+
+[[redirects]]
+  from = "/es/review"
+  to = "/es/resena"
+  status = 301
+
+# EN: business-websites was renamed to professional-websites
+[[redirects]]
+  from = "/en/services/business-websites"
+  to = "/en/services/professional-websites"
+  status = 301
