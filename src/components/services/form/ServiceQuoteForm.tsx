@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { ui } from "../../../i18n/ui";
 import type { Locale } from "../../../i18n/ui";
@@ -130,6 +130,25 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
+  const successRef = useRef<HTMLDivElement>(null);
+  const errorRef = useRef<HTMLDivElement>(null);
+
+  // Submitting swaps the (tall) form for a much shorter success card, or
+  // adds an error banner below the fields — either way the old scroll
+  // position no longer lands on the message, so bring it into view.
+  useEffect(() => {
+    if (status === "sent") {
+      successRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    } else if (status === "error") {
+      errorRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [status]);
 
   const handleChange = (name: string, value: string) => {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -306,7 +325,10 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
   if (status === "sent") {
     return (
       <section id="service-quote-form" className="px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 text-center sm:p-10">
+        <div
+          ref={successRef}
+          className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 text-center sm:p-10"
+        >
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-600/20 text-emerald-400">
             <SuccessIcon />
           </div>
@@ -345,7 +367,10 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
           {rows.map(renderRow)}
 
           {status === "error" && (
-            <div className="flex items-start gap-2.5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3">
+            <div
+              ref={errorRef}
+              className="flex items-start gap-2.5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3"
+            >
               <ErrorIcon />
               <p className="text-sm text-red-400">{t("drawer.error")}</p>
             </div>
