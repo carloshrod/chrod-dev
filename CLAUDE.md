@@ -26,7 +26,7 @@ All commands run from the project root:
 
 Copy `.env.example` to `.env.local` and populate with:
 
-- **EmailJS** (contact form): `PUBLIC_EMAILJS_SERVICE_ID`, `PUBLIC_EMAILJS_TEMPLATE_ID`, `PUBLIC_EMAILJS_PUBLIC_KEY`
+- **Resend** (contact form + service quote form): `RESEND_API_KEY`, `RESEND_FROM_EMAIL` (verified sender), `RESEND_TO_EMAIL` (inbox that receives submissions) — server-only, used by `src/pages/api/send-contact-email.ts`
 - **Sanity CMS**: `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET` (defaults to "production")
 - **Review Form**: `SANITY_WRITE_TOKEN` (Editor role from Sanity's API tokens), `REVIEW_ACCESS_TOKEN` (random string to protect `/review` endpoint)
 

@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import emailjs from "@emailjs/browser";
 import { ui } from "../../i18n/ui";
 import type { Locale } from "../../i18n/ui";
 import { getRouteUrl } from "../../i18n/routes";
 import { CloseIcon, ErrorIcon, SuccessIcon } from "./icons";
 
-const EMAILJS_SERVICE_ID = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID as string;
-const EMAILJS_TEMPLATE_ID = import.meta.env
-  .PUBLIC_EMAILJS_TEMPLATE_ID as string;
-const EMAILJS_PUBLIC_KEY = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY as string;
-
-type FormState = { name: string; email: string; message: string };
+type FormState = {
+  name: string;
+  email: string;
+  message: string;
+  website: string;
+};
 type FormErrors = Partial<Record<keyof FormState, string>>;
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -24,6 +23,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
     name: "",
     email: "",
     message: "",
+    website: "",
   });
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FormErrors>({});
@@ -84,19 +84,19 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
     setErrors({});
     setStatus("sending");
     try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          from_email: form.email,
+      const res = await fetch("/api/send-contact-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fromName: form.name,
+          fromEmail: form.email,
           message: form.message,
-          reply_to: form.email,
-        },
-        { publicKey: EMAILJS_PUBLIC_KEY },
-      );
+          website: form.website,
+        }),
+      });
+      if (!res.ok) throw new Error("Request failed");
       setStatus("sent");
-      setForm({ name: "", email: "", message: "" });
+      setForm({ name: "", email: "", message: "", website: "" });
     } catch {
       setStatus("error");
     }
@@ -175,6 +175,20 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
               data-drawer-form={isOpen ? "true" : undefined}
             >
               <p className="text-sm text-slate-400">{t("drawer.form.intro")}</p>
+
+              {/* Honeypot: hidden from sighted and screen-reader users alike
+                  (aria-hidden + unreachable by tab), left for bots that
+                  auto-fill every input. */}
+              <input
+                type="text"
+                name="website"
+                value={form.website}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="sr-only"
+              />
 
               <div className="space-y-1.5">
                 <label

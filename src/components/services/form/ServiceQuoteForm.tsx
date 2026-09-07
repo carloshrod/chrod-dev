@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import { ui } from "../../../i18n/ui";
 import type { Locale } from "../../../i18n/ui";
 import { getRouteUrl } from "../../../i18n/routes";
@@ -7,11 +6,6 @@ import type { Service, ServiceFormField } from "../../../data/services/types";
 import { buildWhatsAppMessage, buildWhatsAppUrl } from "../../../lib/whatsapp";
 import { ErrorIcon, SuccessIcon, WhatsAppIcon } from "../../ui/icons";
 import ServiceFormSelect from "./ServiceFormSelect";
-
-const EMAILJS_SERVICE_ID = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID as string;
-const EMAILJS_TEMPLATE_ID = import.meta.env
-  .PUBLIC_EMAILJS_TEMPLATE_ID as string;
-const EMAILJS_PUBLIC_KEY = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY as string;
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -126,7 +120,7 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
   const fields: ServiceFormField[] = rows.flat();
 
   const [values, setValues] = useState<Record<string, string>>(
-    Object.fromEntries(fields.map((f) => [f.name, ""])),
+    Object.fromEntries([...fields.map((f) => [f.name, ""]), ["website", ""]]),
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -174,6 +168,18 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
 
   const fieldLabel = (field: ServiceFormField) => field.label[lang];
 
+  // Select/radio fields store the option's raw `value` (a slug, e.g.
+  // "under-500") in `values`, not the translated label users actually saw —
+  // resolve it back to that label for anything shown outside the form itself
+  // (the email notification, the WhatsApp message).
+  const fieldDisplayValue = (field: ServiceFormField, raw: string): string => {
+    if (field.type === "select" || field.type === "radio") {
+      const option = field.options?.find((opt) => opt.value === raw);
+      if (option) return option.label[lang];
+    }
+    return raw;
+  };
+
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs = validate();
@@ -184,24 +190,35 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
     setErrors({});
     setStatus("sending");
 
-    const message = fields
-      .filter((field) => field.name !== "name" && field.name !== "email")
-      .map((field) => `${fieldLabel(field)}: ${values[field.name] || "-"}`)
-      .join("\n");
+    const serviceName = service.card.title[lang];
+    const detailFields = fields
+      .filter(
+        (field) =>
+          field.name !== "name" &&
+          field.name !== "email" &&
+          field.name !== "message",
+      )
+      .map((field) => ({
+        label: fieldLabel(field),
+        value: fieldDisplayValue(field, values[field.name]) || "-",
+      }));
 
     try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          from_name: values.name,
-          from_email: values.email,
-          reply_to: values.email,
-          service_name: service.card.title[lang],
-          message,
-        },
-        { publicKey: EMAILJS_PUBLIC_KEY },
-      );
+      const res = await fetch("/api/send-contact-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fromName: values.name,
+          fromEmail: values.email,
+          subject: `New quote request: ${serviceName}`,
+          eyebrow: "Service quote request",
+          heading: serviceName,
+          fields: [{ label: "Service", value: serviceName }, ...detailFields],
+          message: values.message,
+          website: values.website,
+        }),
+      });
+      if (!res.ok) throw new Error("Request failed");
       setStatus("sent");
     } catch {
       setStatus("error");
@@ -221,7 +238,7 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
       lang,
       fields.map((field) => ({
         label: fieldLabel(field),
-        value: values[field.name],
+        value: fieldDisplayValue(field, values[field.name]),
       })),
     );
     window.open(buildWhatsAppUrl(message), "_blank", "noopener,noreferrer");
@@ -364,6 +381,20 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
           data-scroll-animate="scale"
           className="space-y-5 rounded-2xl border border-border bg-surface p-6 sm:p-8"
         >
+          {/* Honeypot: hidden from sighted and screen-reader users alike
+              (aria-hidden + unreachable by tab), left for bots that
+              auto-fill every input. */}
+          <input
+            type="text"
+            name="website"
+            value={values.website}
+            onChange={(e) => handleChange("website", e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="sr-only"
+          />
+
           {rows.map(renderRow)}
 
           {status === "error" && (
