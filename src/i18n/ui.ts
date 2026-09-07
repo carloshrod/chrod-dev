@@ -184,6 +184,13 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projectsOverview.hero.subheading":
       "From websites and ecommerce platforms to automations and backend development.",
     "projectsOverview.grid.cta": "View project",
+    "projectsOverview.pagination.nav": "Projects pagination",
+    "projectsOverview.pagination.showing":
+      "Showing {start}–{end} of {total} projects",
+    "projectsOverview.pagination.showingSingle": "Showing {n} of {total} projects",
+    "projectsOverview.pagination.prev": "Previous page",
+    "projectsOverview.pagination.next": "Next page",
+    "projectsOverview.pagination.page": "Go to page {n}",
 
     // Project detail page (/projects/[slug])
     "project.page.meta.role": "Role",
@@ -493,6 +500,14 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projectsOverview.hero.subheading":
       "Desde sitios web y tiendas online, hasta automatizaciones y desarrollo backend.",
     "projectsOverview.grid.cta": "Ver proyecto",
+    "projectsOverview.pagination.nav": "Paginación de proyectos",
+    "projectsOverview.pagination.showing":
+      "Mostrando {start}–{end} de {total} proyectos",
+    "projectsOverview.pagination.showingSingle":
+      "Mostrando {n} de {total} proyectos",
+    "projectsOverview.pagination.prev": "Página anterior",
+    "projectsOverview.pagination.next": "Página siguiente",
+    "projectsOverview.pagination.page": "Ir a la página {n}",
 
     // Página de detalle de proyecto (/projects/[slug])
     "project.page.meta.role": "Rol",
