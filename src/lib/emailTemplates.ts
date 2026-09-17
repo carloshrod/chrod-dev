@@ -51,7 +51,7 @@ function layout(eyebrow: string, bodyHtml: string): string {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CHRod</title>
+    <title>CHRod Dev</title>
   </head>
   <body style="margin:0; padding:32px 16px; background-color:transparent; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:transparent;">
@@ -63,7 +63,7 @@ function layout(eyebrow: string, bodyHtml: string): string {
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
                     <td align="left" style="vertical-align:middle;">
-                      <img src="${LOGO_URL}" alt="CHRod" height="28" style="display:block; height:28px; width:auto; border:0;" />
+                      <img src="${LOGO_URL}" alt="CHRod Dev" height="28" style="display:block; height:28px; width:auto; border:0;" />
                     </td>
                     <td align="right" style="vertical-align:middle;">
                       ${pill(eyebrow)}

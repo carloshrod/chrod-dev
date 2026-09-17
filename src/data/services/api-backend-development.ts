@@ -259,8 +259,8 @@ export const apiBackendDevelopment: Service = {
 
   seo: {
     title: {
-      en: "API & Backend Development | CHRod - Web Developer",
-      es: "Desarrollo de APIs y Backend | CHRod - Desarrollador Web",
+      en: "API & Backend Development | CHRod Dev - Web Developer",
+      es: "Desarrollo de APIs y Backend | CHRod Dev - Desarrollador Web",
     },
     description: {
       en: "Robust, well-documented REST APIs and backend architecture built to scale with your product. Get a custom quote for your backend project.",

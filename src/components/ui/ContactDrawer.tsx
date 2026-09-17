@@ -132,7 +132,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
           <div className="flex items-center gap-3">
             <img
               src="/chrod-logo.png"
-              alt="chrod logo"
+              alt="chrod dev logo"
               className="h-8 w-auto"
             />
             <h2 className="text-lg font-semibold text-slate-100">

@@ -31,7 +31,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.resume.url": "/resume-en.pdf",
 
     // About page (/about)
-    "about.page.seo.title": "About | CHRod - Web Developer",
+    "about.page.seo.title": "About | CHRod Dev - Web Developer",
     "about.page.seo.description":
       "Full stack developer with a business-first approach: understanding the problem, defining a clear solution, and building something that actually works.",
     "about.page.hero.heading":
@@ -86,7 +86,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "breadcrumb.home": "Home",
 
     // 404 page
-    "notFound.seo.title": "Page not found | CHRod - Web Developer",
+    "notFound.seo.title": "Page not found | CHRod Dev - Web Developer",
     "notFound.seo.description":
       "The page you are looking for doesn't exist or has been moved.",
     "notFound.label": "Error 404",
@@ -141,7 +141,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.form.submit.whatsapp": "Send via WhatsApp",
 
     // Services overview page (/services)
-    "servicesOverview.seo.title": "Services | CHRod - Web Developer",
+    "servicesOverview.seo.title": "Services | CHRod Dev - Web Developer",
     "servicesOverview.seo.description":
       "Explore all services: professional websites, landing pages, e-commerce, web applications, automation, and APIs. Find the right fit for your project.",
     "servicesOverview.hero.heading": "A service for every kind of project",
@@ -177,7 +177,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projects.cta.button": "Start my project",
 
     // Projects overview page (/projects)
-    "projectsOverview.seo.title": "Projects | CHRod - Web Developer",
+    "projectsOverview.seo.title": "Projects | CHRod Dev - Web Developer",
     "projectsOverview.seo.description":
       "Explore all projects I've built. Web apps, e-commerce platforms, dashboards, landing pages, and more.",
     "projectsOverview.hero.heading": "Projects I’ve worked on",
@@ -344,7 +344,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.resume.url": "/resume-es.pdf",
 
     // Página de sobre mí (/about)
-    "about.page.seo.title": "Sobre mí | CHRod - Desarrollador Web",
+    "about.page.seo.title": "Sobre mí | CHRod Dev - Desarrollador Web",
     "about.page.seo.description":
       "Desarrollador full stack con enfoque en negocio: entender el problema, definir una solución clara y construir algo que realmente funcione.",
     "about.page.hero.heading":
@@ -399,7 +399,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "breadcrumb.home": "Inicio",
 
     // Página 404
-    "notFound.seo.title": "Página no encontrada | CHRod - Desarrollador Web",
+    "notFound.seo.title": "Página no encontrada | CHRod Dev - Desarrollador Web",
     "notFound.seo.description":
       "La página que buscas no existe o fue movida.",
     "notFound.label": "Error 404",
@@ -455,7 +455,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.form.submit.whatsapp": "Enviar por WhatsApp",
 
     // Página de servicios (/services)
-    "servicesOverview.seo.title": "Servicios | CHRod - Desarrollador Web",
+    "servicesOverview.seo.title": "Servicios | CHRod Dev - Desarrollador Web",
     "servicesOverview.seo.description":
       "Explora todos los servicios: sitios web profesionales, landing pages, e-commerce, aplicaciones web, automatización y APIs. Encuentra el que se ajusta a tu proyecto.",
     "servicesOverview.hero.heading": "Un servicio para cada tipo de proyecto",
@@ -493,7 +493,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projects.cta.button": "Iniciar mi proyecto",
 
     // Página de proyectos (/projects)
-    "projectsOverview.seo.title": "Proyectos | CHRod - Desarrollador Web",
+    "projectsOverview.seo.title": "Proyectos | CHRod Dev - Desarrollador Web",
     "projectsOverview.seo.description":
       "Explora todos los proyectos que he desarrollado. Aplicaciones web, plataformas e-commerce, dashboards, landing pages y más.",
     "projectsOverview.hero.heading": "Proyectos en los que he trabajado",

@@ -228,8 +228,8 @@ export const landingPages: Service = {
 
   seo: {
     title: {
-      en: "Landing Page Development | CHRod - Web Developer",
-      es: "Desarrollo de Landing Pages | CHRod - Desarrollador Web",
+      en: "Landing Page Development | CHRod Dev - Web Developer",
+      es: "Desarrollo de Landing Pages | CHRod Dev - Desarrollador Web",
     },
     description: {
       en: "High-converting landing pages built fast, mobile-first, and tailored to your offer. Get a custom quote for your next campaign.",

@@ -245,8 +245,8 @@ export const workflowAutomation: Service = {
 
   seo: {
     title: {
-      en: "Workflow Automation Development | CHRod - Web Developer",
-      es: "Automatización de Procesos | CHRod - Desarrollador Web",
+      en: "Workflow Automation Development | CHRod Dev - Web Developer",
+      es: "Automatización de Procesos | CHRod Dev - Desarrollador Web",
     },
     description: {
       en: "Automated workflows that connect your apps and eliminate repetitive manual work, built with n8n and custom integrations. Get a custom quote.",

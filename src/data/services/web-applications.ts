@@ -262,8 +262,8 @@ export const webApplications: Service = {
 
   seo: {
     title: {
-      en: "Custom Web Application Development | CHRod - Web Developer",
-      es: "Desarrollo de Aplicaciones Web a Medida | CHRod - Desarrollador Web",
+      en: "Custom Web Application Development | CHRod Dev - Web Developer",
+      es: "Desarrollo de Aplicaciones Web a Medida | CHRod Dev - Desarrollador Web",
     },
     description: {
       en: "Scalable, custom web applications built around your workflow. Dashboards, internal tools, and customer-facing platforms. Get a custom quote.",

@@ -264,8 +264,8 @@ export const ecommerceDevelopment: Service = {
 
   seo: {
     title: {
-      en: "E-commerce Store Development | CHRod - Web Developer",
-      es: "Desarrollo de Tiendas Online | CHRod - Desarrollador Web",
+      en: "E-commerce Store Development | CHRod Dev - Web Developer",
+      es: "Desarrollo de Tiendas Online | CHRod Dev - Desarrollador Web",
     },
     description: {
       en: "Shopify and custom e-commerce stores built to convert. Optimized checkout, payments, and shipping. Get a custom quote for your online store.",
