@@ -25,6 +25,13 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     cacheDir: "./.vite",
+    server: {
+      // Vite rejects requests whose Host header isn't localhost-like (DNS
+      // rebinding protection). Needed to test Meta's Embedded Signup locally
+      // through a cloudflared/ngrok tunnel, since Meta requires HTTPS + a
+      // domain registered in the app's settings — plain localhost won't do.
+      allowedHosts: [".trycloudflare.com", ".ngrok-free.dev", ".ngrok-free.app"],
+    },
     optimizeDeps: {
       include: [
         "sanity",

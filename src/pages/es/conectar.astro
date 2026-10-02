@@ -1,0 +1,186 @@
+---
+import { ClientRouter } from "astro:transitions";
+import WhatsAppConnectButton from "../../components/ui/WhatsAppConnectButton.tsx";
+import LanguageToggle from "../../components/ui/LanguageToggle.astro";
+import "../../styles/global.css";
+import { useTranslations } from "../../i18n/utils";
+import { getRouteUrl } from "../../i18n/routes";
+import {
+  verifyClientSignature,
+  isOnboardMode,
+  type OnboardMode,
+} from "../../lib/whatsappOnboard";
+
+export const prerender = false;
+
+const lang = "es" as const;
+const t = useTranslations(lang);
+
+const clientName = Astro.url.searchParams.get("cliente") ?? "";
+const modo = Astro.url.searchParams.get("modo");
+const tsParam = Astro.url.searchParams.get("ts") ?? "";
+const sig = Astro.url.searchParams.get("sig") ?? "";
+const secret = import.meta.env.WHATSAPP_LINK_SECRET;
+const isValid = Boolean(
+  secret &&
+    clientName &&
+    sig &&
+    isOnboardMode(modo) &&
+    verifyClientSignature(clientName, modo, tsParam, sig, secret),
+);
+const mode: OnboardMode = isOnboardMode(modo) ? modo : "coexistence";
+
+// The client name + mode + ts + signature have to survive the language
+// switch, or the toggle drops the visitor onto an "invalid link" screen.
+const linkQuery = isValid
+  ? `?cliente=${encodeURIComponent(clientName)}&modo=${mode}&ts=${encodeURIComponent(tsParam)}&sig=${encodeURIComponent(sig)}`
+  : "";
+const homeUrl = getRouteUrl(lang, "home");
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Conecta tu WhatsApp - CHRod Dev</title>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Conecta tu WhatsApp - CHRod Dev" />
+    <meta
+      property="og:description"
+      content="Conecta tu cuenta de WhatsApp Business con CHRod Connect"
+    />
+    <meta property="og:image" content="https://chrod.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="CHRod Dev - Web Developer" />
+    <meta property="og:site_name" content="CHRod Dev" />
+    <meta property="og:locale" content="es_ES" />
+
+    <link rel="icon" type="image/png" href="/chrod-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <ClientRouter />
+  </head>
+  <body class="bg-[#06060c] text-slate-200 antialiased min-h-screen">
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="border-b border-slate-800/60 py-4 px-6">
+        <div class="max-w-2xl mx-auto flex items-center justify-between">
+          <a href={homeUrl} class="flex items-center gap-2.5 group">
+            <img
+              src="/chrod-logo.png"
+              alt="CHRod Dev"
+              class="h-10 w-auto opacity-90 group-hover:opacity-100 transition"
+            />
+          </a>
+          <LanguageToggle
+            lang={lang}
+            esHref={`${getRouteUrl("es", "onboarding")}${linkQuery}`}
+            enHref={`${getRouteUrl("en", "onboarding")}${linkQuery}`}
+          />
+        </div>
+      </header>
+
+      <!-- Main -->
+      <main class="flex-1 py-12 px-6">
+        <div class="max-w-2xl mx-auto">
+          <!-- Page heading -->
+          <div class="mb-10 text-center">
+            <div
+              class="inline-flex items-center gap-2 text-xs font-medium text-accent-light bg-accent/10 border border-accent/20 rounded-full px-3 py-1 mb-4"
+            >
+              <svg
+                class="w-3.5 h-3.5"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.868-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+                ></path>
+              </svg>
+              {t("onboarding.badge")}
+            </div>
+            <h1
+              class="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3"
+            >
+              {t("onboarding.heading")}
+            </h1>
+            {
+              isValid && (
+                <p class="text-slate-400 leading-relaxed max-w-md mx-auto">
+                  {t("onboarding.subtitle.prefix")}
+                  <span class="text-slate-200 font-medium">{clientName}</span>{t("onboarding.subtitle.middle")}
+                  <strong class="text-slate-200 font-semibold">
+                    API de WhatsApp
+                  </strong>
+                  {t("onboarding.subtitle.suffix")}
+                </p>
+              )
+            }
+          </div>
+
+          <!-- Card -->
+          <div
+            class="rounded-2xl border border-border bg-surface p-6 sm:p-8 shadow-xl shadow-black/30"
+          >
+            {
+              isValid ? (
+                <WhatsAppConnectButton
+                  lang="es"
+                  clientName={clientName}
+                  mode={mode}
+                  ts={tsParam}
+                  sig={sig}
+                  client:load
+                />
+              ) : (
+                <div class="flex flex-col items-center justify-center text-center py-16 px-4">
+                  <div class="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mb-5">
+                    <svg
+                      class="w-7 h-7 text-red-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h2 class="text-xl font-semibold text-white mb-2">
+                    {t("onboarding.invalid.heading")}
+                  </h2>
+                  <p class="text-slate-500 text-sm max-w-xs">
+                    {t("onboarding.invalid.body")}
+                  </p>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="border-t border-slate-800/60 py-5 px-6 text-center">
+        <p class="text-slate-600 text-xs">
+          &copy; {new Date().getFullYear()} <a
+            href={homeUrl}
+            class="hover:text-slate-400 transition">CHRod Dev</a
+          >. Todos los derechos reservados.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

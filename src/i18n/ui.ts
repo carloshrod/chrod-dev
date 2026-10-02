@@ -310,6 +310,22 @@ export const ui: Record<Locale, Record<string, string>> = {
     "review.invalid.body":
       "This link is invalid or has expired. Please ask for a new one.",
 
+    // WhatsApp onboarding page
+    "onboarding.badge": "WhatsApp Setup",
+    "onboarding.heading": "Connect your WhatsApp",
+    "onboarding.subtitle.prefix": "Hi ",
+    "onboarding.subtitle.middle": ", let's connect your number to the ",
+    "onboarding.subtitle.suffix": " to start automating your messages.",
+    "onboarding.button": "Connect WhatsApp",
+    "onboarding.connecting": "Connecting…",
+    "onboarding.success.heading": "You're connected!",
+    "onboarding.success.body":
+      "Your WhatsApp account is linked. We'll be in touch shortly to finish setting things up.",
+    "onboarding.error": "Something went wrong. Please try again or contact us.",
+    "onboarding.invalid.heading": "Invalid link",
+    "onboarding.invalid.body":
+      "This link is invalid or has expired. Please ask for a new one.",
+
     // Legal pages
     "legal.back": "Back to home",
   },
@@ -630,6 +646,23 @@ export const ui: Record<Locale, Record<string, string>> = {
     "review.privacy.notice.suffix": " para m\u00e1s informaci\u00f3n.",
     "review.invalid.heading": "Enlace inv\u00e1lido",
     "review.invalid.body":
+      "Este enlace es inv\u00e1lido o ha expirado. Por favor solicita uno nuevo.",
+
+    // WhatsApp onboarding page
+    "onboarding.badge": "Configuraci\u00f3n de WhatsApp",
+    "onboarding.heading": "Conecta tu WhatsApp",
+    "onboarding.subtitle.prefix": "Hola ",
+    "onboarding.subtitle.middle": ", conectemos tu número a la ",
+    "onboarding.subtitle.suffix": " para empezar a automatizar tus mensajes.",
+    "onboarding.button": "Conectar WhatsApp",
+    "onboarding.connecting": "Conectando\u2026",
+    "onboarding.success.heading": "\u00a1Ya est\u00e1s conectado!",
+    "onboarding.success.body":
+      "Tu cuenta de WhatsApp qued\u00f3 vinculada. Te contactaremos pronto para terminar de configurar todo.",
+    "onboarding.error":
+      "Algo sali\u00f3 mal. Int\u00e9ntalo de nuevo o escr\u00edbenos.",
+    "onboarding.invalid.heading": "Enlace inv\u00e1lido",
+    "onboarding.invalid.body":
       "Este enlace es inv\u00e1lido o ha expirado. Por favor solicita uno nuevo.",
 
     // Legal pages

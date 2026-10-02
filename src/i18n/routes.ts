@@ -6,6 +6,7 @@ export type RouteKey =
   | "projects"
   | "about"
   | "review"
+  | "onboarding"
   | "privacyPolicy"
   | "terms";
 
@@ -28,6 +29,7 @@ const routeBases: Record<RouteKey, Record<Locale, string>> = {
   projects: { en: "/projects", es: "/proyectos" },
   about: { en: "/about", es: "/acerca-de" },
   review: { en: "/review", es: "/resena" },
+  onboarding: { en: "/connect", es: "/conectar" },
   privacyPolicy: { en: "/privacy-policy", es: "/politica-de-privacidad" },
   terms: { en: "/terms", es: "/terminos-y-condiciones" },
 };
