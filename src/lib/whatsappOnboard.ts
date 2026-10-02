@@ -61,7 +61,13 @@ export function verifyClientSignature(
   sig: string,
   secret: string,
 ): boolean {
-  const tsNum = typeof ts === "string" ? Number(ts) : ts;
+  // Number("") is 0, not NaN — an empty/missing ts would otherwise pass as
+  // a "valid" finite timestamp (epoch 0) and only get rejected afterward by
+  // the max-age check succeeding to reject it *by coincidence* (epoch 0 is
+  // always "too old"). Rejecting it here directly is the real intent, not
+  // an accident of the age math.
+  const tsNum =
+    typeof ts === "string" ? (ts.trim() === "" ? NaN : Number(ts)) : ts;
   if (
     !clientName.trim() ||
     !sig ||

@@ -116,7 +116,10 @@ const homeUrl = getRouteUrl(lang, "home");
             </h1>
             {
               isValid && (
-                <p class="text-slate-400 leading-relaxed max-w-md mx-auto">
+                <p
+                  id="onboarding-subtitle"
+                  class="text-slate-400 leading-relaxed max-w-md mx-auto"
+                >
                   {t("onboarding.subtitle.prefix")}
                   <span class="text-slate-200 font-medium">{clientName}</span>{t("onboarding.subtitle.middle")}
                   <strong class="text-slate-200 font-semibold">
@@ -182,5 +185,14 @@ const homeUrl = getRouteUrl(lang, "home");
         </p>
       </footer>
     </div>
+
+    <script>
+      // WhatsAppConnectButton signals once the connection succeeds; the
+      // intro copy ("conectemos tu número...") no longer applies at that
+      // point. Same pattern as review.astro's "review-submitted" event.
+      document.addEventListener("whatsapp-connected", () => {
+        document.getElementById("onboarding-subtitle")?.classList.add("hidden");
+      });
+    </script>
   </body>
 </html>

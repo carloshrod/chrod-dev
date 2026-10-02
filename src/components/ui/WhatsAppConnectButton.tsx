@@ -149,6 +149,15 @@ export default function WhatsAppConnectButton({
   // once it closes. A ref survives both without triggering re-renders.
   const sessionInfo = useRef<{ wabaId?: string; phoneNumberId?: string }>({});
 
+  // The page's intro copy ("let's connect your number...") stops making
+  // sense once the connection succeeds; the page listens for this to hide
+  // it (same pattern as ReviewForm's "review-submitted" event).
+  useEffect(() => {
+    if (status === "success") {
+      document.dispatchEvent(new CustomEvent("whatsapp-connected"));
+    }
+  }, [status]);
+
   useEffect(() => {
     const locale = lang === "es" ? "es_LA" : "en_US";
     const initFB = () => {
@@ -200,9 +209,18 @@ export default function WhatsAppConnectButton({
     const onMessage = (event: MessageEvent) => {
       if (!event.origin.endsWith("facebook.com")) return;
       try {
-        const data = JSON.parse(event.data);
-        if (data.type !== "WA_EMBEDDED_SIGNUP") return;
-        if (data.event === "FINISH" || data.event === "FINISH_ONLY_WABA") {
+        // Some Meta surfaces post an already-parsed object rather than a
+        // JSON string — JSON.parse on a non-string throws, which the catch
+        // below would otherwise swallow as "not ours" and silently drop it.
+        const data =
+          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+        if (data?.type !== "WA_EMBEDDED_SIGNUP") return;
+
+        if (
+          data.event === "FINISH" ||
+          data.event === "FINISH_ONLY_WABA" ||
+          data.event === "FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING"
+        ) {
           sessionInfo.current = {
             wabaId: data.data?.waba_id,
             phoneNumberId: data.data?.phone_number_id,
