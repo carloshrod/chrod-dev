@@ -8,6 +8,10 @@ import {
 
 export const prerender = false;
 
+// Matches the emerald button in WhatsAppConnectButton.tsx — the template's
+// default red reads as an error/warning, which is wrong for a success email.
+const WHATSAPP_ACCENT_COLOR = "#059669";
+
 export const POST: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;
 
@@ -20,7 +24,8 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { code, clientName, mode, ts, sig, wabaId, phoneNumberId } = body;
+  const { code, clientName, mode, ts, clientEmail, lang, sig, wabaId, phoneNumberId } =
+    body;
 
   if (!code || typeof code !== "string") {
     return new Response(
@@ -47,8 +52,16 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
+  // clientEmail is optional — "" when the admin didn't set one — but it's
+  // still part of the signed payload, so it has to be exactly what was
+  // signed (not just "present or not") or the signature won't match.
+  const safeClientEmail = typeof clientEmail === "string" ? clientEmail.trim() : "";
+
   const secret = import.meta.env.WHATSAPP_LINK_SECRET;
-  if (!secret || !verifyClientSignature(clientName, mode, ts, sig, secret)) {
+  if (
+    !secret ||
+    !verifyClientSignature(clientName, mode, ts, safeClientEmail, sig, secret)
+  ) {
     return new Response(JSON.stringify({ error: "Invalid or expired link." }), {
       status: 401,
       headers: { "Content-Type": "application/json" },
@@ -59,6 +72,7 @@ export const POST: APIRoute = async ({ request }) => {
   // value ends up in an email subject/heading, and nothing upstream of here
   // guarantees it's newline-free (the admin UI doesn't block it either).
   const safeClientName = clientName.replace(/[\r\n]+/g, " ").trim().slice(0, 100);
+  const emailLang = lang === "en" ? "en" : "es";
 
   const appId = import.meta.env.PUBLIC_WHATSAPP_APP_ID;
   const appSecret = import.meta.env.WHATSAPP_APP_SECRET;
@@ -227,6 +241,8 @@ export const POST: APIRoute = async ({ request }) => {
         fromName: "CHRod Connect",
         fromEmail: "hello@chrod.dev",
         fields,
+        accentColor: WHATSAPP_ACCENT_COLOR,
+        footerText: "Enviado automáticamente desde CHRod Connect.",
       }),
       text: renderNotificationEmailText({
         eyebrow: "WhatsApp onboarding",
@@ -244,6 +260,49 @@ export const POST: APIRoute = async ({ request }) => {
     }
   } catch (err) {
     console.error("Onboarding notification email error:", err);
+  }
+
+  // Only sent when the admin filled in an email while generating the link
+  // (optional — most won't have it). No WABA/Phone Number IDs here: that's
+  // internal bookkeeping for the admin notification above, not something a
+  // client needs or should see.
+  if (safeClientEmail) {
+    const clientMessage =
+      emailLang === "en"
+        ? "Your WhatsApp account is now linked. We'll be in touch shortly to finish setting things up."
+        : "Tu cuenta de WhatsApp quedó vinculada. Te contactaremos pronto para terminar de configurar todo.";
+    const clientHeading =
+      emailLang === "en" ? "You're connected!" : "¡Ya estás conectado!";
+    const clientEyebrow = emailLang === "en" ? "WhatsApp connected" : "WhatsApp conectado";
+    const clientFooter =
+      emailLang === "en"
+        ? "Sent automatically by CHRod Connect."
+        : "Enviado automáticamente por CHRod Connect.";
+
+    try {
+      const { error: clientEmailError } = await resend.emails.send({
+        from: import.meta.env.RESEND_FROM_EMAIL,
+        to: safeClientEmail,
+        subject: clientHeading,
+        html: renderNotificationEmailHtml({
+          eyebrow: clientEyebrow,
+          heading: clientHeading,
+          message: clientMessage,
+          accentColor: WHATSAPP_ACCENT_COLOR,
+          footerText: clientFooter,
+        }),
+        text: renderNotificationEmailText({
+          eyebrow: clientEyebrow,
+          heading: clientHeading,
+          message: clientMessage,
+        }),
+      });
+      if (clientEmailError) {
+        console.error("Client confirmation email error:", clientEmailError);
+      }
+    } catch (err) {
+      console.error("Client confirmation email error:", err);
+    }
   }
 
   return new Response(JSON.stringify({ success: true }), {

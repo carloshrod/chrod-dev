@@ -19,7 +19,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { clientName, mode, adminToken } = body;
+  const { clientName, mode, clientEmail, adminToken } = body;
 
   const validAdminToken = import.meta.env.ADMIN_ACCESS_TOKEN;
   if (
@@ -54,6 +54,17 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  // Optional: if given, a confirmation email goes to the client once they
+  // connect. Validated the same way as the contact form's email field, but
+  // an empty value is fine here — most clients won't have this filled in.
+  const email = typeof clientEmail === "string" ? clientEmail.trim() : "";
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return new Response(
+      JSON.stringify({ error: "clientEmail must be a valid email or empty." }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   const secret = import.meta.env.WHATSAPP_LINK_SECRET;
   if (!secret) {
     console.error("WHATSAPP_LINK_SECRET is not configured.");
@@ -65,7 +76,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   const name = clientName.trim();
   const siteUrl = import.meta.env.PUBLIC_SITE_URL || "https://chrod.dev";
-  const urls = buildOnboardingUrls(name, mode, secret, siteUrl);
+  const urls = buildOnboardingUrls(name, mode, email, secret, siteUrl);
 
   return new Response(JSON.stringify({ success: true, clientName: name, urls }), {
     status: 200,

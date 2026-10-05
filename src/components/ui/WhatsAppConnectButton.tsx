@@ -8,6 +8,7 @@ interface WhatsAppConnectButtonProps {
   clientName: string;
   mode: OnboardMode;
   ts: string;
+  clientEmail: string;
   sig: string;
 }
 
@@ -138,6 +139,7 @@ export default function WhatsAppConnectButton({
   clientName,
   mode,
   ts,
+  clientEmail,
   sig,
 }: WhatsAppConnectButtonProps) {
   const t = useTranslations(lang);
@@ -248,6 +250,8 @@ export default function WhatsAppConnectButton({
           clientName,
           mode,
           ts,
+          clientEmail,
+          lang,
           sig,
           wabaId: sessionInfo.current.wabaId,
           phoneNumberId: sessionInfo.current.phoneNumberId,

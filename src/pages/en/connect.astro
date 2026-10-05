@@ -19,6 +19,7 @@ const t = useTranslations(lang);
 const clientName = Astro.url.searchParams.get("cliente") ?? "";
 const modo = Astro.url.searchParams.get("modo");
 const tsParam = Astro.url.searchParams.get("ts") ?? "";
+const clientEmail = Astro.url.searchParams.get("email") ?? "";
 const sig = Astro.url.searchParams.get("sig") ?? "";
 const secret = import.meta.env.WHATSAPP_LINK_SECRET;
 const isValid = Boolean(
@@ -26,14 +27,14 @@ const isValid = Boolean(
     clientName &&
     sig &&
     isOnboardMode(modo) &&
-    verifyClientSignature(clientName, modo, tsParam, sig, secret),
+    verifyClientSignature(clientName, modo, tsParam, clientEmail, sig, secret),
 );
 const mode: OnboardMode = isOnboardMode(modo) ? modo : "coexistence";
 
-// The client name + mode + ts + signature have to survive the language
-// switch, or the toggle drops the visitor onto an "invalid link" screen.
+// The client name + mode + ts + email + signature have to survive the
+// language switch, or the toggle drops the visitor onto an "invalid link" screen.
 const linkQuery = isValid
-  ? `?cliente=${encodeURIComponent(clientName)}&modo=${mode}&ts=${encodeURIComponent(tsParam)}&sig=${encodeURIComponent(sig)}`
+  ? `?cliente=${encodeURIComponent(clientName)}&modo=${mode}&ts=${encodeURIComponent(tsParam)}&email=${encodeURIComponent(clientEmail)}&sig=${encodeURIComponent(sig)}`
   : "";
 const homeUrl = getRouteUrl(lang, "home");
 ---
@@ -142,6 +143,7 @@ const homeUrl = getRouteUrl(lang, "home");
                   clientName={clientName}
                   mode={mode}
                   ts={tsParam}
+                  clientEmail={clientEmail}
                   sig={sig}
                   client:load
                 />

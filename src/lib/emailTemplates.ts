@@ -33,19 +33,52 @@ interface EmailTemplateOptions {
   eyebrow: string;
   /** Main heading below the pill. */
   heading: string;
-  fromName: string;
-  fromEmail: string;
+  /**
+   * Who this email is ABOUT, e.g. the visitor who submitted a form — shown
+   * as a "From X <y>" line. Omit both for a direct, first-person email (e.g.
+   * a confirmation sent straight to a client), where that line would just
+   * read as the sender oddly citing itself.
+   */
+  fromName?: string;
+  fromEmail?: string;
   /** Short label/value rows rendered as a details table (phone, budget…). */
   fields?: DetailField[];
   /** Longer free-text content (the message/textarea), rendered as a block. */
   message?: string;
+  /**
+   * Pill/heading accent color (hex). Defaults to the site's red, which reads
+   * as an error/warning for a success notice (e.g. a connection succeeding)
+   * — pass a different color for those.
+   */
+  accentColor?: string;
+  /**
+   * Footer line under the email. Defaults to crediting a form submission,
+   * which is wrong for an email that wasn't triggered by one (e.g. a direct
+   * confirmation or an internal event notification).
+   */
+  footerText?: string;
 }
 
-function pill(text: string): string {
-  return `<span style="display:inline-block; padding:5px 12px; border-radius:999px; background-color:rgba(213,44,51,0.12); border:1px solid rgba(213,44,51,0.35); color:${ACCENT}; font-size:11px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;">${escapeHtml(text)}</span>`;
+function hexToRgb(hex: string): string {
+  const n = parseInt(hex.replace("#", ""), 16);
+  return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
 }
 
-function layout(eyebrow: string, bodyHtml: string): string {
+function pill(text: string, color: string): string {
+  const rgb = hexToRgb(color);
+  return `<span style="display:inline-block; padding:5px 12px; border-radius:999px; background-color:rgba(${rgb},0.12); border:1px solid rgba(${rgb},0.35); color:${color}; font-size:11px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;">${escapeHtml(text)}</span>`;
+}
+
+function layout(
+  eyebrow: string,
+  bodyHtml: string,
+  accentColor: string = ACCENT,
+  footerText?: string,
+): string {
+  const footerHtml =
+    footerText !== undefined
+      ? escapeHtml(footerText)
+      : `Sent automatically from a form on <a href="https://chrod.dev" style="color:#94a3b8; text-decoration:underline;">chrod.dev</a>.`;
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -66,7 +99,7 @@ function layout(eyebrow: string, bodyHtml: string): string {
                       <img src="${LOGO_URL}" alt="CHRod Dev" height="28" style="display:block; height:28px; width:auto; border:0;" />
                     </td>
                     <td align="right" style="vertical-align:middle;">
-                      ${pill(eyebrow)}
+                      ${pill(eyebrow, accentColor)}
                     </td>
                   </tr>
                 </table>
@@ -80,8 +113,7 @@ function layout(eyebrow: string, bodyHtml: string): string {
             <tr>
               <td style="padding:18px 28px; background-color:${SURFACE_ALT}; border-top:1px solid ${BORDER};">
                 <p style="margin:0; font-size:12px; color:#64748b;">
-                  Sent automatically from a form on
-                  <a href="https://chrod.dev" style="color:#94a3b8; text-decoration:underline;">chrod.dev</a>.
+                  ${footerHtml}
                 </p>
               </td>
             </tr>
@@ -121,15 +153,21 @@ export function renderNotificationEmailHtml({
   fromEmail,
   fields,
   message,
+  accentColor,
+  footerText,
 }: EmailTemplateOptions): string {
   const body = `
                 <h1 style="margin:0 0 4px; font-size:20px; line-height:1.4; color:#f1f5f9; font-weight:700;">
                   ${escapeHtml(heading)}
                 </h1>
-                <p style="margin:0 0 4px; font-size:14px; color:#94a3b8;">
+                ${
+                  fromName && fromEmail
+                    ? `<p style="margin:0 0 4px; font-size:14px; color:#94a3b8;">
                   From <span style="color:#e2e8f0; font-weight:600;">${escapeHtml(fromName)}</span>
                   &lt;${escapeHtml(fromEmail)}&gt;
-                </p>
+                </p>`
+                    : ""
+                }
                 ${fields && fields.length > 0 ? detailsTable(fields) : ""}
                 ${
                   message
@@ -137,7 +175,7 @@ export function renderNotificationEmailHtml({
                     : ""
                 }`;
 
-  return layout(eyebrow, body);
+  return layout(eyebrow, body, accentColor, footerText);
 }
 
 export function renderNotificationEmailText({
@@ -148,7 +186,10 @@ export function renderNotificationEmailText({
   fields,
   message,
 }: EmailTemplateOptions): string {
-  const lines = [eyebrow, heading, "", `From: ${fromName} <${fromEmail}>`];
+  const lines = [eyebrow, heading];
+  if (fromName && fromEmail) {
+    lines.push("", `From: ${fromName} <${fromEmail}>`);
+  }
   if (fields && fields.length > 0) {
     lines.push("");
     fields.forEach((f) => lines.push(`${f.label}: ${f.value || "-"}`));
