@@ -1,5 +1,70 @@
 ---
 export const prerender = false;
 
-return Astro.redirect("/es");
+import type { Locale } from "../i18n/ui";
+
+/**
+ * Language-negotiated entry point for `/`.
+ *
+ * The status is deliberately 302, not 301. A permanent redirect gets cached
+ * by the browser, so the language picked on a visitor's first ever request
+ * would stick for every later visit to `/`, and nothing short of clearing
+ * site data could undo it. The target genuinely varies per request, which is
+ * what a temporary redirect means.
+ *
+ * `Vary: Accept-Language` tells shared caches the target depends on a request
+ * header rather than on the URL alone. That header has very high cardinality,
+ * so caching one variant per value would be pointless for a bare redirect —
+ * hence `no-store`, which keeps negotiation working on every visit.
+ *
+ * Search engines are unaffected either way: hreflang and x-default in each
+ * page's head are what tell them which locale to serve to whom.
+ */
+const SUPPORTED: readonly Locale[] = ["es", "en"];
+const DEFAULT_LOCALE: Locale = "es";
+
+function negotiateLocale(header: string | null): Locale {
+  if (!header) return DEFAULT_LOCALE;
+
+  const ranked = header
+    .split(",")
+    .map((part) => {
+      const [tag, ...params] = part.trim().split(";");
+      const qParam = params.find((p) => p.trim().startsWith("q="));
+      const quality = qParam ? Number.parseFloat(qParam.split("=")[1]) : 1;
+      return {
+        // `en-US` and `en-GB` both negotiate to `en`. Underscores are not
+        // valid in BCP 47 but some clients send `en_US` anyway.
+        base: tag.trim().toLowerCase().split(/[-_]/)[0],
+        quality: Number.isFinite(quality) ? quality : 0,
+      };
+    })
+    // `q=0` is an explicit refusal of that language, not a weak preference.
+    .filter((entry) => entry.quality > 0)
+    .sort((a, b) => b.quality - a.quality);
+
+  const match = ranked.find((entry) =>
+    SUPPORTED.includes(entry.base as Locale),
+  );
+
+  return match ? (match.base as Locale) : DEFAULT_LOCALE;
+}
+
+const locale = negotiateLocale(Astro.request.headers.get("accept-language"));
+
+// The query string has to survive the hop. Campaign links land on the bare
+// domain (`chrod.dev/?utm_source=...`), and dropping the params here would
+// silently attribute every one of those visits to direct traffic. The URL
+// fragment needs no handling: it never reaches the server, and the browser
+// carries it over to the redirect target on its own.
+const target = `/${locale}/${Astro.url.search}`;
+
+return new Response(null, {
+  status: 302,
+  headers: {
+    Location: target,
+    Vary: "Accept-Language",
+    "Cache-Control": "no-store",
+  },
+});
 ---

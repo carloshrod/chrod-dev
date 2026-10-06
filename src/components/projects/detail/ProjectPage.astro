@@ -13,8 +13,14 @@ import ProjectFinalCTA from "./ProjectFinalCTA.astro";
 import ProjectRelatedServices from "./ProjectRelatedServices.astro";
 import ProjectStickyCTA from "./ProjectStickyCTA.astro";
 import type { Locale } from "../../../i18n/ui";
-import { getAlternatePaths } from "../../../i18n/routes";
+import { getAlternatePaths, getRouteUrl } from "../../../i18n/routes";
+import { useTranslations } from "../../../i18n/utils";
 import type { Project } from "../../../types/project";
+import {
+  buildBreadcrumbSchema,
+  getSiteUrl,
+  type BreadcrumbItem,
+} from "../../../lib/schema";
 
 interface Props {
   project: Project;
@@ -23,6 +29,25 @@ interface Props {
 
 const { project, lang } = Astro.props;
 const alternates = getAlternatePaths("projects", project.slugs);
+
+const t = useTranslations(lang);
+const siteUrl = getSiteUrl(Astro.site);
+
+// Defined once, then handed to both ProjectHero (rendered nav) and the
+// BreadcrumbList markup, so the two cannot drift apart.
+const crumbs: BreadcrumbItem[] = [
+  { label: t("nav.projects"), href: getRouteUrl(lang, "projects") },
+  { label: project.title },
+];
+
+const jsonLd = [
+  buildBreadcrumbSchema(
+    siteUrl,
+    t("breadcrumb.home"),
+    getRouteUrl(lang, "home"),
+    crumbs,
+  ),
+];
 ---
 
 <MainLayout
@@ -31,11 +56,12 @@ const alternates = getAlternatePaths("projects", project.slugs);
   description={project.description}
   alternates={alternates}
   showWhatsAppButton={false}
+  jsonLd={jsonLd}
 >
   <Navbar lang={lang} alternates={alternates} />
   <main>
     <TravelingGlow>
-      <ProjectHero project={project} lang={lang} />
+      <ProjectHero project={project} lang={lang} crumbs={crumbs} />
       <ProjectShowcase project={project} lang={lang} />
       <ProjectOverview project={project} lang={lang} />
       <ProjectContributions project={project} lang={lang} />

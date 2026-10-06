@@ -20,6 +20,10 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const alternates = getAlternatePaths("services");
+
+// No BreadcrumbList here: this page renders no visible breadcrumb trail, and
+// the markup has to mirror what is on the page. Render one in
+// ServicesOverviewHero and the schema can come back.
 ---
 
 <MainLayout

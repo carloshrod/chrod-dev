@@ -1,0 +1,21 @@
+# https://chrod.dev
+User-agent: *
+Allow: /
+
+# Sanity Studio: an editing surface, not content.
+Disallow: /studio
+Disallow: /studio/
+
+# API endpoints return JSON, never a page worth indexing.
+Disallow: /api/
+
+# Token-gated pages. They are already `noindex` + `prerender = false`, so
+# they never reach the sitemap; this keeps crawlers from spending budget
+# discovering them through a shared link.
+Disallow: /en/review
+Disallow: /es/resena
+Disallow: /en/connect
+Disallow: /es/conectar
+Disallow: /es/admin-links
+
+Sitemap: https://chrod.dev/sitemap-index.xml

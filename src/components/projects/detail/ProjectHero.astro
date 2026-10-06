@@ -1,6 +1,7 @@
 ---
 import Container from "../../layout/Container.astro";
 import Breadcrumbs from "../../ui/Breadcrumbs.astro";
+import type { BreadcrumbItem } from "../../../lib/schema";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
 import { getRouteUrl } from "../../../i18n/routes";
@@ -9,22 +10,18 @@ import type { Project } from "../../../types/project";
 interface Props {
   project: Project;
   lang: Locale;
+  /** Built once by the page component and shared with the JSON-LD. */
+  crumbs: BreadcrumbItem[];
 }
 
-const { project, lang } = Astro.props;
+const { project, lang, crumbs } = Astro.props;
 const t = useTranslations(lang);
 const projectsUrl = getRouteUrl(lang, "projects");
 ---
 
 <section id="project-hero" class="pb-8 pt-32">
   <Container>
-    <Breadcrumbs
-      lang={lang}
-      items={[
-        { label: t("nav.projects"), href: projectsUrl },
-        { label: project.title },
-      ]}
-    />
+    <Breadcrumbs lang={lang} items={crumbs} />
 
     <h1
       class="max-w-3xl text-4xl font-bold leading-tight text-slate-100 sm:text-5xl"

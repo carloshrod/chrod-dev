@@ -1,6 +1,7 @@
 ---
 import Container from "../../layout/Container.astro";
 import Breadcrumbs from "../../ui/Breadcrumbs.astro";
+import type { BreadcrumbItem } from "../../../lib/schema";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
 import { getRouteUrl } from "../../../i18n/routes";
@@ -9,9 +10,11 @@ import type { Service } from "../../../data/services/types";
 interface Props {
   service: Service;
   lang: Locale;
+  /** Built once by the page component and shared with the JSON-LD. */
+  crumbs: BreadcrumbItem[];
 }
 
-const { service, lang } = Astro.props;
+const { service, lang, crumbs } = Astro.props;
 const t = useTranslations(lang);
 const servicesUrl = getRouteUrl(lang, "services");
 const ctaLabel = service.hero.ctaLabel?.[lang] ?? t("service.page.hero.cta");
@@ -22,13 +25,7 @@ const ctaLabel = service.hero.ctaLabel?.[lang] ?? t("service.page.hero.cta");
   class="flex min-h-screen flex-col pb-16 pt-32"
 >
   <Container class="flex flex-1 flex-col">
-    <Breadcrumbs
-      lang={lang}
-      items={[
-        { label: t("nav.services"), href: servicesUrl },
-        { label: service.card.title[lang], icon: service.icon },
-      ]}
-    />
+    <Breadcrumbs lang={lang} items={crumbs} />
 
     <div class="flex flex-1 items-center">
       <div class="max-w-3xl">

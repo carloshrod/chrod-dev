@@ -15,8 +15,17 @@ import ServiceQuoteForm from "../form/ServiceQuoteForm.tsx";
 import ServiceExploreMoreCTA from "./ServiceExploreMoreCTA.astro";
 import ServiceStickyCTA from "./ServiceStickyCTA.astro";
 import type { Locale } from "../../../i18n/ui";
-import { getAlternatePaths } from "../../../i18n/routes";
+import { getAlternatePaths, getRouteUrl } from "../../../i18n/routes";
+import { useTranslations } from "../../../i18n/utils";
 import type { Service } from "../../../data/services/types";
+import {
+  buildBreadcrumbSchema,
+  buildFaqSchema,
+  buildServiceSchema,
+  getSiteUrl,
+  type BreadcrumbItem,
+  type JsonLd,
+} from "../../../lib/schema";
 
 interface Props {
   service: Service;
@@ -25,6 +34,30 @@ interface Props {
 
 const { service, lang } = Astro.props;
 const alternates = getAlternatePaths("services", service.slug);
+
+const t = useTranslations(lang);
+const siteUrl = getSiteUrl(Astro.site);
+const servicePath = getRouteUrl(lang, "services", service.slug[lang]);
+
+// Defined once, then handed to both ServiceHero (rendered nav) and the
+// BreadcrumbList markup, so the two cannot drift apart.
+const crumbs: BreadcrumbItem[] = [
+  { label: t("nav.services"), href: getRouteUrl(lang, "services") },
+  { label: service.card.title[lang], icon: service.icon },
+];
+
+const jsonLd: JsonLd[] = [
+  buildBreadcrumbSchema(
+    siteUrl,
+    t("breadcrumb.home"),
+    getRouteUrl(lang, "home"),
+    crumbs,
+  ),
+  buildServiceSchema(siteUrl, lang, service, servicePath),
+];
+
+const faqSchema = buildFaqSchema(lang, service);
+if (faqSchema) jsonLd.push(faqSchema);
 ---
 
 <MainLayout
@@ -33,11 +66,12 @@ const alternates = getAlternatePaths("services", service.slug);
   description={service.seo.description[lang]}
   alternates={alternates}
   showWhatsAppButton={false}
+  jsonLd={jsonLd}
 >
   <Navbar lang={lang} alternates={alternates} />
   <main>
     <TravelingGlow>
-      <ServiceHero service={service} lang={lang} />
+      <ServiceHero service={service} lang={lang} crumbs={crumbs} />
       <ServiceProblemSolution service={service} lang={lang} />
       <ServiceIncludes service={service} lang={lang} />
       <ServiceProcess service={service} lang={lang} />

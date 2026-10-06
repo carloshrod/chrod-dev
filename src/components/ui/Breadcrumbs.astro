@@ -2,23 +2,18 @@
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 import { getRouteUrl } from "../../i18n/routes";
-
-interface Crumb {
-  label: string;
-  href?: string;
-  icon?: string;
-}
+import type { BreadcrumbItem } from "../../lib/schema";
 
 interface Props {
   lang: Locale;
-  items: Crumb[];
+  items: BreadcrumbItem[];
 }
 
 const { lang, items } = Astro.props;
 const t = useTranslations(lang);
 const homeUrl = getRouteUrl(lang, "home");
 
-const crumbs: Crumb[] = [
+const crumbs: BreadcrumbItem[] = [
   { label: t("breadcrumb.home"), href: homeUrl },
   ...items,
 ];
