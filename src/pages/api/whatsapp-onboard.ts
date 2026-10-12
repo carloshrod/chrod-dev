@@ -130,6 +130,13 @@ export const POST: APIRoute = async ({ request }) => {
   let verifiedPhoneNumberId: string | undefined;
   let verifiedDisplayPhoneNumber: string | undefined;
   let verifiedBusinessName: string | undefined;
+  // undefined = couldn't check. Careful with the empty list: read with our own
+  // system-user token this only ever shows OUR app. The portfolio that owns the
+  // WABA sees every subscribed app, while a partner with shared access only sees
+  // itself (observed 2026-10-09 on Manuarte Cartagena: our token returned one
+  // app, the client's token returned both). So [] means "nothing reaches us",
+  // not "nothing reaches anyone".
+  let subscribedApps: string[] | undefined;
   const appAccessToken = `${appId}|${appSecret}`;
   const systemUserToken = import.meta.env.WHATSAPP_SYSTEM_USER_TOKEN;
 
@@ -190,6 +197,35 @@ export const POST: APIRoute = async ({ request }) => {
         verifiedPhoneNumberId = firstPhone?.id;
         verifiedDisplayPhoneNumber = firstPhone?.display_phone_number;
         verifiedBusinessName = firstPhone?.verified_name;
+
+        // A number can report as connected and still deliver nothing: message
+        // events (messages, smb_message_echoes) only flow once an app is
+        // subscribed to the WABA, which is separate from the app merely being
+        // installed on it — account_update events arrive either way, so the
+        // onboarding looks healthy while the bot never receives a word.
+        // Reporting it here turns that silent failure into a visible one.
+        const subsRes = await fetch(
+          `https://graph.facebook.com/v23.0/${verifiedWabaId}/subscribed_apps`,
+          { headers: { Authorization: `Bearer ${systemUserToken}` } },
+        );
+        const subsData = await subsRes.json();
+        if (!subsRes.ok || subsData?.error) {
+          console.error(
+            "[whatsapp-onboard] /subscribed_apps failed:",
+            subsRes.status,
+            subsData,
+          );
+        } else {
+          const subs: Array<{
+            whatsapp_business_api_data?: { name?: string; id?: string };
+          }> = subsData?.data ?? [];
+          subscribedApps = subs.map(
+            (s) =>
+              s.whatsapp_business_api_data?.name ??
+              s.whatsapp_business_api_data?.id ??
+              "?",
+          );
+        }
       }
     } catch (err) {
       console.error("WABA/phone verification lookup error:", err);
@@ -221,6 +257,15 @@ export const POST: APIRoute = async ({ request }) => {
     ...(verifiedBusinessName
       ? [{ label: "Nombre verificado", value: verifiedBusinessName }]
       : []),
+    {
+      label: "Webhooks",
+      value:
+        subscribedApps === undefined
+          ? "No se pudo verificar"
+          : subscribedApps.length > 0
+            ? subscribedApps.join(", ")
+            : "CHRod Connect no aparece suscrita: no nos llegarán los mensajes de este número. Puede tardar en propagarse, reverificar antes de asumir falla. No implica que el cliente no reciba por su propia app.",
+    },
     {
       label: "Link generado",
       value:
