@@ -2,9 +2,11 @@
 User-agent: *
 Allow: /
 
-# Sanity Studio: an editing surface, not content.
-Disallow: /studio
-Disallow: /studio/
+# Sanity Studio: an editing surface, not content. It sits under /es/ because
+# Astro's i18n requires a locale prefix on every route: served at /studio the
+# integration's injected route 404s.
+Disallow: /es/studio
+Disallow: /es/studio/
 
 # API endpoints return JSON, never a page worth indexing.
 Disallow: /api/

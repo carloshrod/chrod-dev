@@ -4,16 +4,24 @@ import { webApplications } from "./web-applications";
 import { ecommerceDevelopment } from "./ecommerce-development";
 import { apiBackendDevelopment } from "./api-backend-development";
 import { workflowAutomation } from "./workflow-automation";
+import { whatsappAutomation } from "./whatsapp-automation";
 import type { Service } from "./types";
 import type { Locale } from "../../i18n/ui";
 
+/**
+ * Order drives the services grid, so it is the offer hierarchy, not an
+ * alphabetical list. WhatsApp leads as the wedge; workflow automation sits
+ * next to it as its sibling; the rest follow as the services that get sold
+ * after a client is already in.
+ */
 export const services: Service[] = [
+  whatsappAutomation,
+  workflowAutomation,
+  webApplications,
+  apiBackendDevelopment,
   businessWebsites,
   landingPages,
   ecommerceDevelopment,
-  webApplications,
-  workflowAutomation,
-  apiBackendDevelopment,
 ];
 
 /** Lookup by stable id — use this for Sanity `services` values. */

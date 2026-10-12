@@ -246,8 +246,8 @@ export const businessWebsites: Service = {
 
   seo: {
     title: {
-      en: "Professional Website Development | CHRod Dev - Web Developer",
-      es: "Sitios Web Profesionales | CHRod Dev - Desarrollador Web",
+      en: "Professional Website Development",
+      es: "Sitios Web Profesionales",
     },
     description: {
       en: "Professional, fast-loading websites that build trust and give your company a solid online presence. Get a custom quote.",

@@ -5,7 +5,8 @@ import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
 import { getRouteUrl } from "../../../i18n/routes";
 import { services } from "../../../data/services";
-import { servicesOverview } from "../../../data/servicesOverview";
+import { getServiceOverview } from "../../../data/servicesOverview";
+import { pillars, getPillarServices } from "../../../data/pillars";
 
 interface Props {
   lang: Locale;
@@ -14,9 +15,16 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const items = services.map((service) => ({
-  service,
-  overview: servicesOverview.find((entry) => entry.id === service.id)!,
+// Grouped by pillar rather than one flat list of seven: the visitor picks
+// between three outcomes, and the services stay one click away inside the
+// group they belong to. The seven detail pages are unchanged, so anyone
+// arriving from search still lands straight on the one they searched for.
+const groups = pillars.map((pillar) => ({
+  pillar,
+  items: getPillarServices(pillar).map((service) => ({
+    service,
+    overview: getServiceOverview(service.id),
+  })),
 }));
 ---
 
@@ -28,50 +36,90 @@ const items = services.map((service) => ({
     >
       {t("servicesOverview.grid.heading")}
     </h2>
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="space-y-16">
       {
-        items.map(({ service, overview }, index) => (
-          <a
-            id={`service-${service.id}`}
-            href={getRouteUrl(lang, "services", service.slug[lang])}
-            class="group relative flex h-full scroll-mt-28 flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
-            data-service-card={service.id}
-            data-scroll-animate={`${index <= 2 ? "right" : "left"}`}
-          >
-            {/* Glow on hover */}
+        groups.map(({ pillar, items }, groupIndex) => (
+          /* `scroll-mt-28` keeps the group heading clear of the fixed
+             navbar when a selector pill jumps here. */
+          <div id={`pillar-${pillar.id}`} class="scroll-mt-28">
+            {/* Same entrance direction as the cards below it, so the header
+                and its group arrive together instead of the header being the
+                one static element in the section. This is also what makes
+                `ensureRevealed()` in the selector script meaningful for it:
+                without an entrance animation that call was dead work that
+                still wrote `animation: none` inline. */}
             <div
-              class="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              style="background: radial-gradient(circle at top left, rgba(220,38,38,0.07), transparent 70%);"
-              aria-hidden="true"
-            />
-
-            {/* Icon + title */}
-            <div class="mb-4 flex items-center gap-3">
-              <div class="flex shrink-0 items-center justify-center rounded-xl border border-border bg-background p-3 text-red-400 transition-colors duration-300 group-hover:border-red-600/40 group-hover:text-red-300">
-                <Fragment set:html={service.icon} />
-              </div>
-              <h3 class="text-base font-semibold text-slate-100">
-                {service.card.title[lang]}
-              </h3>
+              class="mb-6"
+              data-pillar-header={pillar.id}
+              data-scroll-animate={groupIndex % 2 === 0 ? "left" : "right"}
+            >
+              <a
+                href={getRouteUrl(lang, "pillars", pillar.slug[lang])}
+                class="group/pillar inline-flex items-start gap-2.5 text-xl font-bold text-slate-100 transition-colors hover:text-red-300 sm:text-2xl"
+              >
+                {/* A ring, not the pillar icon: this header sits directly above
+                    cards that show service icons, and a glyph here competed
+                    with them. Outline for the group, icons for the items. */}
+                <span
+                  class="mt-2 inline-block size-3.5 shrink-0 rounded-full border-2 border-red-500/70 transition-colors group-hover/pillar:border-red-400"
+                  aria-hidden="true"
+                />
+                {pillar.card.title[lang]}
+              </a>
+              <p class="mt-1.5 pl-6 text-sm text-slate-500">
+                {pillar.card.description[lang]}
+              </p>
             </div>
 
-            {/* Text */}
-            <p class="text-sm leading-relaxed text-slate-400">
-              {overview.useCase[lang]}
-            </p>
-            <p class="mb-4 text-xs leading-relaxed text-slate-500">
-              {overview.idealFor[lang]}
-            </p>
+            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {
+                items.map(({ service, overview }, index) => (
+              <a
+                id={`service-${service.id}`}
+                href={getRouteUrl(lang, "services", service.slug[lang])}
+                class="group relative flex h-full scroll-mt-28 flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
+                data-service-card={service.id}
+            data-pillar={pillar.id}
+                data-scroll-animate={groupIndex % 2 === 0 ? "left" : "right"}
+              >
+                {/* Glow on hover */}
+                <div
+                  class="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style="background: radial-gradient(circle at top left, rgba(220,38,38,0.07), transparent 70%);"
+                  aria-hidden="true"
+                />
 
-            {/* Discreet, always-visible affordance that the card is clickable */}
-            <span class="mt-auto inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400">
-              {t("servicesOverview.grid.cta")}
-              <Icon
-                name="arrowRight"
-                class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
-              />
-            </span>
-          </a>
+                {/* Icon + title */}
+                <div class="mb-4 flex items-center gap-3">
+                  <div class="flex shrink-0 items-center justify-center rounded-xl border border-border bg-background p-3 text-red-400 transition-colors duration-300 group-hover:border-red-600/40 group-hover:text-red-300">
+                    <Fragment set:html={service.icon} />
+                  </div>
+                  <h3 class="text-base font-semibold text-slate-100">
+                    {service.card.title[lang]}
+                  </h3>
+                </div>
+
+                {/* Text */}
+                <p class="text-sm leading-relaxed text-slate-400">
+                  {overview.useCase[lang]}
+                </p>
+                <p class="mb-4 text-xs leading-relaxed text-slate-500">
+                  {overview.idealFor[lang]}
+                </p>
+
+                {/* Discreet, always-visible affordance that the card is clickable */}
+                <span class="mt-auto inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400">
+                  {t("servicesOverview.grid.cta")}
+                  <Icon
+                    name="arrowRight"
+                    class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
+                  />
+                </span>
+              </a>
+                ))
+              }
+            </div>
+          </div>
         ))
       }
     </div>

@@ -2,8 +2,7 @@
 import Container from "../../layout/Container.astro";
 import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
-import { services } from "../../../data/services";
-import { servicesOverview } from "../../../data/servicesOverview";
+import { pillars } from "../../../data/pillars";
 
 interface Props {
   lang: Locale;
@@ -12,10 +11,10 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const items = services.map((service) => ({
-  service,
-  overview: servicesOverview.find((entry) => entry.id === service.id)!,
-}));
+// Three pillars, not seven services. Seven is prime, so no grid divides it
+// evenly and the odd one out always had to be stretched or centred. More to
+// the point, "what do you need?" is a high level question, and answering it
+// with seven specific options is the problem the restructure set out to fix.
 ---
 
 <section class="py-16">
@@ -28,18 +27,21 @@ const items = services.map((service) => ({
     </h2>
     <div class="mx-auto flex max-w-4xl flex-wrap justify-center gap-3">
       {
-        items.map(({ service, overview }, index) => (
+        pillars.map((pillar, index) => (
+          /* A real anchor, so the jump still works with JS off and from the
+             keyboard. The script below takes over to add the highlight. */
           <a
-            href={`#service-${service.id}`}
-            data-service-jump={service.id}
-            class="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-2.5 text-sm font-medium text-slate-300 transition-all hover:border-red-600/50 hover:text-slate-100"
-            data-scroll-animate={index % 2 === 0 ? "left" : "right"}
+            href={`#pillar-${pillar.id}`}
+            data-pillar-jump={pillar.id}
+            class="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-slate-300 transition-all hover:border-red-600/50 hover:text-slate-100"
+            data-scroll-animate={index === 0 ? "left" : index === 1 ? "up" : "right"}
           >
             <span
-              class="shrink-0 text-red-400 [&>svg]:h-4.5 [&>svg]:w-4.5"
-              set:html={overview.selectorIcon}
+              class="inline-flex shrink-0 text-red-400 transition-colors group-hover:text-red-300 [&_svg]:size-4"
+              aria-hidden="true"
+              set:html={pillar.selectorIcon}
             />
-            {overview.selectorLabel[lang]}
+            {pillar.selectorLabel[lang]}
           </a>
         ))
       }
@@ -60,6 +62,7 @@ const items = services.map((service) => ({
   // pulse itself runs via the Web Animations API, which lives outside the
   // CSS `animation` cascade entirely and so can never collide either.
   const HIGHLIGHT_MS = 2600;
+  const STAGGER_MS = 80;
   let highlightTimeout: ReturnType<typeof setTimeout> | undefined;
 
   function ensureRevealed(el: HTMLElement) {
@@ -72,6 +75,13 @@ const items = services.map((service) => ({
 
   function clearHighlight() {
     document
+      .querySelectorAll<HTMLElement>("[data-pillar-header]")
+      .forEach((el) => {
+        el.style.opacity = "1";
+        el.style.transitionDelay = "";
+      });
+
+    document
       .querySelectorAll<HTMLElement>("[data-service-card]")
       .forEach((el) => {
         el.getAnimations().forEach((anim) => anim.cancel());
@@ -81,18 +91,24 @@ const items = services.map((service) => ({
         el.style.boxShadow = "";
         el.style.position = "";
         el.style.zIndex = "";
+        el.style.transitionDelay = "";
       });
   }
 
   document.addEventListener("click", (e) => {
     const trigger = (e.target as HTMLElement).closest<HTMLElement>(
-      "[data-service-jump]",
+      "[data-pillar-jump]",
     );
     if (!trigger) return;
 
-    const slug = trigger.getAttribute("data-service-jump");
-    const target = document.getElementById(`service-${slug}`);
-    if (!target) return;
+    const pillarId = trigger.getAttribute("data-pillar-jump");
+    const group = document.getElementById(`pillar-${pillarId}`);
+    if (!group) return;
+
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>(`[data-pillar="${pillarId}"]`),
+    );
+    if (targets.length === 0) return;
 
     e.preventDefault();
 
@@ -104,19 +120,36 @@ const items = services.map((service) => ({
     clearTimeout(highlightTimeout);
     clearHighlight();
 
-    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Scrolls to the group, not to a single card, so the pillar heading and
+    // all of its services land in view together.
+    group.scrollIntoView({ behavior: "smooth", block: "start" });
     // Safari/WebKit focuses focusable elements as a side effect of
     // scrollIntoView() (unlike Chrome/Firefox), which draws the browser's
     // default blue focus ring on top of our red highlight. Blur it since
     // this focus wasn't a real keyboard/user focus interaction.
-    target.blur();
+    targets.forEach((el) => el.blur());
+
+    // The heading of a dimmed group reads as active if it stays at full
+    // opacity, so the headers follow their cards.
+    document
+      .querySelectorAll<HTMLElement>("[data-pillar-header]")
+      .forEach((el) => {
+        ensureRevealed(el);
+        el.style.opacity =
+          el.getAttribute("data-pillar-header") === pillarId ? "1" : "0.32";
+      });
 
     cards.forEach((el) => {
-      if (el === target) {
+      const position = targets.indexOf(el);
+      if (position !== -1) {
         el.style.position = "relative";
         el.style.zIndex = "10";
         el.style.borderColor = "rgba(220, 38, 38, 0.85)";
         el.style.transform = "translateY(-6px) scale(1.035)";
+        // Staggered rather than simultaneous: two or three cards lifting at
+        // once is a lot of motion, and the sweep reads as "these belong
+        // together" instead of a flash.
+        el.style.transitionDelay = `${position * STAGGER_MS}ms`;
         el.animate(
           [
             {
@@ -132,7 +165,12 @@ const items = services.map((service) => ({
                 "0 0 0 3px rgba(220,38,38,0.25), 0 18px 40px rgba(220,38,38,0.16)",
             },
           ],
-          { duration: HIGHLIGHT_MS / 2, iterations: 2, easing: "ease-in-out" },
+          {
+            duration: HIGHLIGHT_MS / 2,
+            iterations: 2,
+            easing: "ease-in-out",
+            delay: position * STAGGER_MS,
+          },
         );
       } else {
         el.style.opacity = "0.32";
@@ -145,7 +183,8 @@ const items = services.map((service) => ({
 </script>
 
 <style is:global>
-  [data-service-card] {
+  [data-service-card],
+  [data-pillar-header] {
     transition:
       border-color 0.3s ease,
       opacity 0.35s ease,

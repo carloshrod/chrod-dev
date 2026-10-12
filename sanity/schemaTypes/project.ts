@@ -1,4 +1,23 @@
 import { defineField, defineType } from "sanity";
+import { services } from "../../src/data/services";
+
+/**
+ * Options for a project's `services` field, derived from the service
+ * definitions rather than restated here.
+ *
+ * This list used to be hardcoded with a "keep in sync" comment, and it drifted
+ * the first time a service was added: `whatsapp-automation` existed in the
+ * data and on the site, but could not be selected in the Studio, so the new
+ * service page could never show a related project. Deriving it means a new
+ * service shows up here on its own.
+ *
+ * Values are the stable `id` fields, never the URL slugs, which differ per
+ * language. Titles use the English card title purely as a Studio label.
+ */
+const serviceOptions = services.map((service) => ({
+  title: service.card.title.en,
+  value: service.id,
+}));
 
 export const projectSchema = defineType({
   name: "project",
@@ -84,6 +103,24 @@ export const projectSchema = defineType({
       rows: 6,
     }),
     defineField({
+      name: "seoDescription",
+      title: "SEO Description (EN)",
+      description:
+        "Meta description for search results. 120-160 characters. Falls back to the Short Description when empty, which is usually too short to fill the snippet.",
+      type: "text",
+      rows: 3,
+      validation: (r) => r.max(160),
+    }),
+    defineField({
+      name: "seoDescriptionEs",
+      title: "SEO Description (ES)",
+      description:
+        "Meta description for search results. 120-160 characters. Falls back to SEO Description (EN), then to the Short Description.",
+      type: "text",
+      rows: 3,
+      validation: (r) => r.max(160),
+    }),
+    defineField({
       name: "techStack",
       title: "Tech Stack",
       type: "array",
@@ -155,22 +192,8 @@ export const projectSchema = defineType({
       type: "array",
       description:
         "Services this project should appear under in the 'Related Projects' section",
-      // Values are the stable `id` fields in src/data/services/*.ts — NOT the
-      // URL slugs, which differ per language. Keep this list in sync with them.
       of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Professional Websites", value: "business-websites" },
-          { title: "Landing Pages", value: "landing-pages" },
-          { title: "E-commerce Development", value: "ecommerce-development" },
-          { title: "Web Applications", value: "web-applications" },
-          { title: "Workflow Automation", value: "workflow-automation" },
-          {
-            title: "API & Backend Development",
-            value: "api-backend-development",
-          },
-        ],
-      },
+      options: { list: serviceOptions },
     }),
     defineField({
       name: "testimonialRef",

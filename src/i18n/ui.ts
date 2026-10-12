@@ -10,9 +10,22 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.lang.label": "ES",
 
     // Hero
-    "hero.subtitle": "Web Development & Automation",
-    "hero.cta.services": "View Services",
-    "hero.cta.projects": "View Work",
+    "hero.headline": "Your WhatsApp answers, quotes and books on its own",
+    // The h1 already states the outcome and the badge below already states the
+    // Meta credential, so this line's job is removing fear and effort, not
+    // repeating either. It leads with the two objections that actually stall
+    // the sale (new number, lost chats) and names WhatsApp rather than "the
+    // app", which would make the reader work out which app is meant.
+    "hero.subtitle":
+      "No new number, no lost chats. You keep using the same WhatsApp as always, only now it answers when you cannot.",
+    "hero.badge": "Approved Meta Tech Provider",
+    // EN only. The hero gates this on `lang`, so there is no ES counterpart:
+    // the nearshore pitch (US time zone overlap, direct access instead of an
+    // account manager) means nothing to a Colombian buyer.
+    "hero.nearshore":
+      "Based in Colombia, working US hours. You talk to the person who builds it, not an account manager.",
+    "hero.cta.primary": "Book 15 minutes",
+    "hero.cta.secondary": "See how it works",
     "hero.scroll": "Explore",
 
     // About
@@ -31,7 +44,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.resume.url": "/resume-en.pdf",
 
     // About page (/about)
-    "about.page.seo.title": "About | CHRod Dev - Web Developer",
+    "about.page.seo.title": "About",
     "about.page.seo.description":
       "Full stack developer with a business-first approach: understanding the problem, defining a clear solution, and building something that actually works.",
     "about.page.hero.heading":
@@ -86,7 +99,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "breadcrumb.home": "Home",
 
     // 404 page
-    "notFound.seo.title": "Page not found | CHRod Dev - Web Developer",
+    "notFound.seo.title": "Page not found",
     "notFound.seo.description":
       "The page you are looking for doesn't exist or has been moved.",
     "notFound.label": "Error 404",
@@ -100,6 +113,9 @@ export const ui: Record<Locale, Record<string, string>> = {
     "notFound.help.cta": "Let's talk",
 
     // Service page (individual service landing pages)
+    "pillar.cta.primary": "Tell me about your project",
+    "pillar.cta.secondary": "See all services",
+    "pillar.services.heading": "What this includes",
     "service.page.backToServices": "View all services",
     "service.page.hero.cta": "Request a quote",
     "service.page.hero.microcopy": "Response within 24h • No commitment",
@@ -113,6 +129,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.process.cta.question":
       "Like this approach? We can apply it to your project",
     "service.page.process.cta.label": "Evaluate my project",
+    "service.page.modes.feature": "Feature",
     "service.page.techstack.heading": "Technologies",
     "service.page.techstack.intro":
       "Technologies chosen to make your product fast, stable, and ready to scale.",
@@ -141,7 +158,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.form.submit.whatsapp": "Send via WhatsApp",
 
     // Services overview page (/services)
-    "servicesOverview.seo.title": "Services | CHRod Dev - Web Developer",
+    "servicesOverview.seo.title": "Services",
     "servicesOverview.seo.description":
       "Explore all services: professional websites, landing pages, e-commerce, web applications, automation, and APIs. Find the right fit for your project.",
     "servicesOverview.hero.heading": "A service for every kind of project",
@@ -154,11 +171,16 @@ export const ui: Record<Locale, Record<string, string>> = {
       "It’s normal not to be sure at the start.",
     "servicesOverview.comparison.subheading2":
       "If you’re in any of these situations:",
+    "servicesOverview.comparison.none.title": "None of these fit your case?",
+    "servicesOverview.comparison.none.body":
+      "Tell me what you are trying to solve and I will tell you which service fits, or whether none of them does.",
+    "servicesOverview.comparison.none.cta": "Tell me about your project",
     "servicesOverview.cta.heading":
       "I can help you find the right approach for your project.",
 
     // Skills
     "skills.heading": "Technologies I use",
+    "skills.typing.intro": "What I build:",
     "skills.category.frontend": "Frontend",
     "skills.category.backend": "Backend & Data",
     "skills.category.ui": "UI & Experience",
@@ -177,7 +199,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projects.cta.button": "Start my project",
 
     // Projects overview page (/projects)
-    "projectsOverview.seo.title": "Projects | CHRod Dev - Web Developer",
+    "projectsOverview.seo.title": "Projects",
     "projectsOverview.seo.description":
       "Explore all projects I've built. Web apps, e-commerce platforms, dashboards, landing pages, and more.",
     "projectsOverview.hero.heading": "Projects I’ve worked on",
@@ -339,9 +361,12 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.lang.label": "EN",
 
     // Hero
-    "hero.subtitle": "Desarrollo Web & Automatización",
-    "hero.cta.services": "Ver servicios",
-    "hero.cta.projects": "Ver proyectos",
+    "hero.headline": "Tu WhatsApp atiende, cotiza y agenda solo",
+    "hero.subtitle":
+      "Sin cambiar de número ni perder tus chats. Sigues usando el mismo WhatsApp de siempre, pero ahora atiende cuando tú no puedes.",
+    "hero.badge": "Proveedor de Tecnología aprobado por Meta",
+    "hero.cta.primary": "Agenda 15 minutos",
+    "hero.cta.secondary": "Ver cómo funciona",
     "hero.scroll": "Explorar",
 
     // About
@@ -360,7 +385,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.resume.url": "/resume-es.pdf",
 
     // Página de sobre mí (/about)
-    "about.page.seo.title": "Sobre mí | CHRod Dev - Desarrollador Web",
+    "about.page.seo.title": "Sobre mí",
     "about.page.seo.description":
       "Desarrollador full stack con enfoque en negocio: entender el problema, definir una solución clara y construir algo que realmente funcione.",
     "about.page.hero.heading":
@@ -415,7 +440,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "breadcrumb.home": "Inicio",
 
     // Página 404
-    "notFound.seo.title": "Página no encontrada | CHRod Dev - Desarrollador Web",
+    "notFound.seo.title": "Página no encontrada",
     "notFound.seo.description":
       "La página que buscas no existe o fue movida.",
     "notFound.label": "Error 404",
@@ -429,6 +454,9 @@ export const ui: Record<Locale, Record<string, string>> = {
     "notFound.help.cta": "Hablemos",
 
     // Service page (páginas individuales de servicio)
+    "pillar.cta.primary": "Cuéntame tu proyecto",
+    "pillar.cta.secondary": "Ver todos los servicios",
+    "pillar.services.heading": "Qué incluye",
     "service.page.backToServices": "Todos los servicios",
     "service.page.hero.cta": "Solicitar presupuesto",
     "service.page.hero.microcopy": "Respuesta en menos de 24h • Sin compromiso",
@@ -442,6 +470,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.process.cta.question":
       "Si te gusta este enfoque, podemos aplicarlo a tu caso",
     "service.page.process.cta.label": "Evaluar mi proyecto",
+    "service.page.modes.feature": "Característica",
     "service.page.techstack.heading": "Tecnologías",
     "service.page.techstack.intro":
       "Tecnologías pensadas para que tu producto sea rápido, estable y pueda crecer sin limitaciones.",
@@ -471,7 +500,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.form.submit.whatsapp": "Enviar por WhatsApp",
 
     // Página de servicios (/services)
-    "servicesOverview.seo.title": "Servicios | CHRod Dev - Desarrollador Web",
+    "servicesOverview.seo.title": "Servicios",
     "servicesOverview.seo.description":
       "Explora todos los servicios: sitios web profesionales, landing pages, e-commerce, aplicaciones web, automatización y APIs. Encuentra el que se ajusta a tu proyecto.",
     "servicesOverview.hero.heading": "Un servicio para cada tipo de proyecto",
@@ -486,11 +515,16 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Es normal no tenerlo claro al inicio.",
     "servicesOverview.comparison.subheading2":
       "Estas son algunas situaciones comunes:",
+    "servicesOverview.comparison.none.title": "¿Ninguno encaja con tu caso?",
+    "servicesOverview.comparison.none.body":
+      "Cuéntame qué estás tratando de resolver y te digo cuál servicio encaja, o si ninguno lo hace.",
+    "servicesOverview.comparison.none.cta": "Cuéntame tu proyecto",
     "servicesOverview.cta.heading":
       "Puedo ayudarte a definir el mejor enfoque para tu proyecto.",
 
     // Skills
     "skills.heading": "Tecnologías que utilizo",
+    "skills.typing.intro": "Lo que construyo:",
     "skills.category.frontend": "Frontend",
     "skills.category.backend": "Backend & Datos",
     "skills.category.ui": "UI & Experiencia",
@@ -509,7 +543,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "projects.cta.button": "Iniciar mi proyecto",
 
     // Página de proyectos (/projects)
-    "projectsOverview.seo.title": "Proyectos | CHRod Dev - Desarrollador Web",
+    "projectsOverview.seo.title": "Proyectos",
     "projectsOverview.seo.description":
       "Explora todos los proyectos que he desarrollado. Aplicaciones web, plataformas e-commerce, dashboards, landing pages y más.",
     "projectsOverview.hero.heading": "Proyectos en los que he trabajado",
@@ -669,3 +703,55 @@ export const ui: Record<Locale, Record<string, string>> = {
     "legal.back": "Volver al inicio",
   },
 };
+
+/**
+ * Keys that exist in English only, on purpose.
+ *
+ * `t()` falls back to English for a missing key, so an untranslated key does
+ * not fail: it silently renders English inside a Spanish page. Anything
+ * deliberate goes here, and the check below catches everything else.
+ */
+const EN_ONLY_KEYS = new Set<string>([
+  // Nearshore pitch (US time zone overlap, direct access instead of an account
+  // manager). Gated on `lang` in HeroSection, so it never reaches an ES page.
+  "hero.nearshore",
+]);
+
+/**
+ * Build-time parity check between the two locales.
+ *
+ * This exists because it already went wrong: four keys were added to `en` and
+ * not to `es`, and the Spanish pillar pages shipped with English buttons and
+ * headings. Nothing failed, nothing warned, and it was only caught by reading
+ * the rendered page.
+ */
+function assertLocaleParity(): void {
+  const enKeys = Object.keys(ui.en);
+  const esKeys = new Set(Object.keys(ui.es));
+
+  const untranslated = enKeys.filter(
+    (key) => !esKeys.has(key) && !EN_ONLY_KEYS.has(key),
+  );
+  if (untranslated.length > 0) {
+    throw new Error(
+      `Missing es translation for: ${untranslated.join(", ")}. ` +
+        `Add them in src/i18n/ui.ts, or list them in EN_ONLY_KEYS if English on a Spanish page is intended.`,
+    );
+  }
+
+  const orphaned = Object.keys(ui.es).filter((key) => !ui.en[key]);
+  if (orphaned.length > 0) {
+    throw new Error(
+      `Key(s) present in es but missing in en: ${orphaned.join(", ")}. English is the fallback, so every key needs one.`,
+    );
+  }
+
+  const stale = [...EN_ONLY_KEYS].filter((key) => esKeys.has(key));
+  if (stale.length > 0) {
+    throw new Error(
+      `EN_ONLY_KEYS lists key(s) that now have an es translation: ${stale.join(", ")}. Remove them from the list.`,
+    );
+  }
+}
+
+assertLocaleParity();

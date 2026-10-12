@@ -1,20 +1,32 @@
 ---
 import Container from "../layout/Container.astro";
-import TypingAnimation from "../ui/TypingAnimation.tsx";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 import { getRouteUrl } from "../../i18n/routes";
 import { iconMap } from "../../lib/techIcons";
+import { getServiceById } from "../../data/services";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
+
+// Secondary CTA points at the wedge's own page. Derived from the service data
+// rather than hardcoded, so renaming the slug cannot break this link.
+const wedge = getServiceById("whatsapp-automation");
+const wedgeUrl = wedge
+  ? getRouteUrl(lang, "services", wedge.slug[lang])
+  : getRouteUrl(lang, "services");
+
+// Gated on `lang`, not on an empty ES string: `t()` falls back to English for
+// a missing key, so a blank ES value would only stay blank by accident. This
+// line is an EN-market argument and has no ES counterpart.
+const nearshore = lang === "en" ? t("hero.nearshore") : null;
 
 // Diagonal cluster sitting on top of the ambient glow (the glow div is
 // inset-12 inside a 420px box, so its visible circle spans roughly
 // 11%-88% on both axes — icons are positioned inside that range, not
 // pinned to the far edge). Communicates a Next.js-focused full-stack
-// profile: Next.js is the principal glyph (largest, most visible),
-// TypeScript/Node.js are mid-weight support, and React/n8n sit further
+// profile: the WhatsApp API mark is the principal glyph (largest, most
+// visible), n8n/Node.js are mid-weight support, and React/TypeScript sit further
 // back — smaller and dimmer, but still legible (no blur, that read as
 // broken rendering rather than depth). `depth` drives both the
 // mouse-parallax range (px) and the idle float amplitude.
@@ -30,7 +42,7 @@ const heroDecorIcons = [
     delay: "-1.4s",
   },
   {
-    name: "TypeScript",
+    name: "n8n",
     top: "28%",
     right: "62%",
     depth: 8,
@@ -40,7 +52,7 @@ const heroDecorIcons = [
     delay: "-3.1s",
   },
   {
-    name: "Next.js",
+    name: "WhatsApp API",
     top: "42%",
     right: "45%",
     depth: 12,
@@ -60,7 +72,7 @@ const heroDecorIcons = [
     delay: "-4.2s",
   },
   {
-    name: "n8n",
+    name: "TypeScript",
     top: "76%",
     right: "42%",
     depth: 4,
@@ -79,11 +91,11 @@ const heroDecorIcons = [
     aria-hidden="true"
   >
     <div
-      class="absolute -top-40 left-1/2 h-130 w-175 -translate-x-1/2 rounded-full bg-red-700/10 blur-3xl"
+      class="absolute -top-40 left-1/2 h-130 w-175 -translate-x-1/2 rounded-full bg-red-950/20 blur-3xl"
     >
     </div>
     <div
-      class="absolute top-1/3 -right-20 h-75 w-105 rounded-full bg-red-900/10 blur-3xl"
+      class="absolute top-1/3 -right-20 h-75 w-105 rounded-full bg-red-950/20 blur-3xl"
     >
     </div>
   </div>
@@ -120,44 +132,75 @@ const heroDecorIcons = [
     </div>
 
     <div class="relative z-10 py-24 lg:py-32">
+      {/* The brand is the kicker, not the headline: "CHRod Dev" is a unique
+          string with no competition, so an h1 spent on it wins a keyword that
+          was never at risk. The h1 carries the value proposition instead. */}
+      <p class="mb-4 text-xl font-bold tracking-tight text-slate-100 sm:text-2xl">
+        CHRod · <span class="text-red-400">Dev</span>
+      </p>
+
+      {/* One key, wrapped by `text-balance` rather than a line break baked
+          into the copy: the ES and EN headlines differ in length, so a fixed
+          break point cannot read well in both. */}
       <h1
-        class="mb-5 text-5xl font-bold leading-tight text-slate-100 sm:text-6xl lg:text-7xl"
-        data-hero-title
+        class="mb-6 max-w-3xl text-balance text-4xl font-bold leading-[1.1] text-slate-100 sm:text-5xl lg:text-6xl"
       >
-        CHRod ·
-        <span class="text-red-400">Dev</span>
+        {t("hero.headline")}
       </h1>
 
       <p
-        class="mb-6 text-xl font-medium text-slate-400 md:text-2xl lg:text-3xl"
+        class="mb-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-400 md:text-xl"
       >
         {t("hero.subtitle")}
       </p>
 
-      <TypingAnimation lang={lang} client:load />
+      <p
+        class="mb-8 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-950/30 px-4 py-2 text-sm font-medium text-emerald-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20 6 9 17l-5-5"></path>
+        </svg>
+        {t("hero.badge")}
+      </p>
 
-      <div class="flex flex-wrap gap-4">
-        <a
-          href={getRouteUrl(lang, "services")}
-          class="rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25"
-          data-hero-cta
+      {/* Primary CTA is the only saturated red element above the fold. The
+          secondary is neutral on purpose: two red buttons compete and neither
+          reads as the next step. */}
+      <div class="flex flex-wrap items-center gap-4">
+        <button
+          type="button"
+          data-open-contact
+          class="rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
         >
-          {t("hero.cta.services")}
-        </a>
+          {t("hero.cta.primary")}
+        </button>
         <a
-          href={getRouteUrl(lang, "projects")}
-          class="rounded-lg border border-red-600/50 px-6 py-3 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300 cursor-pointer"
-          data-hero-cta
+          href={wedgeUrl}
+          class="rounded-lg border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-300 transition-all hover:border-slate-500 hover:text-slate-100"
         >
-          {t("hero.cta.projects")}
+          {t("hero.cta.secondary")}
         </a>
       </div>
+
+      {nearshore && (
+        <p class="mt-6 max-w-xl text-sm text-slate-500">{nearshore}</p>
+      )}
     </div>
   </Container>
 
   <div
     class="absolute inset-x-0 bottom-8 z-10 flex flex-col items-center gap-2 text-slate-600"
-    data-hero-scroll
   >
     <span class="text-xs uppercase tracking-widest">{t("hero.scroll")}</span>
     <svg

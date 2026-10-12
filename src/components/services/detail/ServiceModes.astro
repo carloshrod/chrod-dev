@@ -1,0 +1,126 @@
+---
+import Container from "../../layout/Container.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import type { Service } from "../../../data/services/types";
+
+interface Props {
+  service: Service;
+  lang: Locale;
+}
+
+const { service, lang } = Astro.props;
+const t = useTranslations(lang);
+const modes = service.modes;
+---
+
+{
+  /* Only rendered for a service that defines `modes`. Today that is WhatsApp
+     alone, where the buyer has to choose between coexistence and a dedicated
+     number before anything can be built. */
+}
+{
+  modes && (
+    <section id="service-modes" class="py-20">
+      <Container>
+        <h2
+          class="mb-10 max-w-2xl text-3xl font-bold text-slate-100 sm:text-4xl"
+          data-scroll-animate="up"
+        >
+          {modes.heading[lang]}
+        </h2>
+
+        {/* Cards on small screens, a real table from sm up: a 3-column
+            comparison does not survive a phone width, and a horizontally
+            scrolling table hides the column that matters. */}
+        <div class="space-y-4 sm:hidden" data-scroll-animate="up">
+          {modes.rows.map((row) => (
+            <div class="rounded-xl border border-border bg-surface p-4">
+              <p class="mb-3 text-sm font-semibold text-slate-300">
+                {row.label[lang]}
+              </p>
+              <dl class="space-y-2 text-sm">
+                <div>
+                  <dt class="text-xs uppercase tracking-wide text-red-400">
+                    {modes.optionA[lang]}
+                  </dt>
+                  <dd
+                    class={
+                      row.highlightA
+                        ? "font-semibold text-slate-100"
+                        : "text-slate-400"
+                    }
+                  >
+                    {row.a[lang]}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-xs uppercase tracking-wide text-slate-500">
+                    {modes.optionB[lang]}
+                  </dt>
+                  <dd class="text-slate-400">{row.b[lang]}</dd>
+                </div>
+              </dl>
+            </div>
+          ))}
+        </div>
+
+        <div
+          class="hidden overflow-hidden rounded-xl border border-border sm:block"
+          data-scroll-animate="up"
+        >
+          <table class="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr class="bg-surface">
+                <th scope="col" class="w-1/4 p-4 font-medium text-slate-500">
+                  <span class="sr-only">{t("service.page.modes.feature")}</span>
+                </th>
+                <th
+                  scope="col"
+                  class="w-[37.5%] p-4 font-semibold text-red-400"
+                >
+                  {modes.optionA[lang]}
+                </th>
+                <th
+                  scope="col"
+                  class="w-[37.5%] p-4 font-semibold text-slate-300"
+                >
+                  {modes.optionB[lang]}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {modes.rows.map((row) => (
+                <tr class="border-t border-border">
+                  <th
+                    scope="row"
+                    class="p-4 align-top font-medium text-slate-300"
+                  >
+                    {row.label[lang]}
+                  </th>
+                  <td
+                    class={`p-4 align-top ${
+                      row.highlightA
+                        ? "font-semibold text-slate-100"
+                        : "text-slate-400"
+                    }`}
+                  >
+                    {row.a[lang]}
+                  </td>
+                  <td class="p-4 align-top text-slate-400">{row.b[lang]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p
+          class="mt-8 max-w-3xl border-l-2 border-red-600/50 pl-4 text-slate-400"
+          data-scroll-animate="up"
+        >
+          {modes.note[lang]}
+        </p>
+      </Container>
+    </section>
+  )
+}

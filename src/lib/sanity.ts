@@ -66,6 +66,10 @@ export async function getProjects(
         $isEs && defined(descriptionEs) => descriptionEs,
         description
       ),
+      "seoDescription": select(
+        $isEs && defined(seoDescriptionEs) => seoDescriptionEs,
+        seoDescription
+      ),
       "longDescription": select(
         $isEs && defined(longDescriptionEs) => longDescriptionEs,
         longDescription
@@ -109,6 +113,7 @@ export async function getProjects(
       title: p.title,
       description: p.description,
       longDescription: p.longDescription,
+      seoDescription: p.seoDescription,
       role: p.role,
       company: p.company,
       year: p.year,

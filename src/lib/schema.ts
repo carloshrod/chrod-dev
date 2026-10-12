@@ -221,6 +221,10 @@ export function buildServiceSchema(
 ): JsonLd {
   return {
     "@type": "Service",
+    // A stable `@id` so the pillar page and the service page describe one
+    // entity. Without it each page emits an anonymous node and a crawler has
+    // no way to tell they are the same service.
+    "@id": `${site}${path}#service`,
     name: service.card.title[lang],
     description: service.card.description[lang],
     url: `${site}${path}`,

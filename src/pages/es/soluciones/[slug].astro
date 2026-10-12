@@ -1,0 +1,17 @@
+---
+import PillarPage from "../../../components/services/pillar/PillarPage.astro";
+import { getPillarBySlug, getPillarSlugs } from "../../../data/pillars";
+
+export function getStaticPaths() {
+  return getPillarSlugs("es").map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const pillar = getPillarBySlug(slug!, "es");
+
+if (!pillar) {
+  return Astro.redirect("/es");
+}
+---
+
+<PillarPage pillar={pillar} lang="es" />

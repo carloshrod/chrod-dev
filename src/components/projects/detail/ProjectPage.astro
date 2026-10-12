@@ -52,8 +52,8 @@ const jsonLd = [
 
 <MainLayout
   lang={lang}
-  title={`${project.title} | CHRod Dev - Web Developer`}
-  description={project.description}
+  title={project.title}
+  description={project.seoDescription ?? project.description}
   alternates={alternates}
   showWhatsAppButton={false}
   jsonLd={jsonLd}

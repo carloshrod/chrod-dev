@@ -4,7 +4,7 @@ import Icon from "../ui/icons.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 import { getRouteUrl } from "../../i18n/routes";
-import { services } from "../../data/services";
+import { pillars, getPillarServices } from "../../data/pillars";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
@@ -31,43 +31,63 @@ const t = useTranslations(lang);
     <!-- Grid -->
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
-        services.map((service, index) => (
-          <a
-            href={getRouteUrl(lang, "services", service.slug[lang])}
+        pillars.map((pillar, index) => (
+          /* A div, not an anchor. The card used to be one big link with the
+             service names as plain text, which told you a service was in there
+             but still made you open the pillar to reach it. Nested anchors are
+             invalid, so the whole-card click is traded for eight real
+             destinations instead of three. */
+          <div
             class="group relative flex h-full flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50 hover:bg-surface/80"
-            data-scroll-animate={`${index <= 2 ? "right" : "left"}`}
+            data-scroll-animate={index === 0 ? "left" : index === 1 ? "right" : "left"}
           >
-            <!-- Glow on hover -->
             <div
               class="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               style="background: radial-gradient(circle at top left, rgba(220,38,38,0.07), transparent 70%);"
               aria-hidden="true"
             />
 
-            <!-- Icon + title -->
-            <div class="mb-4 flex items-center gap-3">
-              <div class="flex shrink-0 items-center justify-center rounded-xl border border-border bg-background p-3 text-red-400 transition-colors duration-300 group-hover:border-red-600/40 group-hover:text-red-300">
-                <Fragment set:html={service.icon} />
-              </div>
-              <h3 class="text-base font-semibold text-slate-100">
-                {service.card.title[lang]}
-              </h3>
-            </div>
+<span
+              class="relative mb-5 inline-flex size-12 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-red-400 transition-colors duration-300 group-hover:border-red-600/40 group-hover:text-red-300 [&_svg]:size-5"
+              aria-hidden="true"
+              set:html={pillar.icon}
+            />
 
-            <!-- Text -->
-            <p class="mb-4 text-sm leading-relaxed text-slate-400">
-              {service.card.description[lang]}
+            <h3 class="relative mb-3 text-lg font-semibold text-slate-100">
+              {pillar.card.title[lang]}
+            </h3>
+            <p class="relative mb-5 text-sm leading-relaxed text-slate-400">
+              {pillar.card.description[lang]}
             </p>
 
-            <!-- Discreet, always-visible affordance that the card is clickable -->
-            <span class="mt-auto inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors duration-300 group-hover:text-red-400">
+            <ul class="relative mb-5 space-y-1">
+              {getPillarServices(pillar).map((service) => (
+                <li>
+                  <a
+                    href={getRouteUrl(lang, "services", service.slug[lang])}
+                    class="group/item flex items-start gap-2 rounded py-1 text-sm text-slate-400 transition-colors hover:text-red-300"
+                  >
+                    <span
+                      class="mt-1.5 size-1 shrink-0 rounded-full bg-red-600/60 transition-colors group-hover/item:bg-red-400"
+                      aria-hidden="true"
+                    />
+                    {service.card.title[lang]}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={getRouteUrl(lang, "pillars", pillar.slug[lang])}
+              class="relative mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-red-400 transition-colors hover:text-red-300"
+            >
               {t("services.card.cta")}
               <Icon
                 name="arrowRight"
                 class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
               />
-            </span>
-          </a>
+            </a>
+          </div>
         ))
       }
     </div>

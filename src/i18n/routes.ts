@@ -3,6 +3,7 @@ import type { Locale } from "./ui";
 export type RouteKey =
   | "home"
   | "services"
+  | "pillars"
   | "projects"
   | "about"
   | "review"
@@ -26,6 +27,13 @@ export type RouteKey =
 const routeBases: Record<RouteKey, Record<Locale, string>> = {
   home: { en: "/", es: "/" },
   services: { en: "/services", es: "/servicios" },
+  // Pillars get their own segment rather than sharing /services/<slug>/.
+  // Sharing it meant a runtime lookup to tell a category from a service,
+  // a possible slug collision, and URLs where you could not tell which
+  // was which. Nesting them under /services/ was the other option and was
+  // rejected: it would have rewritten all seven service URLs and locked a
+  // marketing grouping into the URL structure.
+  pillars: { en: "/solutions", es: "/soluciones" },
   projects: { en: "/projects", es: "/proyectos" },
   about: { en: "/about", es: "/acerca-de" },
   review: { en: "/review", es: "/resena" },

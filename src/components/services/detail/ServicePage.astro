@@ -6,6 +6,7 @@ import ContactDrawer from "../../ui/ContactDrawer.tsx";
 import TravelingGlow from "../../ui/TravelingGlow.astro";
 import ServiceHero from "./ServiceHero.astro";
 import ServiceProblemSolution from "./ServiceProblemSolution.astro";
+import ServiceModes from "./ServiceModes.astro";
 import ServiceIncludes from "./ServiceIncludes.astro";
 import ServiceProcess from "./ServiceProcess.astro";
 import ServiceTechStack from "./ServiceTechStack.astro";
@@ -18,6 +19,7 @@ import type { Locale } from "../../../i18n/ui";
 import { getAlternatePaths, getRouteUrl } from "../../../i18n/routes";
 import { useTranslations } from "../../../i18n/utils";
 import type { Service } from "../../../data/services/types";
+import { getPillarForService } from "../../../data/pillars";
 import {
   buildBreadcrumbSchema,
   buildFaqSchema,
@@ -41,6 +43,12 @@ const servicePath = getRouteUrl(lang, "services", service.slug[lang]);
 
 // Defined once, then handed to both ServiceHero (rendered nav) and the
 // BreadcrumbList markup, so the two cannot drift apart.
+// The pillar is NOT in the trail. It lives at /solutions/<slug>/ now, so
+// putting it between "Services" and this page would describe a hierarchy the
+// URL does not have. The pillar stays reachable through the line below the
+// heading, the grouped overview and the home cards.
+const pillar = getPillarForService(service.id);
+
 const crumbs: BreadcrumbItem[] = [
   { label: t("nav.services"), href: getRouteUrl(lang, "services") },
   { label: service.card.title[lang], icon: service.icon },
@@ -71,8 +79,14 @@ if (faqSchema) jsonLd.push(faqSchema);
   <Navbar lang={lang} alternates={alternates} />
   <main>
     <TravelingGlow>
-      <ServiceHero service={service} lang={lang} crumbs={crumbs} />
+      <ServiceHero
+        service={service}
+        lang={lang}
+        crumbs={crumbs}
+        pillar={pillar}
+      />
       <ServiceProblemSolution service={service} lang={lang} />
+      <ServiceModes service={service} lang={lang} />
       <ServiceIncludes service={service} lang={lang} />
       <ServiceProcess service={service} lang={lang} />
       <ServiceTechStack service={service} lang={lang} />

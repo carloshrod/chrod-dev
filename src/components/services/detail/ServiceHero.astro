@@ -6,15 +6,18 @@ import { useTranslations } from "../../../i18n/utils";
 import type { Locale } from "../../../i18n/ui";
 import { getRouteUrl } from "../../../i18n/routes";
 import type { Service } from "../../../data/services/types";
+import type { Pillar } from "../../../data/pillars";
 
 interface Props {
   service: Service;
   lang: Locale;
   /** Built once by the page component and shared with the JSON-LD. */
   crumbs: BreadcrumbItem[];
+  /** The group this service belongs to, linked under the heading. */
+  pillar?: Pillar;
 }
 
-const { service, lang, crumbs } = Astro.props;
+const { service, lang, crumbs, pillar } = Astro.props;
 const t = useTranslations(lang);
 const servicesUrl = getRouteUrl(lang, "services");
 const ctaLabel = service.hero.ctaLabel?.[lang] ?? t("service.page.hero.cta");
@@ -27,6 +30,24 @@ const ctaLabel = service.hero.ctaLabel?.[lang] ?? t("service.page.hero.cta");
   <Container class="flex flex-1 flex-col">
     <Breadcrumbs lang={lang} items={crumbs} />
 
+    {
+      /* A category tag, not a sentence. "Part of <pillar>" made you parse
+         prose to learn one fact; a pill reads in half a second and is what
+         this actually is. */
+      pillar && (
+        <a
+          href={getRouteUrl(lang, "pillars", pillar.slug[lang])}
+          class="group/pill mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5 text-xs font-medium text-slate-400 transition-colors hover:border-red-600/50 hover:text-red-300"
+        >
+          <span
+            class="inline-block size-2 shrink-0 rounded-full border-2 border-red-500/70 transition-colors group-hover/pill:border-red-400"
+            aria-hidden="true"
+          />
+          {pillar.card.title[lang]}
+        </a>
+      )
+    }
+
     <div class="flex flex-1 items-center">
       <div class="max-w-3xl">
         <h1
@@ -34,7 +55,7 @@ const ctaLabel = service.hero.ctaLabel?.[lang] ?? t("service.page.hero.cta");
         >
           {service.hero.headline[lang]}
         </h1>
-        <p class="mb-8 text-lg leading-relaxed text-slate-400">
+        <p class="mb-8 text-pretty text-lg leading-relaxed text-slate-400">
           {service.hero.subheadline[lang]}
         </p>
         <a

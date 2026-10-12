@@ -19,6 +19,44 @@ export interface ServiceOverviewEntry {
 
 export const servicesOverview: ServiceOverviewEntry[] = [
   {
+    id: "whatsapp-automation",
+    selectorIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><path d="M8.5 9.5c0 3.3 2.7 6 6 6"/></svg>`,
+    selectorLabel: {
+      en: "Stop losing sales on WhatsApp",
+      es: "Dejar de perder ventas por WhatsApp",
+    },
+    useCase: {
+      en: "For businesses that sell and support over WhatsApp and cannot keep up.",
+      es: "Para negocios que venden y atienden por WhatsApp y no dan abasto.",
+    },
+    idealFor: {
+      en: "Ideal if you reply late, answer the same questions all day, or want it handled while you sleep.",
+      es: "Ideal si respondes tarde, contestas lo mismo todo el día, o quieres que se atienda mientras duermes.",
+    },
+    scenarioSituations: [
+      {
+        title: {
+          en: "Customers write and you reply hours later",
+          es: "Te escriben y respondes horas después",
+        },
+        subtext: {
+          en: "and by then they already bought somewhere else",
+          es: "y cuando contestas ya compraron en otro lado",
+        },
+      },
+      {
+        title: {
+          en: "You answer the same questions every day",
+          es: "Contestas las mismas preguntas todos los días",
+        },
+      },
+    ],
+    scenarioCtaLabel: {
+      en: "Automate my WhatsApp",
+      es: "Automatizar mi WhatsApp",
+    },
+  },
+  {
     id: "business-websites",
     selectorIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-3.75-4-6.5-7.875-6.5-11.5a6.5 6.5 0 0 1 13 0c0 3.625-2.75 7.5-6.5 11.5z"/><circle cx="12" cy="9.25" r="1.75"/><path d="M4 6a4.7 4.7 0 0 0 0 8"/><path d="M20 6a4.7 4.7 0 0 1 0 8"/></svg>`,
     selectorLabel: {
@@ -247,3 +285,21 @@ export const servicesOverview: ServiceOverviewEntry[] = [
     },
   },
 ];
+
+/**
+ * Overview entry for a service id.
+ *
+ * The grid and the selector used to do `servicesOverview.find(...)!`, which
+ * lies to the type checker: a service without an entry here yields `undefined`
+ * and then fails on property access, far from the actual mistake. Adding a
+ * service and forgetting its entry is an easy miss, so this names it.
+ */
+export function getServiceOverview(id: string): ServiceOverviewEntry {
+  const entry = servicesOverview.find((item) => item.id === id);
+  if (!entry) {
+    throw new Error(
+      `No servicesOverview entry for service id "${id}". Add one in src/data/servicesOverview.ts.`,
+    );
+  }
+  return entry;
+}

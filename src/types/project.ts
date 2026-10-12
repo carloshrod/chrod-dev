@@ -13,6 +13,12 @@ export interface Project {
   title: string;
   description: string;
   longDescription?: string;
+  /**
+   * Meta description written for search results. Optional: `ProjectPage`
+   * falls back to `description`, which is the card copy and is deliberately
+   * short, so it under-fills the snippet.
+   */
+  seoDescription?: string;
   role?: string;
   company?: string;
   year?: string;

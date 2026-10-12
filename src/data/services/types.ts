@@ -34,6 +34,35 @@ export interface ServiceFAQItem {
   answer: LocalizedText;
 }
 
+/**
+ * One row of a side-by-side comparison between two ways of buying the same
+ * service.
+ */
+export interface ServiceModeRow {
+  label: LocalizedText;
+  /** Value under the first option. */
+  a: LocalizedText;
+  /** Value under the second option. */
+  b: LocalizedText;
+  /** Renders `a` emphasised, for the row that carries the main reassurance. */
+  highlightA?: boolean;
+}
+
+/**
+ * Optional comparison section, for a service whose buyer has to pick between
+ * two mutually exclusive setups before anything can be built. Only WhatsApp
+ * needs it today (coexistence vs a dedicated number), which is why it is not
+ * part of the base shape.
+ */
+export interface ServiceModes {
+  heading: LocalizedText;
+  optionA: LocalizedText;
+  optionB: LocalizedText;
+  rows: ServiceModeRow[];
+  /** Closing reassurance under the table. */
+  note: LocalizedText;
+}
+
 export interface Service {
   /**
    * Stable identifier. Never appears in a URL — it is what Sanity stores in a
@@ -60,6 +89,8 @@ export interface Service {
   };
   includes: LocalizedText[];
   includesNote?: LocalizedText;
+  /** See `ServiceModes`. Rendered between problem/solution and `includes`. */
+  modes?: ServiceModes;
   process: ServiceProcessStep[];
   processNote?: LocalizedText;
   techStack: string[];

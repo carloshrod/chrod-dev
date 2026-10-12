@@ -1,0 +1,165 @@
+---
+import MainLayout from "../../../layouts/MainLayout.astro";
+import Navbar from "../../layout/Navbar.astro";
+import Footer from "../../layout/Footer.astro";
+import Container from "../../layout/Container.astro";
+import ContactDrawer from "../../ui/ContactDrawer.tsx";
+import TravelingGlow from "../../ui/TravelingGlow.astro";
+import Breadcrumbs from "../../ui/Breadcrumbs.astro";
+import Icon from "../../ui/icons.astro";
+import ServiceExploreMoreCTA from "../detail/ServiceExploreMoreCTA.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import { getAlternatePaths, getRouteUrl } from "../../../i18n/routes";
+import { getPillarServices, type Pillar } from "../../../data/pillars";
+import {
+  buildBreadcrumbSchema,
+  buildServiceSchema,
+  getSiteUrl,
+  type BreadcrumbItem,
+  type JsonLd,
+} from "../../../lib/schema";
+
+interface Props {
+  pillar: Pillar;
+  lang: Locale;
+}
+
+const { pillar, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const alternates = getAlternatePaths("pillars", pillar.slug);
+const pillarServices = getPillarServices(pillar);
+const siteUrl = getSiteUrl(Astro.site);
+
+// "Services" stays above this even though pillars live at /solutions/<slug>/.
+// A breadcrumb describes where a page sits in the site's hierarchy, not the
+// URL path and not the route the visitor took, and a pillar does belong to the
+// services area. Dropping it was URL purism that cost the visitor a way back
+// to the full list.
+//
+// The service pages stay at three levels too and express their pillar through
+// the badge under the heading instead: a fourth level with these label lengths
+// wraps to two or three lines on a phone.
+const crumbs: BreadcrumbItem[] = [
+  { label: t("nav.services"), href: getRouteUrl(lang, "services") },
+  { label: pillar.card.title[lang], icon: pillar.icon },
+];
+
+// One `Service` node per hosted service rather than one for the pillar: the
+// pillar is a category page, and the things actually on offer are the seven
+// services. This is what ties each service to its group for a crawler.
+const jsonLd: JsonLd[] = [
+  buildBreadcrumbSchema(
+    siteUrl,
+    t("breadcrumb.home"),
+    getRouteUrl(lang, "home"),
+    crumbs,
+  ),
+  ...pillarServices.map((service) =>
+    buildServiceSchema(
+      siteUrl,
+      lang,
+      service,
+      getRouteUrl(lang, "services", service.slug[lang]),
+    ),
+  ),
+];
+---
+
+<MainLayout
+  lang={lang}
+  title={pillar.seo.title[lang]}
+  description={pillar.seo.description[lang]}
+  alternates={alternates}
+  jsonLd={jsonLd}
+>
+  <Navbar lang={lang} alternates={alternates} />
+  <main>
+    <TravelingGlow>
+      <section class="pb-16 pt-32">
+        <Container>
+          <Breadcrumbs lang={lang} items={crumbs} />
+
+          <h1
+            class="mt-6 max-w-3xl text-balance text-4xl font-bold leading-[1.15] text-slate-100 sm:text-5xl"
+          >
+            {pillar.hero.headline[lang]}
+          </h1>
+          <p class="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-400">
+            {pillar.hero.subheadline[lang]}
+          </p>
+
+          <div class="mt-10 flex flex-wrap gap-4">
+            <button
+              type="button"
+              data-open-contact
+              class="cursor-pointer rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25"
+            >
+              {t("pillar.cta.primary")}
+            </button>
+            <a
+              href={getRouteUrl(lang, "services")}
+              class="rounded-lg border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-300 transition-all hover:border-slate-500 hover:text-slate-100"
+            >
+              {t("pillar.cta.secondary")}
+            </a>
+          </div>
+        </Container>
+      </section>
+
+      <section class="py-16">
+        <Container>
+          <p
+            class="max-w-3xl text-pretty border-l-2 border-red-600/50 pl-4 text-lg leading-relaxed text-slate-400"
+            data-scroll-animate="up"
+          >
+            {pillar.intro[lang]}
+          </p>
+
+          <h2
+            class="mb-8 mt-16 text-2xl font-bold text-slate-100 sm:text-3xl"
+            data-scroll-animate="up"
+          >
+            {t("pillar.services.heading")}
+          </h2>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            {
+              pillarServices.map((service, index) => (
+                <a
+                  href={getRouteUrl(lang, "services", service.slug[lang])}
+                  class="group flex h-full flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:border-red-600/50"
+                  data-scroll-animate={index % 2 === 0 ? "right" : "left"}
+                >
+                  <span
+                    class="mb-5 inline-flex size-11 items-center justify-center rounded-xl bg-red-600/10 text-red-400 [&_svg]:size-5"
+                    aria-hidden="true"
+                    set:html={service.icon}
+                  />
+                  <h3 class="mb-3 text-lg font-semibold text-slate-100">
+                    {service.card.title[lang]}
+                  </h3>
+                  <p class="flex-1 text-sm leading-relaxed text-slate-400">
+                    {service.card.description[lang]}
+                  </p>
+                  <span class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-red-400">
+                    {t("servicesOverview.grid.cta")}
+                    <Icon
+                      name="arrowRight"
+                      class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                    />
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+        </Container>
+      </section>
+
+      <ServiceExploreMoreCTA lang={lang} />
+    </TravelingGlow>
+  </main>
+  <Footer lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>

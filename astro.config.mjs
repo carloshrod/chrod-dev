@@ -86,7 +86,7 @@ export default defineConfig({
         if (pathname === "/") return false;
 
         return (
-          !/^\/(studio|api)(\/|$)/.test(pathname) &&
+          !/(^|\/)(studio|api)(\/|$)/.test(pathname) &&
           !/\/(review|resena|connect|conectar|admin-links)\/?$/.test(pathname)
         );
       },
@@ -95,7 +95,7 @@ export default defineConfig({
       projectId: env.PUBLIC_SANITY_PROJECT_ID,
       dataset: env.PUBLIC_SANITY_DATASET ?? "production",
       useCdn: false,
-      studioBasePath: "/studio",
+      studioBasePath: "/es/studio",
     }),
   ],
 });

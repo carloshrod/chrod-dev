@@ -14,6 +14,14 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
+// Seven scenarios plus the escape-hatch card below make eight, which closes
+// the grid evenly at two and at four columns. Stretching the odd one out was
+// the first attempt and it just moved the empty space inside the card.
+//
+// NOTE: that parity holds only because the service count is odd. Add an eighth
+// service and this becomes nine cells, with one alone on the last row again.
+// Deliberately not generalised, since no new service is planned; if one is
+// added, make the CTA card span the leftover columns.
 const items = services.map((service) => ({
   service,
   overview: servicesOverview.find((entry) => entry.id === service.id)!,
@@ -45,7 +53,7 @@ const items = services.map((service) => ({
         items.map(({ service, overview }, index) => (
           <a
             href={getRouteUrl(lang, "services", service.slug[lang])}
-            class="group flex flex-col gap-4 rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:border-red-600/60"
+class="group flex flex-col gap-4 rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:border-red-600/60"
             data-scroll-animate={index % 2 === 0 ? "left" : "right"}
           >
             <ul class="flex flex-1 flex-col gap-3">
@@ -84,6 +92,31 @@ const items = services.map((service) => ({
           </a>
         ))
       }
+
+      {/* Eighth cell. A section titled "not sure what you need?" left the
+          visitor who matches none of the seven with nowhere to go, and seven
+          cards never filled the grid. One card fixes both. */}
+      <button
+        type="button"
+        data-open-contact
+        data-wiggle-trigger
+        class="group flex cursor-pointer flex-col justify-center gap-3 rounded-2xl border border-dashed border-red-600/40 bg-surface/40 p-6 text-left transition-all duration-300 hover:border-red-600/70 hover:bg-surface"
+        data-scroll-animate="right"
+      >
+        <span class="text-sm font-semibold text-slate-200">
+          {t("servicesOverview.comparison.none.title")}
+        </span>
+        <span class="text-sm text-slate-500">
+          {t("servicesOverview.comparison.none.body")}
+        </span>
+        <span class="flex items-center gap-2 text-sm font-semibold text-red-400 transition-colors group-hover:text-red-300">
+          <Icon
+            name="arrowRight"
+            class="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+          />
+          {t("servicesOverview.comparison.none.cta")}
+        </span>
+      </button>
     </div>
   </Container>
 </section>

@@ -1,6 +1,7 @@
 ---
 import Container from "../layout/Container.astro";
 import Icon from "../ui/icons.astro";
+import TypingAnimation from "../ui/TypingAnimation.tsx";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 import { getRouteUrl } from "../../i18n/routes";
@@ -27,6 +28,16 @@ const aboutUrl = getRouteUrl(lang, "about");
         >
           <p>{t("about.p1")}</p>
           <p>{t("about.p2")}</p>
+        </div>
+
+        {/* Moved down from the hero. A cycling message never finishes being
+            read, so it cannot carry the value proposition in the first three
+            seconds; here it reads as a list of what I build. */}
+        <div class="mt-8" data-scroll-animate="left">
+          <p class="mb-2 text-sm uppercase tracking-wide text-slate-500">
+            {t("skills.typing.intro")}
+          </p>
+          <TypingAnimation lang={lang} client:visible />
         </div>
 
         <div
