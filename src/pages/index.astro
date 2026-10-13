@@ -6,19 +6,35 @@ import type { Locale } from "../i18n/ui";
 /**
  * Language-negotiated entry point for `/`.
  *
- * The status is deliberately 302, not 301. A permanent redirect gets cached
- * by the browser, so the language picked on a visitor's first ever request
- * would stick for every later visit to `/`, and nothing short of clearing
- * site data could undo it. The target genuinely varies per request, which is
- * what a temporary redirect means.
+ * The status depends on whether the request expresses a language preference,
+ * because the two cases are genuinely different resources.
  *
- * `Vary: Accept-Language` tells shared caches the target depends on a request
- * header rather than on the URL alone. That header has very high cardinality,
- * so caching one variant per value would be pointless for a bare redirect —
- * hence `no-store`, which keeps negotiation working on every visit.
+ * A request carrying `Accept-Language` gets 302. The target varies per
+ * request, which is what a temporary redirect means, and a cached permanent
+ * one would pin the language picked on a visitor's first ever request for
+ * every later visit to `/`, undoable only by clearing site data.
  *
- * Search engines are unaffected either way: hreflang and x-default in each
- * page's head are what tell them which locale to serve to whom.
+ * A request carrying no `Accept-Language` always gets the default locale,
+ * so for that client the answer is not temporary at all, and 301 says so.
+ * This is not user-agent sniffing: it keys on whether the request states a
+ * preference, which is the single thing this endpoint negotiates on.
+ *
+ * That split exists because a 302 keeps the canonical on the redirecting URL
+ * while a 301 passes it to the target. Search Console showed the consequence:
+ * Google indexed `/` and excluded `/es/` as "Duplicate, Google chose a
+ * different canonical than the user", so the indexed Spanish home sat outside
+ * the hreflang cluster, which only ever named `/es/` and `/en/`. Googlebot
+ * sends no `Accept-Language`, so it now gets the permanent redirect and the
+ * sitemap, the hreflang pair and the index all name the same URL. An earlier
+ * version of this comment claimed search engines were unaffected either way.
+ * They were not.
+ *
+ * `Vary: Accept-Language` is the honest declaration that the target depends
+ * on a request header rather than on the URL alone, though Netlify strips it
+ * from the response and sends its own `Netlify-Vary` instead. `no-store` is
+ * what actually keeps anything from storing either status, verified against
+ * production (`fwd=bypass` on Durable, `fwd=miss` on Edge), and it is why no
+ * browser ever holds on to the 301.
  */
 const SUPPORTED: readonly Locale[] = ["es", "en"];
 const DEFAULT_LOCALE: Locale = "es";
@@ -50,7 +66,13 @@ function negotiateLocale(header: string | null): Locale {
   return match ? (match.base as Locale) : DEFAULT_LOCALE;
 }
 
-const locale = negotiateLocale(Astro.request.headers.get("accept-language"));
+const acceptLanguage = Astro.request.headers.get("accept-language");
+const locale = negotiateLocale(acceptLanguage);
+
+// An empty header states no preference just as a missing one does. A header
+// listing only unsupported languages does state one, and still negotiates to
+// the default, so it keeps the temporary status.
+const statesPreference = (acceptLanguage ?? "").trim().length > 0;
 
 // The query string has to survive the hop. Campaign links land on the bare
 // domain (`chrod.dev/?utm_source=...`), and dropping the params here would
@@ -60,7 +82,7 @@ const locale = negotiateLocale(Astro.request.headers.get("accept-language"));
 const target = `/${locale}/${Astro.url.search}`;
 
 return new Response(null, {
-  status: 302,
+  status: statesPreference ? 302 : 301,
   headers: {
     Location: target,
     Vary: "Accept-Language",
