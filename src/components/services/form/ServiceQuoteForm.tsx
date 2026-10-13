@@ -4,6 +4,7 @@ import type { Locale } from "../../../i18n/ui";
 import { getRouteUrl } from "../../../i18n/routes";
 import type { Service, ServiceFormField } from "../../../data/services/types";
 import { buildWhatsAppMessage, buildWhatsAppUrl } from "../../../lib/whatsapp";
+import { EVENTS, track } from "../../../lib/analytics";
 import { ErrorIcon, SuccessIcon, WhatsAppIcon } from "../../ui/icons";
 import ServiceFormSelect from "./ServiceFormSelect";
 
@@ -220,6 +221,7 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
       });
       if (!res.ok) throw new Error("Request failed");
       setStatus("sent");
+      track(EVENTS.quoteSubmit, { service: service.id, channel: "email" });
     } catch {
       setStatus("error");
     }
@@ -241,6 +243,10 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
         value: fieldDisplayValue(field, values[field.name]),
       })),
     );
+    // Opened programmatically, so the delegated listener in MainLayout that
+    // catches every `wa.me` anchor never sees this one.
+    track(EVENTS.whatsappClick, { location: "quote_form" });
+    track(EVENTS.quoteSubmit, { service: service.id, channel: "whatsapp" });
     window.open(buildWhatsAppUrl(message), "_blank", "noopener,noreferrer");
   };
 

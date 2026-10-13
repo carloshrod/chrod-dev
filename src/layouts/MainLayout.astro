@@ -56,6 +56,13 @@ const {
 const siteUrl = getSiteUrl(Astro.site);
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`;
 
+// Analytics is skipped entirely when the id is unset, so a clone of the repo
+// without the env var sends nothing, and on the admin link generator, which
+// is my own tool rather than a visitor surface.
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const trackAnalytics =
+  Boolean(umamiWebsiteId) && !Astro.url.pathname.startsWith("/es/admin-links");
+
 const fullTitle = composeTitle(title);
 if (!isTitleLengthExempt(Astro.url.pathname)) {
   assertTitleLength(fullTitle, Astro.url.pathname);
@@ -147,6 +154,22 @@ const graph = noindex
         <script type="application/ld+json" is:inline set:html={graph} />
       )
     }
+    {
+      /* `data-auto-track="false"`: pageviews are sent from `astro:page-load`
+         instead, so View Transitions navigations are counted. See
+         `trackPageview` in src/lib/analytics.ts. */
+    }
+    {
+      trackAnalytics && (
+        <script
+          is:inline
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id={umamiWebsiteId}
+          data-auto-track="false"
+        />
+      )
+    }
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -162,11 +185,39 @@ const graph = noindex
     {showWhatsAppButton && <WhatsAppButton lang={lang} />}
 
     <script>
+      import {
+        EVENTS,
+        readLocation,
+        track,
+        trackPageview,
+      } from "../lib/analytics";
+
+      // One pageview per page view, including client-side navigations. Fires
+      // on first load too, which is why the script runs with auto-track off.
+      document.addEventListener("astro:page-load", trackPageview);
+
       // Event delegation: works for every contact-drawer trigger button,
       // including ones swapped in by future View Transitions navigations.
       document.addEventListener("click", (e) => {
-        if ((e.target as HTMLElement).closest("[data-open-contact]")) {
+        const trigger = (e.target as HTMLElement).closest(
+          "[data-open-contact]",
+        );
+        if (trigger) {
+          track(EVENTS.contactOpen, { location: readLocation(trigger) });
           document.dispatchEvent(new CustomEvent("open-contact-drawer"));
+        }
+      });
+
+      // Every WhatsApp link on the site, wherever it is and however it was
+      // built, so a new one is tracked without being wired up by hand. The
+      // listener is passive: the navigation is never delayed or intercepted,
+      // and a dropped beacon costs a data point, not a conversation.
+      document.addEventListener("click", (e) => {
+        const link = (e.target as HTMLElement).closest<HTMLAnchorElement>(
+          'a[href*="wa.me/"]',
+        );
+        if (link) {
+          track(EVENTS.whatsappClick, { location: readLocation(link) });
         }
       });
 

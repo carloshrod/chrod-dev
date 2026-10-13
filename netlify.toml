@@ -1,3 +1,14 @@
+# Analytics ships only from production. The website id is not a secret (it is
+# in the markup of every page), so it lives here rather than in the Netlify UI:
+# one less manual step, and version controlled. Scoping it to this context
+# leaves it undefined on deploy previews and branch deploys, where
+# `MainLayout` then renders no script at all, so test traffic cannot reach the
+# real stats without anyone having to remember that.
+#
+# Read at build time by `import.meta.env`, so changing it needs a new deploy.
+[context.production.environment]
+  PUBLIC_UMAMI_WEBSITE_ID = "84329f0a-b949-484c-94ca-fdb86d625c63"
+
 [[redirects]]
   from = "https://chrod.netlify.app/*"
   to = "https://chrod.dev/:splat"

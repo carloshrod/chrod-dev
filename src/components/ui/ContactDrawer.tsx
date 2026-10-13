@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ui } from "../../i18n/ui";
 import type { Locale } from "../../i18n/ui";
 import { getRouteUrl } from "../../i18n/routes";
+import { EVENTS, track } from "../../lib/analytics";
 import { CloseIcon, ErrorIcon, SuccessIcon } from "./icons";
 
 type FormState = {
@@ -96,6 +97,9 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
       });
       if (!res.ok) throw new Error("Request failed");
       setStatus("sent");
+      // Fires on a delivered message only, so the number is comparable with
+      // `contact_open` as a real completion rate rather than an attempt rate.
+      track(EVENTS.contactSubmit);
       setForm({ name: "", email: "", message: "", website: "" });
     } catch {
       setStatus("error");
