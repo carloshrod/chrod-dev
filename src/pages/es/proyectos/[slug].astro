@@ -1,9 +1,15 @@
 ---
 import ProjectPage from "../../../components/projects/detail/ProjectPage.astro";
 import { getProjects } from "../../../lib/sanity";
+import { assertProjectRedirects } from "../../../lib/redirects";
 
 export async function getStaticPaths() {
   const projects = await getProjects("es");
+
+  // Runs here because this is the build step that already holds every
+  // project's slug in both languages. See src/lib/redirects.ts.
+  assertProjectRedirects(projects);
+
   return projects.map((project) => ({
     params: { slug: project.slug },
     props: { project },

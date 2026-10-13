@@ -58,11 +58,226 @@
   to = "/es/servicios"
   status = 301
 
-# Project slugs fall back to the EN slug until a Slug (ES) is set in Sanity,
-# so the splat stays correct for every project that has not been translated.
+# Project slugs were renamed in Sanity, in both languages, and the
+# `/es/projects/*` splat that used to sit below preserved the slug while
+# translating only the segment. So it answered every old Spanish URL with a
+# permanent redirect to a page that does not exist, and Google followed those
+# redirects and recorded the dead targets too. That leaves four shapes of dead
+# URL per project, all confirmed 404 against production, all listed here.
+#
+# The splat is gone on purpose: an unknown old slug now gets a clean 404
+# instead of a 301 into one. `assertProjectRedirects` in src/lib/redirects.ts
+# keeps this list in step with Sanity, because the comment that used to stand
+# here was correct when written and then rotted in silence.
+
+# 1. EN slug renamed.
 [[redirects]]
-  from = "/es/projects/*"
-  to = "/es/proyectos/:splat"
+  from = "/en/projects/ai-conversational-agent-for-ecommerce-on-whatsapp"
+  to = "/en/projects/ai-agent-whatsapp-ecommerce"
+  status = 301
+
+[[redirects]]
+  from = "/en/projects/monica-juvaror-photography-portfolio-website"
+  to = "/en/projects/monica-juvaror-photography-portfolio"
+  status = 301
+
+[[redirects]]
+  from = "/en/projects/mono-premium-streetwear-ecommerce-platform"
+  to = "/en/projects/mono-premium-streetwear-ecommerce"
+  status = 301
+
+[[redirects]]
+  from = "/en/projects/plazze-booking-and-marketplace-platform"
+  to = "/en/projects/plazze-booking-marketplace"
+  status = 301
+
+[[redirects]]
+  from = "/en/projects/skillcertify-skills-certification-platform"
+  to = "/en/projects/skillcertify-certification-platform"
+  status = 301
+
+[[redirects]]
+  from = "/en/projects/stratacrm-interactive-crm-landing"
+  to = "/en/projects/stratacrm-interactive-landing"
+  status = 301
+
+[[redirects]]
+  from = "/en/projects/vetek-so-corporate-website"
+  to = "/en/projects/vetekso-corporate-website"
+  status = 301
+
+# 2. Old EN slug under the old untranslated Spanish segment.
+[[redirects]]
+  from = "/es/projects/ai-conversational-agent-for-ecommerce-on-whatsapp"
+  to = "/es/proyectos/agente-ia-whatsapp-ecommerce"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/monica-juvaror-photography-portfolio-website"
+  to = "/es/proyectos/monica-juvaror-portafolio-fotografia"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/mono-premium-streetwear-ecommerce-platform"
+  to = "/es/proyectos/mono-ecommerce-streetwear-premium"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/plazze-booking-and-marketplace-platform"
+  to = "/es/proyectos/plazze-reservas-marketplace"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/skillcertify-skills-certification-platform"
+  to = "/es/proyectos/skillcertify-certificacion-habilidades"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/stratacrm-interactive-crm-landing"
+  to = "/es/proyectos/stratacrm-landing-interactiva"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/vetek-so-corporate-website"
+  to = "/es/proyectos/vetekso-sitio-web-corporativo"
+  status = 301
+
+# 3. Current EN slug under the old untranslated Spanish segment.
+[[redirects]]
+  from = "/es/projects/ai-agent-whatsapp-ecommerce"
+  to = "/es/proyectos/agente-ia-whatsapp-ecommerce"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/commercial-management-system"
+  to = "/es/proyectos/sistema-gestion-comercial"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/monica-juvaror-photography-portfolio"
+  to = "/es/proyectos/monica-juvaror-portafolio-fotografia"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/mono-premium-streetwear-ecommerce"
+  to = "/es/proyectos/mono-ecommerce-streetwear-premium"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/plazze-booking-marketplace"
+  to = "/es/proyectos/plazze-reservas-marketplace"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/purchase-order-management-module"
+  to = "/es/proyectos/modulo-de-ordenes-de-compra"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/sierramar-cafe-ecommerce-and-blog"
+  to = "/es/proyectos/sierramar-cafe-ecommerce-y-blog"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/skillcertify-certification-platform"
+  to = "/es/proyectos/skillcertify-certificacion-habilidades"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/stratacrm-interactive-landing"
+  to = "/es/proyectos/stratacrm-landing-interactiva"
+  status = 301
+
+[[redirects]]
+  from = "/es/projects/vetekso-corporate-website"
+  to = "/es/proyectos/vetekso-sitio-web-corporativo"
+  status = 301
+
+# 4. What the splat itself fabricated: the translated segment keeping an
+#    English slug. Indexed as 404s because Google followed its own 301s.
+[[redirects]]
+  from = "/es/proyectos/ai-conversational-agent-for-ecommerce-on-whatsapp"
+  to = "/es/proyectos/agente-ia-whatsapp-ecommerce"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/monica-juvaror-photography-portfolio-website"
+  to = "/es/proyectos/monica-juvaror-portafolio-fotografia"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/mono-premium-streetwear-ecommerce-platform"
+  to = "/es/proyectos/mono-ecommerce-streetwear-premium"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/plazze-booking-and-marketplace-platform"
+  to = "/es/proyectos/plazze-reservas-marketplace"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/skillcertify-skills-certification-platform"
+  to = "/es/proyectos/skillcertify-certificacion-habilidades"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/stratacrm-interactive-crm-landing"
+  to = "/es/proyectos/stratacrm-landing-interactiva"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/vetek-so-corporate-website"
+  to = "/es/proyectos/vetekso-sitio-web-corporativo"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/ai-agent-whatsapp-ecommerce"
+  to = "/es/proyectos/agente-ia-whatsapp-ecommerce"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/commercial-management-system"
+  to = "/es/proyectos/sistema-gestion-comercial"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/monica-juvaror-photography-portfolio"
+  to = "/es/proyectos/monica-juvaror-portafolio-fotografia"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/mono-premium-streetwear-ecommerce"
+  to = "/es/proyectos/mono-ecommerce-streetwear-premium"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/plazze-booking-marketplace"
+  to = "/es/proyectos/plazze-reservas-marketplace"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/purchase-order-management-module"
+  to = "/es/proyectos/modulo-de-ordenes-de-compra"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/sierramar-cafe-ecommerce-and-blog"
+  to = "/es/proyectos/sierramar-cafe-ecommerce-y-blog"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/skillcertify-certification-platform"
+  to = "/es/proyectos/skillcertify-certificacion-habilidades"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/stratacrm-interactive-landing"
+  to = "/es/proyectos/stratacrm-landing-interactiva"
+  status = 301
+
+[[redirects]]
+  from = "/es/proyectos/vetekso-corporate-website"
+  to = "/es/proyectos/vetekso-sitio-web-corporativo"
   status = 301
 
 [[redirects]]
