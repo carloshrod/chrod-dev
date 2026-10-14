@@ -19,6 +19,7 @@ import {
   composeTitle,
   isTitleLengthExempt,
 } from "../lib/seo";
+import { isAnalyticsExcluded } from "../lib/analytics";
 
 export interface Props {
   /**
@@ -56,12 +57,13 @@ const {
 const siteUrl = getSiteUrl(Astro.site);
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`;
 
-// Analytics is skipped entirely when the id is unset, so a clone of the repo
-// without the env var sends nothing, and on the admin link generator, which
-// is my own tool rather than a visitor surface.
+// Unset id means no analytics at all, which is how local development and
+// deploy previews stay out of the numbers: the id is scoped to the production
+// context in netlify.toml. `isAnalyticsExcluded` keeps the token-gated routes
+// out, since Umami records query strings and theirs hold credentials.
 const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
 const trackAnalytics =
-  Boolean(umamiWebsiteId) && !Astro.url.pathname.startsWith("/es/admin-links");
+  Boolean(umamiWebsiteId) && !isAnalyticsExcluded(Astro.url.pathname);
 
 const fullTitle = composeTitle(title);
 if (!isTitleLengthExempt(Astro.url.pathname)) {
@@ -203,8 +205,15 @@ const graph = noindex
           "[data-open-contact]",
         );
         if (trigger) {
-          track(EVENTS.contactOpen, { location: readLocation(trigger) });
-          document.dispatchEvent(new CustomEvent("open-contact-drawer"));
+          const location = readLocation(trigger);
+          track(EVENTS.contactOpen, { location });
+          // The location rides along so the drawer can report it on submit.
+          // Without it only opens are attributable, and a CTA that opens the
+          // drawer often but never gets sent looks identical to one that
+          // converts, which is the question this is all for.
+          document.dispatchEvent(
+            new CustomEvent("open-contact-drawer", { detail: { location } }),
+          );
         }
       });
 

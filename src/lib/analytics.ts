@@ -13,6 +13,28 @@
  * CTA down with it.
  */
 
+/**
+ * Pages that must never load analytics, because their URL is itself a secret.
+ *
+ * Umami records the full URL, query string included, and these four routes
+ * carry credentials and client data in theirs:
+ *
+ *  - `/connect` and `/conectar`: `?cliente=NAME&email=CLIENT_EMAIL&sig=HMAC`.
+ *    That is a client's name and address, plus a signature that stays valid
+ *    for 30 days, so logging it hands a third party a replayable link.
+ *  - `/review` and `/resena`: `?t=REVIEW_ACCESS_TOKEN`.
+ *  - `/admin-links`: `?t=ADMIN_ACCESS_TOKEN`.
+ *
+ * They are also operational surfaces rather than marketing ones, so their
+ * traffic would skew the numbers even if the URLs were harmless. Same set the
+ * sitemap filter and robots.txt already exclude, for related reasons.
+ */
+const EXCLUDED_PATHS = /\/(review|resena|connect|conectar|admin-links)\/?$/;
+
+export function isAnalyticsExcluded(pathname: string): boolean {
+  return EXCLUDED_PATHS.test(pathname);
+}
+
 /** The events worth having. Each one answers a question the site cannot. */
 export const EVENTS = {
   /** Which surfaces actually drive the wedge, and whether the floating button earns its place. */

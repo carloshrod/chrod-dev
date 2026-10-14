@@ -27,10 +27,18 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
     website: "",
   });
   const [status, setStatus] = useState<Status>("idle");
+  const [openedFrom, setOpenedFrom] = useState("unattributed");
   const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
-    const handler = () => setIsOpen(true);
+    const handler = (event: Event) => {
+      // Which CTA opened it, so `contact_submit` is attributable too. Falls
+      // back rather than going blank if the drawer is ever opened by
+      // something that does not pass one.
+      const detail = (event as CustomEvent<{ location?: string }>).detail;
+      setOpenedFrom(detail?.location ?? "unattributed");
+      setIsOpen(true);
+    };
     document.addEventListener("open-contact-drawer", handler);
     return () => document.removeEventListener("open-contact-drawer", handler);
   }, []);
@@ -99,7 +107,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
       setStatus("sent");
       // Fires on a delivered message only, so the number is comparable with
       // `contact_open` as a real completion rate rather than an attempt rate.
-      track(EVENTS.contactSubmit);
+      track(EVENTS.contactSubmit, { location: openedFrom });
       setForm({ name: "", email: "", message: "", website: "" });
     } catch {
       setStatus("error");
