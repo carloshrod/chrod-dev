@@ -157,9 +157,14 @@ const graph = noindex
       )
     }
     {
-      /* `data-auto-track="false"`: pageviews are sent from `astro:page-load`
-         instead, so View Transitions navigations are counted. See
-         `trackPageview` in src/lib/analytics.ts. */
+      /* `data-auto-pageview`, NOT `data-auto-track`. They are different flags
+         in Umami's script: `auto-pageview` stops it sending pageviews itself,
+         which is what we want since `trackPageview` sends them from
+         `astro:page-load`. `auto-track` additionally skips patching
+         `pushState`, which freezes the URL the payload reports at whatever
+         page first loaded the script, so every event after a client-side
+         navigation gets filed under the wrong page. See src/lib/analytics.ts,
+         which also overrides the url explicitly so this cannot regress. */
     }
     {
       trackAnalytics && (
@@ -168,7 +173,7 @@ const graph = noindex
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id={umamiWebsiteId}
-          data-auto-track="false"
+          data-auto-pageview="false"
         />
       )
     }
@@ -227,6 +232,17 @@ const graph = noindex
         );
         if (link) {
           track(EVENTS.whatsappClick, { location: readLocation(link) });
+        }
+      });
+
+      // The service pages' CTAs jump to the quote form instead of opening the
+      // drawer, so they need their own listener to be measurable at all.
+      document.addEventListener("click", (e) => {
+        const jump = (e.target as HTMLElement).closest<HTMLAnchorElement>(
+          'a[href="#service-quote-form"]',
+        );
+        if (jump) {
+          track(EVENTS.quoteFormOpen, { location: readLocation(jump) });
         }
       });
 

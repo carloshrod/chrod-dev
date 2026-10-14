@@ -221,7 +221,12 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
       });
       if (!res.ok) throw new Error("Request failed");
       setStatus("sent");
-      track(EVENTS.quoteSubmit, { service: service.id, channel: "email" });
+      // `email_sent` means delivered: this only runs on a 2xx. The WhatsApp
+      // path below can only report that the client opened WhatsApp with the
+      // message composed, never that they sent it, so the two values are
+      // named for what each actually proves. Reading them as one funnel would
+      // otherwise overstate WhatsApp against email.
+      track(EVENTS.quoteSubmit, { service: service.id, channel: "email_sent" });
     } catch {
       setStatus("error");
     }
@@ -243,10 +248,15 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
         value: fieldDisplayValue(field, values[field.name]),
       })),
     );
-    // Opened programmatically, so the delegated listener in MainLayout that
-    // catches every `wa.me` anchor never sees this one.
-    track(EVENTS.whatsappClick, { location: "quote_form" });
-    track(EVENTS.quoteSubmit, { service: service.id, channel: "whatsapp" });
+    // Deliberately not a `whatsapp_click` as well. That event measures
+    // someone reaching for WhatsApp on their own, which is the wedge's pull;
+    // this is the quote form choosing WhatsApp as its delivery channel, and
+    // counting it in both would inflate the headline WhatsApp number with
+    // form submissions.
+    track(EVENTS.quoteSubmit, {
+      service: service.id,
+      channel: "whatsapp_opened",
+    });
     window.open(buildWhatsAppUrl(message), "_blank", "noopener,noreferrer");
   };
 
