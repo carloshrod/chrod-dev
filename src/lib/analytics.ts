@@ -132,7 +132,15 @@ export function readLocation(element: Element | null): string {
 function withCurrentUrl<T extends Record<string, unknown>>(
   payload: T,
 ): T & { url: string } {
-  return { ...payload, url: window.location.href };
+  // Hash dropped, search kept. Umami folds the hash into the path it stores,
+  // and two paths are two pages to it, so a CTA that jumps to
+  // `#service-quote-form` would file its events under a second row and split
+  // the page in half: views on one, events on the other, with nothing to join
+  // them. Which CTA it was is already in `location`. The search string stays
+  // because Umami stores it separately and it carries the UTM attribution
+  // that campaign links depend on.
+  const { origin, pathname, search } = window.location;
+  return { ...payload, url: `${origin}${pathname}${search}` };
 }
 
 export function track(

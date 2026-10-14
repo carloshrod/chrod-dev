@@ -164,7 +164,12 @@ const graph = noindex
          `pushState`, which freezes the URL the payload reports at whatever
          page first loaded the script, so every event after a client-side
          navigation gets filed under the wrong page. See src/lib/analytics.ts,
-         which also overrides the url explicitly so this cannot regress. */
+         which also overrides the url explicitly so this cannot regress.
+
+         `data-exclude-hash` keeps Umami's own idea of the URL in step with
+         the one we send, which already drops the hash: it folds the hash into
+         the stored path, so a CTA jumping to `#service-quote-form` would
+         split the page into two rows. */
     }
     {
       trackAnalytics && (
@@ -174,6 +179,7 @@ const graph = noindex
           src="https://cloud.umami.is/script.js"
           data-website-id={umamiWebsiteId}
           data-auto-pageview="false"
+          data-exclude-hash="true"
         />
       )
     }
