@@ -9,6 +9,33 @@
 [context.production.environment]
   PUBLIC_UMAMI_WEBSITE_ID = "84329f0a-b949-484c-94ca-fdb86d625c63"
 
+# Analytics served from this domain instead of Umami's, so a tracker
+# blocklist entry for `cloud.umami.is` never matches. First party and
+# disclosed in the privacy policy, which names what is recorded and how to
+# opt out; the path is deliberately recognisable rather than camouflaged, so a
+# blocker specific enough to catch `/stats/` still wins.
+#
+# Two different upstream hosts, which is easy to get wrong: the script is on
+# cloud.umami.is and the data endpoint is on gateway.umami.is. Pointing both
+# at the first one loads the script fine and fails every send in silence.
+# `data-host-url="/stats"` in MainLayout is what makes the script post here,
+# since it builds its endpoint as `${host-url}/api/send`.
+#
+# status = 200 makes these a proxy rather than a redirect: the browser never
+# sees another domain. If Umami ever moves either host this breaks with no
+# build error, and the symptom is events stopping.
+[[redirects]]
+  from = "/stats/script.js"
+  to = "https://cloud.umami.is/script.js"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/stats/api/send"
+  to = "https://gateway.umami.is/api/send"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "https://chrod.netlify.app/*"
   to = "https://chrod.dev/:splat"
