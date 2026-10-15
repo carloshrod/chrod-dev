@@ -114,6 +114,35 @@ export function readLocation(element: Element | null): string {
 }
 
 /**
+ * Opt this browser out of tracking, or back in, from the URL.
+ *
+ * Umami already skips every send when `umami.disabled` is in `localStorage`,
+ * but setting that by hand needs a devtools console, which is painful on a
+ * phone. `?umami=off` once on any page does the same and sticks, since the
+ * flag is per origin and survives reloads and navigations.
+ *
+ * Needed because the site's own author browses it constantly to check
+ * projects and to copy links for clients, and at this traffic level those
+ * visits are most of the data. It is per browser and per device, and
+ * clearing site data clears it.
+ *
+ * Every access is guarded: `localStorage` throws outright in some privacy
+ * modes, and analytics must never take a page down.
+ */
+const DISABLE_KEY = "umami.disabled";
+const TOGGLE_PARAM = "umami";
+
+export function applyTrackingToggle(): void {
+  try {
+    const value = new URLSearchParams(window.location.search).get(TOGGLE_PARAM);
+    if (value === "off") localStorage.setItem(DISABLE_KEY, "1");
+    else if (value === "on") localStorage.removeItem(DISABLE_KEY);
+  } catch {
+    // No localStorage available, so there is nothing to remember.
+  }
+}
+
+/**
  * The URL every call reports, read at call time.
  *
  * Umami keeps its own idea of the current URL in a variable it refreshes by
@@ -140,7 +169,15 @@ function withCurrentUrl<T extends Record<string, unknown>>(
   // because Umami stores it separately and it carries the UTM attribution
   // that campaign links depend on.
   const { origin, pathname, search } = window.location;
-  return { ...payload, url: `${origin}${pathname}${search}` };
+
+  // The opt-out param is plumbing, not campaign data, so it is dropped from
+  // what gets reported. Otherwise a `?umami=on` would show up as its own
+  // query in the stats.
+  const params = new URLSearchParams(search);
+  params.delete(TOGGLE_PARAM);
+  const query = params.size > 0 ? `?${params}` : "";
+
+  return { ...payload, url: `${origin}${pathname}${query}` };
 }
 
 export function track(

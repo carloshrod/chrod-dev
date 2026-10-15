@@ -200,14 +200,19 @@ const graph = noindex
     <script>
       import {
         EVENTS,
+        applyTrackingToggle,
         readLocation,
         track,
         trackPageview,
       } from "../lib/analytics";
 
-      // One pageview per page view, including client-side navigations. Fires
-      // on first load too, which is why the script runs with auto-track off.
-      document.addEventListener("astro:page-load", trackPageview);
+      // One pageview per page view, including client-side navigations. The
+      // toggle runs first so that landing on `?umami=off` opts the browser
+      // out before its own arrival is counted.
+      document.addEventListener("astro:page-load", () => {
+        applyTrackingToggle();
+        trackPageview();
+      });
 
       // Event delegation: works for every contact-drawer trigger button,
       // including ones swapped in by future View Transitions navigations.
