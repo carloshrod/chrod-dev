@@ -169,22 +169,15 @@ const graph = noindex
          `data-exclude-hash` keeps Umami's own idea of the URL in step with
          the one we send, which already drops the hash: it folds the hash into
          the stored path, so a CTA jumping to `#service-quote-form` would
-         split the page into two rows.
-
-         Both the script and the data endpoint are proxied through `/stats`,
-         so a blocklist entry for Umami's domain never matches. The relative
-         `data-host-url` keeps the send endpoint on whatever origin is serving
-         the page; the script builds it as `${host-url}/api/send`. See the
-         proxy rules in netlify.toml for the two upstream hosts involved. */
+         split the page into two rows. */
     }
     {
       trackAnalytics && (
         <script
           is:inline
           defer
-          src="/stats/script.js"
+          src="https://cloud.umami.is/script.js"
           data-website-id={umamiWebsiteId}
-          data-host-url="/stats"
           data-auto-pageview="false"
           data-exclude-hash="true"
         />
