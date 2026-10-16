@@ -9,6 +9,21 @@
 [context.production.environment]
   PUBLIC_UMAMI_WEBSITE_ID = "84329f0a-b949-484c-94ca-fdb86d625c63"
 
+# The resume PDFs stay downloadable from the about page but out of search.
+# A CV is a job-seeking artefact, and the pages that should rank for this name
+# are the service pages, not a resume. Google had crawled both without
+# indexing them, so this makes that state deliberate rather than luck.
+#
+# `X-Robots-Tag` rather than a meta tag, which a PDF cannot carry. They sit at
+# the root rather than under a locale prefix on purpose: the prefix exists for
+# pages, which need routing, hreflang and a canonical, while these are static
+# assets whose language is in the filename, and a root path cannot break when
+# a route segment is renamed.
+[[headers]]
+  for = "/resume-*.pdf"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 [[redirects]]
   from = "https://chrod.netlify.app/*"
   to = "https://chrod.dev/:splat"
