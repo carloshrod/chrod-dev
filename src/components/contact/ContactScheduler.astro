@@ -1,0 +1,357 @@
+---
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+import { getCalLink, getCalUrl } from "../../data/cal";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const calUrl = getCalUrl(lang);
+const calLink = getCalLink(lang);
+
+/**
+ * Booking calendar: Cal.com's official inline embed.
+ *
+ * The reason to prefer it over a plain iframe is `bookingSuccessfulV2`.
+ * Without that event the funnel ends at `schedule_open` and the headline CTA
+ * of the whole site has no completion metric: reaching the calendar is
+ * measured, booking is not.
+ *
+ * The card around it has no side padding on purpose. Padding narrows the
+ * booking page, which then overflows inside its own iframe and shows both of
+ * its scrollbars, out of reach of any style on this side.
+ *
+ * `calLink` rides on the element rather than being read inside the script,
+ * because a module script cannot see server props.
+ */
+---
+
+<section class="py-16" id="schedule">
+  <div class="mb-6 flex flex-wrap items-baseline justify-between gap-3">
+    <h2
+      class="text-2xl font-bold text-slate-100 sm:text-3xl"
+      data-scroll-animate="up"
+    >
+      {
+        /* Three headings, one shown: "Pick a time" promises a calendar on the
+           page, which the fallback state no longer has, and asks for something
+           a visitor who just booked has already done. The booked one does not
+           repeat "this meeting is scheduled", which Cal.com shows right below. */
+      }
+      <span data-cal-heading>{t("contact.page.schedule.heading")}</span>
+      <span data-cal-fallback-heading class="hidden">
+        {t("contact.page.schedule.direct.heading")}
+      </span>
+      <span data-cal-booked-heading class="hidden">
+        {t("contact.page.schedule.booked.heading")}
+      </span>
+    </h2>
+
+    {
+      /* An escape hatch for whoever prefers Cal.com's own page. When the
+         calendar cannot load, the fallback block below takes over and this
+         is hidden, so the page never offers two links that do the same. It is
+         a real link, so the `schedule_open` listener in MainLayout catches it
+         with no JS of its own. */
+    }
+    <a
+      href={calUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-cal-header-link
+      data-analytics-location="contact_page"
+      data-scroll-animate="up"
+      class="text-sm text-slate-400 underline decoration-slate-700 underline-offset-4 transition-colors hover:text-slate-200"
+    >
+      {t("contact.page.schedule.fallback")}
+    </a>
+  </div>
+
+  <div
+    data-cal-card
+    class="overflow-hidden xl:rounded-2xl xl:border xl:border-border xl:bg-surface xl:pt-6"
+    data-scroll-animate="up"
+  >
+    {
+      /* The card only exists from `xl` up. Below roughly 1024px the booking
+         page drops its own side margins and fills the frame edge to edge, so
+         a border there only makes the calendar look pinned against it. `xl`
+         and not `lg` because the booking page measures the iframe, which is
+         narrower than the viewport by the Container's gutters, so at `lg` the
+         two disagree across a band of widths.
+
+         Top padding only, to match the space the booking page leaves at its
+         sides. Never on the sides themselves: that narrows the booking page
+         and it overflows inside its own iframe, showing both scrollbars. */
+    }
+    {
+      /* A fixed `height` while loading, not a `min-height`: the embed creates
+         its iframe at `height: 100%`, and a percentage cannot resolve against
+         a minimum, so the iframe was born at the default 150px and the
+         booking page flashed both scrollbars inside it before the embed gave
+         it its real size. The script hands the height back once that real
+         size arrives, and the iframe stays invisible until then.
+
+         `data-cal-title` because the embed titles its own iframe "Book a
+         call" in English, which a screen reader would announce on the
+         Spanish page too. */
+    }
+    <div
+      id="cal-inline"
+      data-cal-link={calLink}
+      data-cal-title={t("contact.page.schedule.heading")}
+      class="h-[32rem] w-full"
+    >
+    </div>
+  </div>
+
+  {
+    /* Shown in place of the card when the calendar cannot load, which in
+       practice means a blocker on the visitor's side. Hence no error wording:
+       it states the next step rather than reporting that something broke. */
+  }
+  <div
+    data-cal-fallback
+    class="hidden rounded-2xl border border-border bg-surface px-6 py-12 text-center"
+    data-scroll-animate="up"
+  >
+    <p class="mx-auto max-w-md text-pretty text-slate-400">
+      {t("contact.page.schedule.direct.body")}
+    </p>
+    <a
+      href={calUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-analytics-location="contact_page_fallback"
+      class="mt-6 inline-flex rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25"
+    >
+      {t("contact.page.schedule.direct.cta")}
+    </a>
+  </div>
+
+  {
+    /* Without JavaScript the embed never starts, so the same swap happens
+       here. `is:inline`, or Astro would hoist this out of the `noscript` and
+       apply it to every visitor. The opacity and transform overrides are
+       because `data-scroll-animate` starts the block invisible and only the
+       script would ever animate it in. */
+  }
+  <noscript>
+    <style is:inline>
+      [data-cal-card],
+      [data-cal-header-link],
+      [data-cal-heading] {
+        display: none !important;
+      }
+      [data-cal-fallback-heading] {
+        display: inline !important;
+      }
+      [data-cal-fallback] {
+        display: block !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>
+  </noscript>
+</section>
+
+{
+  /* Global because the iframe is created by the embed at runtime and cannot
+     carry Astro's scoping class. */
+}
+<style is:global>
+  #cal-inline iframe {
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+
+  #cal-inline[data-cal-ready] iframe {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #cal-inline iframe {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { EVENTS, track } from "../../lib/analytics";
+
+  const ORIGIN = "https://app.cal.com";
+  const NAMESPACE = "booking";
+  const ELEMENT_ID = "cal-inline";
+
+  // How long to wait after `linkReady` for the real size before showing the
+  // calendar anyway. A safety net only: if the embed ever stops sizing its
+  // iframe the way it does today, the calendar must still appear.
+  const REVEAL_TIMEOUT_MS = 1500;
+
+  type CalApi = ((...args: unknown[]) => void) & {
+    ns: Record<string, (...args: unknown[]) => void>;
+    config?: Record<string, unknown>;
+  };
+
+  const win = window as unknown as { Cal?: CalApi };
+
+  // Cal.com's own loader, pasted from the embed snippet generator and left as
+  // it came: it appends `embed.js` once and queues any call made before that
+  // script lands. Reformatting it by hand would only risk changing it.
+  // prettier-ignore
+  function loadCal() {
+    (function (C: any, A: string, L: string) { let p = function (a: any, ar: any) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, `${ORIGIN}/embed/embed.js`, "init");
+  }
+
+  // Module scope survives View Transitions navigations, since Astro does not
+  // re-execute a script it has already run. So the loader, the namespace and
+  // the listeners are set up once per document and only the `inline` call is
+  // repeated, which is the part that needs the new page's element.
+  let initialized = false;
+
+  // Set once the calendar is known not to load, and kept for the rest of the
+  // document: a script that failed once is not retried, so a later visit to
+  // the page in the same session would otherwise wait forever on a queue
+  // that never drains.
+  let failed = false;
+
+  function showFallback() {
+    failed = true;
+    document.querySelector("[data-cal-card]")?.classList.add("hidden");
+    document.querySelector("[data-cal-header-link]")?.classList.add("hidden");
+    document.querySelector("[data-cal-heading]")?.classList.add("hidden");
+    document
+      .querySelector("[data-cal-fallback-heading]")
+      ?.classList.remove("hidden");
+    document.querySelector("[data-cal-fallback]")?.classList.remove("hidden");
+  }
+
+  // Once a booking goes through, the iframe shows its own confirmation. The
+  // header link is hidden because opening the calendar again could only lead
+  // to a second booking. Not kept for the rest of the document like `failed`:
+  // a later visit shows the calendar again, for whoever wants another call.
+  function showBooked() {
+    document.querySelector("[data-cal-header-link]")?.classList.add("hidden");
+    document.querySelector("[data-cal-heading]")?.classList.add("hidden");
+    document
+      .querySelector("[data-cal-booked-heading]")
+      ?.classList.remove("hidden");
+  }
+
+  // Fades the iframe in and lets the container follow its height from then
+  // on, including when picking a date grows the booking page.
+  function reveal(el: HTMLElement) {
+    if (el.dataset.calReady) return;
+    el.dataset.calReady = "true";
+    el.style.height = "auto";
+  }
+
+  // The embed sets a pixel height on its iframe on every
+  // `__dimensionChanged`, an internal event it does not expose, so the
+  // iframe's own style is the only public signal that the real size arrived.
+  function revealWhenSized(el: HTMLElement) {
+    const observer = new MutationObserver(() => {
+      const height = el.querySelector("iframe")?.style.height ?? "";
+      if (height.endsWith("px")) {
+        observer.disconnect();
+        reveal(el);
+      }
+    });
+    observer.observe(el, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["style"],
+    });
+  }
+
+  function init() {
+    if (initialized) return;
+    initialized = true;
+
+    loadCal();
+    const Cal = win.Cal!;
+    Cal("init", NAMESPACE, { origin: ORIGIN });
+
+    // `linkFailed` only fires once `embed.js` is running, so it cannot report
+    // the script itself being blocked or unreachable. The loader has just
+    // appended that script, so its own `error` event covers that case.
+    document
+      .querySelector(`script[src="${ORIGIN}/embed/embed.js"]`)
+      ?.addEventListener("error", showFallback);
+    Cal.config = Cal.config ?? {};
+    Cal.config.forwardQueryParams = true;
+
+    // `theme` repeats the one in the inline config below, which is the one
+    // that decides the first render. There is no language option here or in
+    // the inline config, so the booking page's language is set per event type
+    // in Cal.com itself.
+    Cal.ns[NAMESPACE]("ui", {
+      theme: "dark",
+      hideEventTypeDetails: false,
+      layout: "month_view",
+    });
+
+    Cal.ns[NAMESPACE]("on", {
+      action: "bookingSuccessfulV2",
+      callback: () => {
+        track(EVENTS.scheduleBooked);
+        showBooked();
+      },
+    });
+
+    // Gives the iframe the page's own title in place of the embed's English
+    // one, and arms the safety net for the reveal.
+    Cal.ns[NAMESPACE]("on", {
+      action: "linkReady",
+      callback: () => {
+        const el = document.getElementById(ELEMENT_ID);
+        if (!el) return;
+        const title = el.dataset.calTitle;
+        if (title) el.querySelector("iframe")?.setAttribute("title", title);
+        window.setTimeout(() => reveal(el), REVEAL_TIMEOUT_MS);
+      },
+    });
+    Cal.ns[NAMESPACE]("on", { action: "linkFailed", callback: showFallback });
+  }
+
+  function mount() {
+    const el = document.getElementById(ELEMENT_ID);
+    const calLink = el?.dataset.calLink;
+    if (!el || !calLink || el.dataset.calMounted) return;
+    el.dataset.calMounted = "true";
+
+    if (failed) {
+      showFallback();
+      return;
+    }
+
+    revealWhenSized(el);
+    init();
+
+    // `useSlotsViewOnSmallScreen` is the string the snippet generator emits,
+    // kept as a string rather than a boolean so the embed parses it the same
+    // way it would from a `data-cal-config` attribute. It swaps the cramped
+    // month grid for a list of times on a phone.
+    //
+    // `theme` has to be here, not only in the `ui` call: inline mode reads
+    // it from this config, and without it the embed follows the visitor's
+    // `prefers-color-scheme`. That shipped once and looked right on a desktop
+    // in dark mode while every phone in light mode got a white calendar.
+    win.Cal!.ns[NAMESPACE]("inline", {
+      elementOrSelector: `#${ELEMENT_ID}`,
+      calLink,
+      config: {
+        layout: "month_view",
+        useSlotsViewOnSmallScreen: "true",
+        theme: "dark",
+      },
+    });
+  }
+
+  document.addEventListener("astro:page-load", mount);
+</script>

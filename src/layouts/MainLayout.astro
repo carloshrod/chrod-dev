@@ -257,6 +257,19 @@ const graph = noindex
         }
       });
 
+      // Reaching for the calendar, whether that is a CTA pointing at the
+      // contact page or a direct Cal.com link. Both shapes are covered so the
+      // headline CTA stays measurable now that it schedules instead of
+      // opening the drawer, which used to report it as `contact_open`.
+      document.addEventListener("click", (e) => {
+        const schedule = (e.target as HTMLElement).closest<HTMLElement>(
+          '[data-schedule-cta], a[href*="cal.com/"]',
+        );
+        if (schedule) {
+          track(EVENTS.scheduleOpen, { location: readLocation(schedule) });
+        }
+      });
+
       // Close the mobile nav menu whenever the drawer opens (fresh DOM
       // query each time, so it always targets the current page's menu).
       document.addEventListener("open-contact-drawer", () => {

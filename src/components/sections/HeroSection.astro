@@ -178,14 +178,22 @@ const heroDecorIcons = [
           secondary is neutral on purpose: two red buttons compete and neither
           reads as the next step. */}
       <div class="flex flex-wrap items-center gap-4">
-        <button
-          type="button"
-          data-open-contact
+        {
+          /* This promises "Book 15 minutes" and used to open the contact
+             drawer, which asks for a written message instead. Someone clicked
+             expecting a calendar and got a form, on the most prominent CTA on
+             the site. It now goes to the page that holds the calendar. A plain
+             link on purpose: no third-party script to load, nothing to fail,
+             and the visitor stays on the site. */
+        }
+        <a
+          href={getRouteUrl(lang, "contact")}
+          data-schedule-cta
           data-analytics-location="home_hero"
-          class="rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25 cursor-pointer"
+          class="rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25"
         >
           {t("hero.cta.primary")}
-        </button>
+        </a>
         <a
           href={wedgeUrl}
           class="rounded-lg border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-300 transition-all hover:border-slate-500 hover:text-slate-100"

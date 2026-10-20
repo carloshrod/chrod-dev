@@ -254,6 +254,7 @@ export const ui: Record<Locale, Record<string, string>> = {
       "I build platforms, automations, and integrated digital solutions focused on business.",
     "footer.explore": "Explore",
     "footer.contact": "Contact",
+    "footer.connect": "Connect",
     "footer.location": "Barranquilla, Colombia · Remote LATAM / global",
     "footer.rights": "All rights reserved.",
     "footer.privacy": "Privacy Policy",
@@ -287,6 +288,31 @@ export const ui: Record<Locale, Record<string, string>> = {
     "drawer.success.body":
       "Thanks for reaching out. I'll get back to you soon.",
     "drawer.success.close": "Close",
+    "drawer.schedule.prefix": "Would you rather talk? ",
+    "drawer.schedule.link": "Book 15 minutes",
+
+    // Contact page
+    "contact.page.seo.title": "Contact a WhatsApp Automation Developer",
+    "contact.page.seo.description":
+      "Book 15 minutes to go over your case, message me on WhatsApp, or leave me a note. I reply within 24 hours.",
+    "contact.page.hero.headline": "Book 15 minutes with me",
+    "contact.page.hero.subheadline":
+      "Tell me your case and I will give you a rough scope, timeline and price. No commitment.",
+    "contact.page.schedule.heading": "Pick a time",
+    "contact.page.schedule.fallback": "Open the calendar in a new tab",
+    "contact.page.schedule.direct.body":
+      "Book directly on Cal.com. It opens in a new tab.",
+    "contact.page.schedule.direct.cta": "Open the calendar",
+    "contact.page.schedule.direct.heading": "Book your call",
+    "contact.page.schedule.booked.heading": "See you on the call",
+    "contact.page.form.heading": "Or write to me",
+    "contact.page.form.body":
+      "If you would rather not book a call, leave me a message and I will reply by email.",
+    "contact.page.channels.heading": "Other ways to reach me",
+    "contact.page.channels.whatsapp": "Message me on WhatsApp",
+    "contact.page.channels.whatsapp.note": "Usually the same day.",
+    "contact.page.channels.email": "Send me an email",
+    "contact.page.response": "I reply within 24 hours.",
 
     // WhatsApp
     "whatsapp.label": "Contact me on WhatsApp",
@@ -601,6 +627,7 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Construyo plataformas, automatizaciones y soluciones digitales integradas, enfocadas en negocio.",
     "footer.explore": "Explorar",
     "footer.contact": "Contacto",
+    "footer.connect": "Conectar",
     "footer.location": "Barranquilla, Colombia · Remoto LATAM / global",
     "footer.rights": "Todos los derechos reservados.",
     "footer.privacy": "Política de privacidad",
@@ -636,6 +663,31 @@ export const ui: Record<Locale, Record<string, string>> = {
     "drawer.success.body":
       "Gracias por escribirme. Te responderé lo más pronto posible.",
     "drawer.success.close": "Cerrar",
+    "drawer.schedule.prefix": "¿Prefieres hablar? ",
+    "drawer.schedule.link": "Agenda 15 minutos",
+
+    // Contact page
+    "contact.page.seo.title": "Contacta a un Desarrollador Web y WhatsApp",
+    "contact.page.seo.description":
+      "Agenda 15 minutos para revisar tu caso, escríbeme por WhatsApp o déjame un mensaje. Respondo en menos de 24 horas.",
+    "contact.page.hero.headline": "Agenda 15 minutos conmigo",
+    "contact.page.hero.subheadline":
+      "Me cuentas tu caso y te doy una idea de alcance, tiempo y precio. Sin compromiso.",
+    "contact.page.schedule.heading": "Elige una hora",
+    "contact.page.schedule.fallback": "Abre el calendario en una pestaña nueva",
+    "contact.page.schedule.direct.body":
+      "Agenda directo en Cal.com. Se abre en una pestaña nueva.",
+    "contact.page.schedule.direct.cta": "Abrir el calendario",
+    "contact.page.schedule.direct.heading": "Agenda tu llamada",
+    "contact.page.schedule.booked.heading": "Nos vemos en la llamada",
+    "contact.page.form.heading": "O escríbeme",
+    "contact.page.form.body":
+      "Si prefieres no agendar una llamada, déjame un mensaje y te respondo por correo.",
+    "contact.page.channels.heading": "Otras formas de encontrarme",
+    "contact.page.channels.whatsapp": "Escríbeme por WhatsApp",
+    "contact.page.channels.whatsapp.note": "Casi siempre el mismo día.",
+    "contact.page.channels.email": "Mándame un correo",
+    "contact.page.response": "Respondo en menos de 24 horas.",
 
     // WhatsApp
     "whatsapp.label": "Contáctame por WhatsApp",

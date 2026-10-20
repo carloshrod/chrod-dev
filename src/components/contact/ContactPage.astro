@@ -1,0 +1,125 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../layout/Navbar.astro";
+import Footer from "../layout/Footer.astro";
+import Container from "../layout/Container.astro";
+import ContactDrawer from "../ui/ContactDrawer.tsx";
+import ContactFormBody from "../ui/ContactFormBody.tsx";
+import TravelingGlow from "../ui/TravelingGlow.astro";
+import Breadcrumbs from "../ui/Breadcrumbs.astro";
+import ContactScheduler from "./ContactScheduler.astro";
+import ContactChannels from "./ContactChannels.astro";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+import { getAlternatePaths, getRouteUrl } from "../../i18n/routes";
+import {
+  buildBreadcrumbSchema,
+  getSiteUrl,
+  type BreadcrumbItem,
+} from "../../lib/schema";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const alternates = getAlternatePaths("contact");
+const siteUrl = getSiteUrl(Astro.site);
+
+const crumbs: BreadcrumbItem[] = [{ label: t("nav.contact") }];
+
+const jsonLd = [
+  buildBreadcrumbSchema(
+    siteUrl,
+    t("breadcrumb.home"),
+    getRouteUrl(lang, "home"),
+    crumbs,
+  ),
+];
+---
+
+<MainLayout
+  lang={lang}
+  title={t("contact.page.seo.title")}
+  description={t("contact.page.seo.description")}
+  alternates={alternates}
+  jsonLd={jsonLd}
+  showWhatsAppButton={false}
+>
+  <Navbar lang={lang} alternates={alternates} />
+  <main>
+    <TravelingGlow>
+      <section class="pb-8 pt-32">
+        <Container>
+          <Breadcrumbs lang={lang} items={crumbs} />
+
+          <h1
+            class="mt-6 max-w-3xl text-balance text-4xl font-bold leading-[1.15] text-slate-100 sm:text-5xl"
+            data-scroll-animate="up"
+          >
+            {t("contact.page.hero.headline")}
+          </h1>
+          <p
+            class="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-400"
+            data-scroll-animate="up"
+          >
+            {t("contact.page.hero.subheadline")}
+          </p>
+        </Container>
+      </section>
+
+      <Container>
+        <ContactScheduler lang={lang} />
+      </Container>
+
+      {
+        /* The form sits below the calendar on purpose: booking is the stronger
+           action for someone already decided, and the form is the fallback for
+           someone who would rather not pick a time yet. */
+      }
+      <section class="pb-24">
+        <Container>
+          <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
+            <div>
+              <h2
+                class="text-2xl font-bold text-slate-100 sm:text-3xl"
+                data-scroll-animate="up"
+              >
+                {t("contact.page.form.heading")}
+              </h2>
+              <p
+                class="mt-3 max-w-xl text-pretty leading-relaxed text-slate-400"
+                data-scroll-animate="up"
+              >
+                {t("contact.page.form.body")}
+              </p>
+
+              {
+                /* Same component the drawer mounts, so the validation rules,
+                   the honeypot and the privacy notice exist once. A different
+                   `idPrefix` because the drawer is also on this page, inside
+                   MainLayout, and duplicate ids would break every label. */
+              }
+              <div class="mt-8 max-w-xl" data-scroll-animate="up">
+                <ContactFormBody
+                  client:load
+                  lang={lang}
+                  idPrefix="contact-page"
+                  location="contact_page"
+                />
+              </div>
+            </div>
+
+            <div data-scroll-animate="left">
+              <ContactChannels lang={lang} />
+            </div>
+          </div>
+        </Container>
+      </section>
+    </TravelingGlow>
+  </main>
+  <Footer lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>

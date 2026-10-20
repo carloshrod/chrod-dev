@@ -2,17 +2,8 @@ import { useState, useEffect } from "react";
 import { ui } from "../../i18n/ui";
 import type { Locale } from "../../i18n/ui";
 import { getRouteUrl } from "../../i18n/routes";
-import { EVENTS, track } from "../../lib/analytics";
-import { CloseIcon, ErrorIcon, SuccessIcon } from "./icons";
-
-type FormState = {
-  name: string;
-  email: string;
-  message: string;
-  website: string;
-};
-type FormErrors = Partial<Record<keyof FormState, string>>;
-type Status = "idle" | "sending" | "sent" | "error";
+import ContactFormBody from "./ContactFormBody";
+import { CloseIcon } from "./icons";
 
 const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
   const t = (key: string) =>
@@ -20,15 +11,11 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
     (ui["en"] as Record<string, string>)[key] ??
     key;
   const [isOpen, setIsOpen] = useState(false);
-  const [form, setForm] = useState<FormState>({
-    name: "",
-    email: "",
-    message: "",
-    website: "",
-  });
-  const [status, setStatus] = useState<Status>("idle");
   const [openedFrom, setOpenedFrom] = useState("unattributed");
-  const [errors, setErrors] = useState<FormErrors>({});
+  // Bumped on close so the form remounts: it owns its own state, and reopening
+  // the drawer should not show the last message still typed in, or the success
+  // screen from the message before.
+  const [formKey, setFormKey] = useState(0);
 
   useEffect(() => {
     const handler = (event: Event) => {
@@ -53,65 +40,7 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
 
   const close = () => {
     setIsOpen(false);
-    setStatus("idle");
-    setErrors({});
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormState]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const validate = (): FormErrors => {
-    const errs: FormErrors = {};
-    if (!form.name.trim()) errs.name = t("drawer.error.name.required");
-    if (!form.email.trim()) {
-      errs.email = t("drawer.error.email.required");
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      errs.email = t("drawer.error.email.invalid");
-    }
-    if (!form.message.trim()) {
-      errs.message = t("drawer.error.message.required");
-    } else if (form.message.trim().length < 10) {
-      errs.message = t("drawer.error.message.short");
-    }
-    return errs;
-  };
-
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length > 0) {
-      setErrors(errs);
-      return;
-    }
-    setErrors({});
-    setStatus("sending");
-    try {
-      const res = await fetch("/api/send-contact-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fromName: form.name,
-          fromEmail: form.email,
-          message: form.message,
-          website: form.website,
-        }),
-      });
-      if (!res.ok) throw new Error("Request failed");
-      setStatus("sent");
-      // Fires on a delivered message only, so the number is comparable with
-      // `contact_open` as a real completion rate rather than an attempt rate.
-      track(EVENTS.contactSubmit, { location: openedFrom });
-      setForm({ name: "", email: "", message: "", website: "" });
-    } catch {
-      setStatus("error");
-    }
+    setFormKey((k) => k + 1);
   };
 
   return (
@@ -163,163 +92,46 @@ const ContactDrawer = ({ lang = "en" }: { lang?: Locale }) => {
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto px-6 py-6">
-          {status === "sent" ? (
-            <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-600/20 text-emerald-400">
-                <SuccessIcon />
-              </div>
-              <h3 className="text-xl font-semibold text-slate-100">
-                {t("drawer.success.title")}
-              </h3>
-              <p className="text-slate-400">{t("drawer.success.body")}</p>
-              <button
-                onClick={close}
-                className="mt-4 rounded-lg bg-surface-alt border border-border px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-surface-raised hover:border-border-muted cursor-pointer"
-              >
-                {t("drawer.success.close")}
-              </button>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-5"
-              noValidate
-              data-drawer-form={isOpen ? "true" : undefined}
+          <ContactFormBody
+            key={formKey}
+            lang={lang}
+            idPrefix="drawer"
+            location={openedFrom}
+            // `data-drawer-form` drives the staggered field entrance in
+            // global.css, which belongs to the panel sliding in. The contact
+            // page mounts the same form without it, since nothing slides.
+            formAttrs={{ "data-drawer-form": isOpen ? "true" : undefined }}
+            successAction={
+              <>
+                <button
+                  onClick={close}
+                  className="mt-4 rounded-lg bg-surface-alt border border-border px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-surface-raised hover:border-border-muted cursor-pointer"
+                >
+                  {t("drawer.success.close")}
+                </button>
+              </>
+            }
+          />
+
+          {/* The one thing the drawer cannot do is show a calendar, so this
+              offers the page that can, at the moment intent is highest. It is
+              not a competing CTA: it serves the visitor who would rather talk
+              than write. No `#schedule`: the calendar is already in view at
+              the top of the contact page. It closes the drawer because on the
+              contact page itself the panel would otherwise stay open over the
+              calendar. */}
+          <p className="mt-6 border-t border-border pt-5 text-center text-xs text-slate-500">
+            {t("drawer.schedule.prefix")}
+            <a
+              href={getRouteUrl(lang, "contact")}
+              onClick={close}
+              data-schedule-cta
+              data-analytics-location="drawer"
+              className="underline decoration-slate-600 underline-offset-2 transition-colors hover:text-slate-300"
             >
-              <p className="text-sm text-slate-400">{t("drawer.form.intro")}</p>
-
-              {/* Honeypot: hidden from sighted and screen-reader users alike
-                  (aria-hidden + unreachable by tab), left for bots that
-                  auto-fill every input. */}
-              <input
-                type="text"
-                name="website"
-                value={form.website}
-                onChange={handleChange}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="sr-only"
-              />
-
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="drawer-name"
-                  className="block text-sm font-medium text-slate-300"
-                >
-                  {t("drawer.name.label")}
-                </label>
-                <input
-                  id="drawer-name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder={t("drawer.name.placeholder")}
-                  aria-invalid={!!errors.name}
-                  aria-describedby={errors.name ? "error-name" : undefined}
-                  className={`w-full rounded-lg border ${
-                    errors.name ? "border-red-500" : "border-border"
-                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30`}
-                />
-                {errors.name && (
-                  <p id="error-name" className="mt-1 text-xs text-red-400">
-                    {errors.name}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="drawer-email"
-                  className="block text-sm font-medium text-slate-300"
-                >
-                  {t("drawer.email.label")}
-                </label>
-                <input
-                  id="drawer-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder={t("drawer.email.placeholder")}
-                  aria-invalid={!!errors.email}
-                  aria-describedby={errors.email ? "error-email" : undefined}
-                  className={`w-full rounded-lg border ${
-                    errors.email ? "border-red-500" : "border-border"
-                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30`}
-                />
-                {errors.email && (
-                  <p id="error-email" className="mt-1 text-xs text-red-400">
-                    {errors.email}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="drawer-message"
-                  className="block text-sm font-medium text-slate-300"
-                >
-                  {t("drawer.message.label")}
-                </label>
-                <textarea
-                  id="drawer-message"
-                  name="message"
-                  rows={5}
-                  value={form.message}
-                  onChange={handleChange}
-                  placeholder={t("drawer.message.placeholder")}
-                  aria-invalid={!!errors.message}
-                  aria-describedby={
-                    errors.message ? "error-message" : undefined
-                  }
-                  className={`w-full resize-none rounded-lg border ${
-                    errors.message ? "border-red-500" : "border-border"
-                  } bg-surface-alt px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-slate-300 focus:ring-2 focus:ring-slate-300/30`}
-                />
-                {errors.message && (
-                  <p id="error-message" className="mt-1 text-xs text-red-400">
-                    {errors.message}
-                  </p>
-                )}
-              </div>
-
-              {status === "error" && (
-                <div className="flex items-start gap-2.5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3">
-                  <ErrorIcon />
-                  <p className="text-sm text-red-400">{t("drawer.error")}</p>
-                </div>
-              )}
-
-              <p className="text-xs text-slate-500">
-                {t("form.privacy.notice.prefix")}
-                <a
-                  href={getRouteUrl(lang, "privacyPolicy")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline decoration-slate-600 underline-offset-2 transition-colors hover:text-slate-300"
-                >
-                  {t("form.privacy.notice.link")}
-                </a>
-                {t("form.privacy.notice.suffix")}
-              </p>
-
-              <button
-                id="contact-form-btn"
-                data-wiggle-trigger
-                type="submit"
-                disabled={status === "sending"}
-                className={`w-full rounded-lg bg-red-600 py-3 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/20 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 ${status === "sending" ? "animate-pulse" : ""}`}
-              >
-                {status === "sending"
-                  ? t("drawer.sending")
-                  : t("drawer.submit")}
-              </button>
-            </form>
-          )}
+              {t("drawer.schedule.link")}
+            </a>
+          </p>
         </div>
       </div>
     </>

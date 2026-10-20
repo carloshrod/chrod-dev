@@ -14,6 +14,7 @@ const homeUrl = getRouteUrl(lang, "home");
 const servicesUrl = getRouteUrl(lang, "services");
 const projectsUrl = getRouteUrl(lang, "projects");
 const aboutUrl = getRouteUrl(lang, "about");
+const contactUrl = getRouteUrl(lang, "contact");
 const privacyUrl = getRouteUrl(lang, "privacyPolicy");
 const termsUrl = getRouteUrl(lang, "terms");
 ---
@@ -56,12 +57,17 @@ const termsUrl = getRouteUrl(lang, "terms");
             class="w-fit text-sm text-slate-500 transition-colors hover:text-red-400"
             >{t("nav.about")}</a
           >
+          <a
+            href={contactUrl}
+            class="w-fit text-sm text-slate-500 transition-colors hover:text-red-400"
+            >{t("footer.contact")}</a
+          >
         </nav>
       </div>
 
       <div class="flex flex-col gap-3">
         <h3 class="text-sm font-semibold text-slate-200">
-          {t("footer.contact")}
+          {t("footer.connect")}
         </h3>
         <a
           href="mailto:hello@chrod.dev"

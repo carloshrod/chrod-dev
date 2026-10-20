@@ -4,7 +4,7 @@ import Icon from "../../components/ui/icons.astro";
 import LanguageToggle from "../../components/ui/LanguageToggle.astro";
 import { getAlternatePaths, getRouteUrl } from "../../i18n/routes";
 
-const lastUpdated = "September 18, 2026";
+const lastUpdated = "October 20, 2026";
 ---
 
 <MainLayout
@@ -87,6 +87,15 @@ const lastUpdated = "September 18, 2026";
             </ul>
           </li>
           <li>
+            <strong class="text-slate-300">Call booking:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Name</li>
+              <li>Email address</li>
+              <li>What you need</li>
+              <li>Website or Instagram (optional)</li>
+            </ul>
+          </li>
+          <li>
             <strong class="text-slate-300">WhatsApp:</strong>
             <ul class="mt-1 list-[circle] space-y-1 pl-5">
               <li>Phone number</li>
@@ -124,6 +133,7 @@ const lastUpdated = "September 18, 2026";
         <p>The information you provide is used exclusively to:</p>
         <ul class="mt-3 list-inside list-disc space-y-1 text-slate-400">
           <li>Respond to your message or inquiry (contact and quote forms).</li>
+          <li>Prepare for and hold the video call you book.</li>
           <li>
             Follow up on potential collaboration or project opportunities.
           </li>
@@ -151,9 +161,14 @@ const lastUpdated = "September 18, 2026";
           5. Third-Party Services
         </h2>
         <p>
-          This website uses third-party services for form handling, hosting, and
-          communication (for example, Resend, Netlify, WhatsApp / Meta
-          Platforms, Inc.).
+          This website uses third-party services for form handling, call
+          booking, hosting, and communication (for example, Resend, Cal.com,
+          Netlify, WhatsApp / Meta Platforms, Inc.).
+        </p>
+        <p class="mt-3">
+          The calendar on the contact page is provided by Cal.com. The details
+          you enter when booking go to Cal.com directly and are handled under
+          its own privacy policy.
         </p>
       </section>
 

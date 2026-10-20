@@ -63,6 +63,28 @@ export const EVENTS = {
   contactSubmit: "contact_submit",
   /** Which service gets asked for a real quote. */
   quoteSubmit: "quote_submit",
+  /**
+   * The scheduler being reached, from a marked CTA or a direct Cal.com link.
+   *
+   * The home hero's CTA promises "Book 15 minutes" and used to open the
+   * contact drawer, so it counted as `contact_open`. Now that it leads to an
+   * actual calendar it needs its own event, or the headline CTA on the site
+   * would stop being measurable at the moment it starts working.
+   */
+  scheduleOpen: "schedule_open",
+  /**
+   * A booking actually made, reported by Cal.com's embed.
+   *
+   * The only completion metric the wedge CTA has. `schedule_open` counts who
+   * reached the calendar, and without this the funnel ends there: a month of
+   * clicks with no way to tell whether a single call was ever booked.
+   *
+   * Deliberately sent with no properties. Cal.com's `bookingSuccessfulV2`
+   * payload carries the attendee's name inside `title` plus a
+   * `videoCallUrl`, and none of that belongs in a third-party dashboard, for
+   * the same reason `isAnalyticsExcluded` keeps the onboarding routes out.
+   */
+  scheduleBooked: "schedule_booked",
 } as const;
 
 export type EventName = (typeof EVENTS)[keyof typeof EVENTS];

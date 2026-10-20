@@ -4,7 +4,7 @@ import Icon from "../../components/ui/icons.astro";
 import LanguageToggle from "../../components/ui/LanguageToggle.astro";
 import { getAlternatePaths, getRouteUrl } from "../../i18n/routes";
 
-const lastUpdated = "18 de septiembre de 2026";
+const lastUpdated = "20 de octubre de 2026";
 ---
 
 <MainLayout
@@ -94,6 +94,15 @@ const lastUpdated = "18 de septiembre de 2026";
             </ul>
           </li>
           <li>
+            <strong class="text-slate-300">Agenda de llamadas:</strong>
+            <ul class="mt-1 list-[circle] space-y-1 pl-5">
+              <li>Nombre</li>
+              <li>Correo electrónico</li>
+              <li>Lo que necesitas</li>
+              <li>Sitio web o Instagram (opcional)</li>
+            </ul>
+          </li>
+          <li>
             <strong class="text-slate-300">WhatsApp:</strong>
             <ul class="mt-1 list-[circle] space-y-1 pl-5">
               <li>Número de teléfono</li>
@@ -135,6 +144,7 @@ const lastUpdated = "18 de septiembre de 2026";
             Responder a tu mensaje o consulta (formularios de contacto y
             presupuesto).
           </li>
+          <li>Preparar y realizar la videollamada que agendes.</li>
           <li>
             Dar seguimiento a posibles oportunidades de colaboración o
             proyectos.
@@ -168,8 +178,13 @@ const lastUpdated = "18 de septiembre de 2026";
         </h2>
         <p>
           Este sitio utiliza servicios de terceros para el manejo de
-          formularios, alojamiento y comunicación (por ejemplo, Resend,
-          Netlify, WhatsApp / Meta Platforms, Inc.).
+          formularios, la agenda de llamadas, alojamiento y comunicación (por
+          ejemplo, Resend, Cal.com, Netlify, WhatsApp / Meta Platforms, Inc.).
+        </p>
+        <p class="mt-3">
+          El calendario de la página de contacto lo ofrece Cal.com. Los datos
+          que escribes al agendar los recibe Cal.com directamente y los trata
+          según su propia política de privacidad.
         </p>
       </section>
 
