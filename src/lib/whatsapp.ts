@@ -1,6 +1,6 @@
 import type { Locale } from "../i18n/ui";
 
-export const WHATSAPP_NUMBER = "573127600792";
+export const WHATSAPP_NUMBER = "573015783825";
 
 export interface WhatsAppMessageField {
   label: string;
@@ -12,6 +12,9 @@ export function buildWhatsAppMessage(
   lang: Locale,
   fields: WhatsAppMessageField[],
 ): string {
+  // n8n ("CHRod Dev · WhatsApp entrantes") recognizes a quote request by this
+  // first line, `*Nueva solicitud: …*` / `*New inquiry: …*`, and the `*Nombre:*` /
+  // `*Name:*` line. Changing either makes the auto-reply fall back to the generic greeting.
   const heading = lang === "es" ? "Nueva solicitud" : "New inquiry";
   const lines = [
     `*${heading}: ${serviceName}*`,
