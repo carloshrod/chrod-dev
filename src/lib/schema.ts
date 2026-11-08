@@ -110,7 +110,7 @@ export function buildIdentityGraph(site: string, lang: Locale): JsonLd[] {
     founder: { "@id": schemaIds.person(site) },
     email: "hello@chrod.dev",
     telephone: `+${WHATSAPP_NUMBER}`,
-    image: `${site}/og-image.png`,
+    image: `${site}/og-image-${lang}.png`,
     logo: `${site}/chrod-logo.png`,
     address: {
       "@type": "PostalAddress",

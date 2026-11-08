@@ -20,6 +20,7 @@ import {
   isTitleLengthExempt,
 } from "../lib/seo";
 import { isAnalyticsExcluded } from "../lib/analytics";
+import { useTranslations } from "../i18n/utils";
 
 export interface Props {
   /**
@@ -69,7 +70,10 @@ const fullTitle = composeTitle(title);
 if (!isTitleLengthExempt(Astro.url.pathname)) {
   assertTitleLength(fullTitle, Astro.url.pathname);
 }
-const ogImage = `${siteUrl}/og-image.png`;
+// One share image per language, for now. The image renders the hero headline,
+// so that is also its alt text. Per-page images are a deliberate later step.
+const ogImage = `${siteUrl}/og-image-${lang}.png`;
+const ogImageAlt = useTranslations(lang)("hero.headline");
 
 // A noindex page contributes nothing to entity understanding and should not
 // assert identity claims search engines might attach to a dead URL.
@@ -137,7 +141,7 @@ const graph = noindex
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content="CHRod Dev - Web Developer" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:site_name" content="CHRod Dev" />
     <meta property="og:locale" content={lang === "es" ? "es_CO" : "en_US"} />
 
@@ -146,6 +150,7 @@ const graph = noindex
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <link rel="icon" type="image/png" href="/chrod-logo.png" />
     <meta name="generator" content={Astro.generator} />
