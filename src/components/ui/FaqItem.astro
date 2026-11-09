@@ -1,0 +1,64 @@
+---
+/**
+ * One question/answer accordion card. Shared by the service pages and the
+ * blog, so the two can never drift apart visually again (they had: different
+ * icon, type size and padding for the same element).
+ *
+ * The whole card is the click target, not only the question line: the padding
+ * lives on the `summary`, so the closed card is all summary, and clicks on the
+ * open answer are toggled by the script below. The `summary` stays the real
+ * control, so keyboard and screen reader behaviour is the native one.
+ */
+interface Props {
+  question: string;
+  answer: string;
+  /** Scroll entrance animation. On for page sections, off inside an article. */
+  animate?: boolean;
+}
+
+const { question, answer, animate = false } = Astro.props;
+---
+
+<details
+  class="group cursor-pointer rounded-xl border border-border bg-surface"
+  data-faq-item
+  data-scroll-animate={animate ? "up" : undefined}
+>
+  <summary
+    class="flex list-none items-center justify-between gap-4 p-5 text-sm font-semibold text-slate-100 marker:content-none [&::-webkit-details-marker]:hidden"
+  >
+    {question}
+    <svg
+      class="h-4 w-4 shrink-0 text-slate-500 transition-transform duration-200 group-open:rotate-180"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </summary>
+  {/* Line breaks are kept: blog answers come from Sanity and can have them. */}
+  <p
+    class="-mt-2 whitespace-pre-line px-5 pb-5 text-sm leading-relaxed text-slate-400"
+  >
+    {answer}
+  </p>
+</details>
+
+<script>
+  // Clicking the open answer closes the card, like clicking the question.
+  // One listener on the document: it survives View Transitions navigations
+  // and covers every card on every page. Selecting text in the answer, or
+  // following a link in it, must not collapse the card under the cursor.
+  document.addEventListener("click", (event) => {
+    const target = event.target as Element | null;
+    const item = target?.closest<HTMLDetailsElement>("[data-faq-item]");
+    if (!item || target?.closest("summary, a")) return;
+    if (window.getSelection()?.toString()) return;
+    item.open = !item.open;
+  });
+</script>
