@@ -331,3 +331,182 @@
     animation: wa-wiggle 0.55s ease-in-out;
   }
 }
+/*
+ * Blog article body, rendered from Sanity by `src/lib/portableText.ts`.
+ * Hand-written rather than @tailwindcss/typography: one component's worth of
+ * prose styles did not justify a plugin, and these follow the site's palette.
+ */
+@layer components {
+  .post-body {
+    color: var(--color-slate-300);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  /*
+   * Vertical rhythm. The gap above an element depends on what kind of element
+   * it is, never on what happens to precede it, so every h3 sits the same
+   * distance from whatever is above it, and so on. All in rem: an em-based
+   * margin would scale with each element's own font size, giving a heading,
+   * a paragraph and a code block different gaps from the same number.
+   *
+   * The rules are ordered so later ones win ties in specificity: flow, then
+   * framed blocks, then "content right under its heading", then headings.
+   */
+  .post-body {
+    --flow: 1.25rem;
+    --block: 2rem;
+    --under-heading: 0.875rem;
+    --h3: 2.25rem;
+    --h2: 3.25rem;
+  }
+
+  /* Paragraphs and lists. */
+  .post-body > * + * {
+    margin-top: var(--flow);
+  }
+
+  /* Framed blocks (callout, code, image, quote) get room on both sides. */
+  .post-body > :is(aside, pre, figure, blockquote) + *,
+  .post-body > * + :is(aside, pre, figure, blockquote) {
+    margin-top: var(--block);
+  }
+
+  /* Whatever opens a section sits close to its heading, framed or not. */
+  .post-body > :is(h2, h3) + * {
+    margin-top: var(--under-heading);
+  }
+
+  .post-body h2,
+  .post-body h3 {
+    color: var(--color-slate-100);
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.25;
+    /* Clears the fixed navbar when jumping to a section anchor. */
+    scroll-margin-top: 6rem;
+  }
+
+  .post-body h2 {
+    font-size: 1.75rem;
+  }
+
+  .post-body h3 {
+    font-size: 1.3rem;
+  }
+
+  /* Headings last: their gap holds after anything, including an h2. */
+  .post-body > * + h2 {
+    margin-top: var(--h2);
+  }
+
+  .post-body > * + h3 {
+    margin-top: var(--h3);
+  }
+
+  .post-body strong {
+    color: var(--color-slate-100);
+    font-weight: 600;
+  }
+
+  .post-body a {
+    color: var(--color-red-400);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in oklab, var(--color-red-400) 40%, transparent);
+    transition: text-decoration-color 0.2s;
+  }
+
+  .post-body a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .post-body ul,
+  .post-body ol {
+    padding-left: 1.4em;
+  }
+
+  .post-body ul {
+    list-style: disc;
+  }
+
+  .post-body ol {
+    list-style: decimal;
+  }
+
+  .post-body li + li,
+  .post-body li > :is(ul, ol) {
+    margin-top: 0.5rem;
+  }
+
+  .post-body li::marker {
+    color: var(--color-red-400);
+  }
+
+  .post-body blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding-left: 1.1em;
+    color: var(--color-slate-400);
+    font-style: italic;
+  }
+
+  .post-body code {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-muted);
+    border-radius: 0.375rem;
+    padding: 0.1em 0.35em;
+    font-size: 0.875em;
+  }
+
+  .post-body pre {
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    padding: 1.1em 1.25em;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .post-body pre code {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  .post-body figure img {
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    width: 100%;
+    height: auto;
+  }
+
+  .post-body figcaption {
+    margin-top: 0.625rem;
+    color: var(--color-slate-500);
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .post-body .callout {
+    border-radius: 0.75rem;
+    border: 1px solid;
+    padding: 1em 1.25em;
+  }
+
+  .post-body .callout > * + * {
+    margin-top: 0.75rem;
+  }
+
+  /* Green for a tip, matching the site's "verified" badge. */
+  .post-body .callout-note {
+    border-color: color-mix(in oklab, var(--color-emerald-500) 30%, transparent);
+    background: color-mix(in oklab, var(--color-emerald-950) 30%, transparent);
+  }
+
+  .post-body .callout-warning {
+    border-color: color-mix(in oklab, var(--color-amber-500) 30%, transparent);
+    background: color-mix(in oklab, var(--color-amber-950) 30%, transparent);
+  }
+}

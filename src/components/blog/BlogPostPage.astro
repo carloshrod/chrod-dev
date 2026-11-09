@@ -1,0 +1,224 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../layout/Navbar.astro";
+import Footer from "../layout/Footer.astro";
+import Container from "../layout/Container.astro";
+import ContactDrawer from "../ui/ContactDrawer.tsx";
+import Breadcrumbs from "../ui/Breadcrumbs.astro";
+import FaqItem from "../ui/FaqItem.astro";
+import Icon from "../ui/icons.astro";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+import { getRouteUrl } from "../../i18n/routes";
+import { getPosts } from "../../lib/sanity";
+import { blogAlternates, otherLocale } from "./alternates";
+import { getServiceById } from "../../data/services";
+import {
+  buildBlogPostingSchema,
+  buildBreadcrumbSchema,
+  buildFaqSchemaFromItems,
+  getSiteUrl,
+  type BreadcrumbItem,
+  type JsonLd,
+} from "../../lib/schema";
+import { renderPostBody } from "../../lib/portableText";
+import type { Post } from "../../types/post";
+import { formatPostDate } from "./format";
+
+interface Props {
+  post: Post;
+  lang: Locale;
+}
+
+const { post, lang } = Astro.props;
+const t = useTranslations(lang);
+const siteUrl = getSiteUrl(Astro.site);
+const blogUrl = getRouteUrl(lang, "blog");
+const path = getRouteUrl(lang, "blog", post.slug);
+
+// hreflang only for a real counterpart. The switcher always gets somewhere
+// sensible: see `blogAlternates`.
+const hasTranslation = Boolean(post.translationSlug);
+const otherHasPosts = hasTranslation
+  ? true
+  : (await getPosts(otherLocale(lang))).length > 0;
+const alternates = blogAlternates(lang, {
+  slug: post.slug,
+  translationSlug: post.translationSlug,
+  otherHasPosts,
+});
+
+const crumbs: BreadcrumbItem[] = [
+  { label: "Blog", href: blogUrl },
+  { label: post.title },
+];
+
+const relatedServices = post.services
+  .map((id) => getServiceById(id))
+  .filter((service): service is NonNullable<typeof service> =>
+    Boolean(service),
+  );
+
+const jsonLd = [
+  buildBreadcrumbSchema(
+    siteUrl,
+    t("breadcrumb.home"),
+    getRouteUrl(lang, "home"),
+    crumbs,
+  ),
+  buildBlogPostingSchema(
+    siteUrl,
+    {
+      title: post.title,
+      description: post.seoDescription,
+      publishedAt: post.publishedAt,
+      updatedAt: post.updatedAt,
+      language: lang,
+    },
+    path,
+  ),
+  buildFaqSchemaFromItems(post.faq),
+].filter((node): node is JsonLd => node !== null);
+
+const html = renderPostBody(post.body);
+const showUpdated = post.updatedAt && post.updatedAt !== post.publishedAt;
+---
+
+<MainLayout
+  lang={lang}
+  title={post.seoTitle}
+  description={post.seoDescription}
+  alternates={alternates}
+  hasTranslation={hasTranslation}
+  ogType="article"
+  showWhatsAppButton={false}
+  jsonLd={jsonLd}
+>
+  <Navbar lang={lang} alternates={alternates} />
+  <main>
+    <article>
+      <header class="pb-10 pt-32">
+        <Container>
+          <div class="mx-auto max-w-3xl">
+            <Breadcrumbs lang={lang} items={crumbs} />
+            <h1
+              class="mb-5 text-balance text-3xl font-bold leading-tight text-slate-100 sm:text-5xl"
+            >
+              {post.title}
+            </h1>
+            <p class="text-sm text-slate-500">
+              {/* Linked authorship: who wrote this and why they know, which
+                  is what search engines and AI retrieval weigh in expert
+                  content. */}
+              <a
+                href={getRouteUrl(lang, "about")}
+                rel="author"
+                class="text-slate-300 transition-colors hover:text-red-400"
+              >
+                Carlos Hernández
+              </a>
+              <span aria-hidden="true"> · </span>
+              <time datetime={post.publishedAt}>
+                {formatPostDate(post.publishedAt, lang)}
+              </time>
+              <span aria-hidden="true"> · </span>
+              {t("blog.readingTime").replace("{n}", String(post.readingMinutes))}
+              {
+                showUpdated && (
+                  <span class="block sm:inline">
+                    <span aria-hidden="true" class="hidden sm:inline">
+                      {" "}
+                      ·{" "}
+                    </span>
+                    {t("blog.updated")}{" "}
+                    <time datetime={post.updatedAt}>
+                      {formatPostDate(post.updatedAt!, lang)}
+                    </time>
+                  </span>
+                )
+              }
+            </p>
+          </div>
+        </Container>
+      </header>
+
+      <Container>
+        <div class="post-body mx-auto max-w-3xl" set:html={html} />
+
+        {/* Same rhythm as a section of the body: --h2 above, --under-heading below. */}
+        {
+          post.faq.length > 0 && (
+            <section class="mx-auto mt-13 max-w-3xl">
+              <h2 class="mb-3.5 text-[1.75rem] font-bold leading-tight text-slate-100">
+                {t("blog.faq.heading")}
+              </h2>
+              <div class="flex flex-col gap-3">
+                {post.faq.map((item) => (
+                  <FaqItem question={item.question} answer={item.answer} />
+                ))}
+              </div>
+            </section>
+          )
+        }
+      </Container>
+    </article>
+
+    <section class="mt-20 bg-surface-alt py-20">
+      <Container>
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="mb-4 text-3xl font-bold text-slate-100 sm:text-4xl">
+            {t("blog.cta.heading")}
+          </h2>
+          <p class="mb-8 text-slate-400">{t("blog.cta.subheading")}</p>
+
+          <a
+            href={getRouteUrl(lang, "contact")}
+            data-schedule-cta
+            data-analytics-location="blog_post_cta"
+            class="inline-block rounded-lg bg-red-600 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-red-500 hover:shadow-lg hover:shadow-red-500/25"
+          >
+            {t("hero.cta.primary")}
+          </a>
+
+          {
+            relatedServices.length > 0 && (
+              <div class="mt-10">
+                <p class="mb-3 text-sm text-slate-500">
+                  {t("blog.cta.services")}
+                </p>
+                <div class="flex flex-wrap justify-center gap-3">
+                  {relatedServices.map((service) => (
+                    <a
+                      href={getRouteUrl(lang, "services", service.slug[lang])}
+                      class="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:border-red-600/40 hover:text-red-400"
+                    >
+                      <span class="inline-flex h-4 w-4 shrink-0 text-red-400 [&_svg]:h-4 [&_svg]:w-4">
+                        <Fragment set:html={service.icon} />
+                      </span>
+                      {service.card.title[lang]}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </div>
+      </Container>
+    </section>
+
+    <div class="group flex justify-center py-12">
+      <a
+        href={blogUrl}
+        class="inline-flex items-center gap-1 px-7 py-3 text-sm font-semibold text-slate-200 transition-all hover:text-red-400"
+      >
+        <Icon
+          name="arrowLeft"
+          class="h-3 w-3 transition-transform duration-300 group-hover:-translate-x-0.5"
+        />
+        {t("blog.back")}
+      </a>
+    </div>
+  </main>
+  <Footer lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>

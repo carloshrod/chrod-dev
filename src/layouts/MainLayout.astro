@@ -34,6 +34,15 @@ export interface Props {
   alternates?: AlternatePaths;
   /** Keeps the page out of search results and drops its canonical/hreflang tags. */
   noindex?: boolean;
+  /**
+   * False for a page with no counterpart in the other language (a blog post
+   * written for one market). hreflang must only pair equivalent pages, so the
+   * set is dropped, while `alternates` still gives the language switcher
+   * somewhere sensible to go.
+   */
+  hasTranslation?: boolean;
+  /** `article` on blog posts, `website` everywhere else. */
+  ogType?: "website" | "article";
   showWhatsAppButton?: boolean;
   /**
    * Page-specific JSON-LD nodes, appended to the identity graph that every
@@ -50,6 +59,8 @@ const {
   canonicalUrl,
   alternates = getAlternatePaths("home"),
   noindex = false,
+  hasTranslation = true,
+  ogType = "website",
   showWhatsAppButton = true,
   jsonLd = [],
 } = Astro.props;
@@ -102,34 +113,41 @@ const graph = noindex
           <link rel="canonical" href={canonical} />
 
           {/* hreflang */}
-          <link
-            rel="alternate"
-            hreflang="en"
-            href={`${siteUrl}${withLocale("en", alternates.en)}`}
-          />
-          <link
-            rel="alternate"
-            hreflang="es"
-            href={`${siteUrl}${withLocale("es", alternates.es)}`}
-          />
           {
-            /* x-default is what gets served to a visitor whose language
-               matches neither locale. The site targets clients beyond LATAM,
-               so that fallback is English, not Spanish. Note this is
-               independent of `/`'s own Accept-Language negotiation, which
-               still defaults to Spanish for visitors with no preference. */
+            hasTranslation && (
+              <Fragment>
+                <link
+                  rel="alternate"
+                  hreflang="en"
+                  href={`${siteUrl}${withLocale("en", alternates.en)}`}
+                />
+                <link
+                  rel="alternate"
+                  hreflang="es"
+                  href={`${siteUrl}${withLocale("es", alternates.es)}`}
+                />
+                {
+                  /* x-default is what gets served to a visitor whose language
+                     matches neither locale. The site targets clients beyond
+                     LATAM, so that fallback is English, not Spanish. Note this
+                     is independent of `/`'s own Accept-Language negotiation,
+                     which still defaults to Spanish for visitors with no
+                     preference. */
+                }
+                <link
+                  rel="alternate"
+                  hreflang="x-default"
+                  href={`${siteUrl}${withLocale("en", alternates.en)}`}
+                />
+              </Fragment>
+            )
           }
-          <link
-            rel="alternate"
-            hreflang="x-default"
-            href={`${siteUrl}${withLocale("en", alternates.en)}`}
-          />
         </Fragment>
       )
     }
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

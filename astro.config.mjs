@@ -7,8 +7,39 @@ import react from "@astrojs/react";
 import sanity from "@sanity/astro";
 import netlify from "@astrojs/netlify";
 import sitemap from "@astrojs/sitemap";
+import { checkPostLinks } from "./src/integrations/checkPostLinks.mjs";
 
 const env = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "");
+
+/**
+ * Languages that have at least one published blog post.
+ *
+ * An empty blog listing renders `noindex`, and a noindex URL in the sitemap is
+ * reported by Search Console as "Submitted URL marked noindex". The sitemap
+ * filter is synchronous, so the answer is fetched once here. If Sanity cannot
+ * be reached, both listings stay in the sitemap: a warning in Search Console
+ * is better than a failed deploy.
+ */
+async function getLanguagesWithPosts() {
+  const projectId = env.PUBLIC_SANITY_PROJECT_ID;
+  const dataset = env.PUBLIC_SANITY_DATASET || "production";
+  const query = encodeURIComponent(
+    'array::unique(*[_type == "post" && defined(slug.current)].language)',
+  );
+  try {
+    const res = await fetch(
+      `https://${projectId}.api.sanity.io/v2024-01-01/data/query/${dataset}?query=${query}`,
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { result } = await res.json();
+    return new Set(result);
+  } catch (error) {
+    console.warn(`[sitemap] Could not read blog languages from Sanity: ${error}`);
+    return new Set(["es", "en"]);
+  }
+}
+
+const languagesWithPosts = await getLanguagesWithPosts();
 
 // https://astro.build/config
 export default defineConfig({
@@ -63,6 +94,7 @@ export default defineConfig({
 
   integrations: [
     react(),
+    checkPostLinks(),
     // Only prerendered pages reach the sitemap, so every `prerender = false`
     // route (the root redirect, 404, /review, /connect, /admin-links and the
     // API endpoints) is already excluded. The filter is a second line of
@@ -84,6 +116,10 @@ export default defineConfig({
         // it reported as "Page with redirect" in Search Console, so the
         // canonical locale homepages are listed and `/` is not.
         if (pathname === "/") return false;
+
+        // An empty blog listing is noindex until its first post exists.
+        const blogIndex = pathname.match(/^\/(en|es)\/blog\/?$/);
+        if (blogIndex && !languagesWithPosts.has(blogIndex[1])) return false;
 
         return (
           !/(^|\/)(studio|api)(\/|$)/.test(pathname) &&

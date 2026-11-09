@@ -17,6 +17,14 @@ export const BRAND = "CHRod Dev";
 export const TITLE_MAX = 60;
 
 /**
+ * Room left for a blog post's keyword once `composeTitle` adds the brand.
+ * The Studio enforces it on the post's title or SEO title, so an article that
+ * would fail `assertTitleLength` cannot be published (a failed build would
+ * leave it silently unpublished, since publishing triggers the build).
+ */
+export const BLOG_SEO_TITLE_MAX = TITLE_MAX - ` | ${BRAND}`.length;
+
+/**
  * Pages whose title length is driven by content outside this repo.
  *
  * Project titles come from Sanity and double as the page's `h1`, so they

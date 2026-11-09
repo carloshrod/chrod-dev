@@ -2,6 +2,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { projectSchema } from "./sanity/schemaTypes/project";
 import { reviewSchema } from "./sanity/schemaTypes/review";
+import { postSchema } from "./sanity/schemaTypes/post";
 
 export default defineConfig({
   name: "chrod-portfolio",
@@ -13,6 +14,6 @@ export default defineConfig({
   plugins: [structureTool()],
 
   schema: {
-    types: [projectSchema, reviewSchema],
+    types: [projectSchema, reviewSchema, postSchema],
   },
 });

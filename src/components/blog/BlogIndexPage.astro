@@ -1,0 +1,113 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../layout/Navbar.astro";
+import Footer from "../layout/Footer.astro";
+import Container from "../layout/Container.astro";
+import ContactDrawer from "../ui/ContactDrawer.tsx";
+import TravelingGlow from "../ui/TravelingGlow.astro";
+import Icon from "../ui/icons.astro";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+import { getRouteUrl } from "../../i18n/routes";
+import { getPosts } from "../../lib/sanity";
+import { blogAlternates, otherLocale } from "./alternates";
+import { formatPostDate } from "./format";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const [posts, otherPosts] = await Promise.all([
+  getPosts(lang),
+  getPosts(otherLocale(lang)),
+]);
+const otherHasPosts = otherPosts.length > 0;
+const alternates = blogAlternates(lang, { otherHasPosts });
+---
+
+{
+  /* An empty listing is kept out of the index: a thin page with nothing on it
+     is the one thing worse than no blog. The footer hides its link for the
+     same reason, so nothing points here until the first post is published. */
+}
+<MainLayout
+  lang={lang}
+  title={t("blog.seo.title")}
+  description={t("blog.seo.description")}
+  alternates={alternates}
+  noindex={posts.length === 0}
+  hasTranslation={otherHasPosts}
+>
+  <Navbar lang={lang} alternates={alternates} />
+  <main>
+    <TravelingGlow>
+      <section class="pb-12 pt-32">
+        <Container>
+          <div class="mx-auto max-w-2xl text-center">
+            <h1
+              class="mb-4 text-4xl font-bold leading-tight text-slate-100 sm:text-5xl"
+              data-scroll-animate="up"
+            >
+              {t("blog.hero.heading")}
+            </h1>
+            <p
+              class="text-lg leading-relaxed text-slate-400"
+              data-scroll-animate="up"
+            >
+              {t("blog.hero.subheading")}
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      <section class="pb-24">
+        <Container>
+          {
+            posts.length === 0 ? (
+              <p class="text-center text-slate-500">{t("blog.empty")}</p>
+            ) : (
+              <ul class="mx-auto flex max-w-3xl flex-col gap-5">
+                {posts.map((post) => (
+                  <li data-scroll-animate="up">
+                    <a
+                      href={getRouteUrl(lang, "blog", post.slug)}
+                      class="group block rounded-xl border border-border bg-surface p-6 transition-colors hover:border-red-600/40 sm:p-8"
+                    >
+                      <p class="mb-3 text-sm text-slate-500">
+                        <time datetime={post.publishedAt}>
+                          {formatPostDate(post.publishedAt, lang)}
+                        </time>
+                        <span aria-hidden="true"> · </span>
+                        {t("blog.readingTime").replace(
+                          "{n}",
+                          String(post.readingMinutes),
+                        )}
+                      </p>
+                      <h2 class="mb-3 text-xl font-bold leading-snug text-slate-100 transition-colors group-hover:text-red-400 sm:text-2xl">
+                        {post.title}
+                      </h2>
+                      <p class="mb-5 leading-relaxed text-slate-400">
+                        {post.excerpt}
+                      </p>
+                      <span class="inline-flex items-center gap-1 text-sm font-semibold text-slate-200 transition-colors group-hover:text-red-400">
+                        {t("blog.readMore")}
+                        <Icon
+                          name="arrowRight"
+                          class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
+                        />
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </Container>
+      </section>
+    </TravelingGlow>
+  </main>
+  <Footer lang={lang} />
+  <ContactDrawer client:load lang={lang} />
+</MainLayout>

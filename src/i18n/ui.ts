@@ -236,6 +236,25 @@ export const ui: Record<Locale, Record<string, string>> = {
     "project.page.exploreMore.heading": "Want to see more work?",
     "project.page.sticky.cta": "Let's talk",
 
+    // Blog
+    "blog.seo.title": "Blog: WhatsApp, automation, web and software",
+    "blog.seo.description":
+      "Guides, comparisons and real cases on the WhatsApp Business API, process automation, websites that convert and custom software.",
+    "blog.hero.heading": "Technology that works for your business",
+    "blog.hero.subheading":
+      "Guides, comparisons and real cases on WhatsApp, automation, websites and custom software.",
+    "blog.empty": "The first article is on its way.",
+    "blog.readMore": "Read article",
+    "blog.readingTime": "{n} min read",
+    "blog.published": "Published",
+    "blog.updated": "Updated",
+    "blog.faq.heading": "Frequently asked questions",
+    "blog.cta.heading": "Want this in your business?",
+    "blog.cta.subheading":
+      "I can build it for you. Let's talk for 15 minutes and see if it fits.",
+    "blog.cta.services": "Related service",
+    "blog.back": "Back to the blog",
+
     // Reviews
     "reviews.label": "Testimonials",
     "reviews.heading": "What clients say",
@@ -254,6 +273,7 @@ export const ui: Record<Locale, Record<string, string>> = {
       "I build platforms, automations, and integrated digital solutions focused on business.",
     "footer.explore": "Explore",
     "footer.contact": "Contact",
+    "footer.blog": "Blog",
     "footer.connect": "Connect",
     "footer.location": "Barranquilla, Colombia · Remote LATAM / global",
     "footer.rights": "All rights reserved.",
@@ -609,6 +629,25 @@ export const ui: Record<Locale, Record<string, string>> = {
       "También puedes explorar otros enfoques.",
     "project.page.sticky.cta": "Hablemos",
 
+    // Blog
+    "blog.seo.title": "Blog: WhatsApp, automatización, web y software",
+    "blog.seo.description":
+      "Guías, comparativas y casos reales sobre WhatsApp Business API, automatización de procesos, sitios web que convierten y software a medida.",
+    "blog.hero.heading": "Tecnología que trabaja para tu negocio",
+    "blog.hero.subheading":
+      "Guías, comparativas y casos reales sobre WhatsApp, automatización, sitios web y software a medida.",
+    "blog.empty": "Pronto publicaré el primer artículo.",
+    "blog.readMore": "Leer artículo",
+    "blog.readingTime": "{n} min de lectura",
+    "blog.published": "Publicado",
+    "blog.updated": "Actualizado",
+    "blog.faq.heading": "Preguntas frecuentes",
+    "blog.cta.heading": "¿Quieres esto en tu negocio?",
+    "blog.cta.subheading":
+      "Lo implemento por ti. Hablemos 15 minutos y vemos si encaja.",
+    "blog.cta.services": "Servicio relacionado",
+    "blog.back": "Volver al blog",
+
     // Reviews
     "reviews.label": "Testimonios",
     "reviews.heading": "Lo que dicen los clientes",
@@ -627,6 +666,7 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Construyo plataformas, automatizaciones y soluciones digitales integradas, enfocadas en negocio.",
     "footer.explore": "Explorar",
     "footer.contact": "Contacto",
+    "footer.blog": "Blog",
     "footer.connect": "Conectar",
     "footer.location": "Barranquilla, Colombia · Remoto LATAM / global",
     "footer.rights": "Todos los derechos reservados.",

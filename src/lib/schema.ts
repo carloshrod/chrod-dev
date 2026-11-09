@@ -262,6 +262,60 @@ export function buildFaqSchema(lang: Locale, service: Service): JsonLd | null {
   };
 }
 
+/**
+ * Same as `buildFaqSchema`, for question/answer pairs that come from Sanity
+ * (a blog post's FAQ) rather than from a service definition.
+ */
+export function buildFaqSchemaFromItems(
+  items: { question: string; answer: string }[],
+): JsonLd | null {
+  if (items.length === 0) return null;
+
+  return {
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+
+/**
+ * A blog article. No rich result of its own in 2026, but it is what tells
+ * Google and AI retrieval who wrote the piece and when, which is the whole
+ * point of publishing under your own name. Author and publisher point at the
+ * identity graph every page already emits, so the article attaches to the
+ * same person and business rather than to a loose name string.
+ */
+export function buildBlogPostingSchema(
+  site: string,
+  post: {
+    title: string;
+    description: string;
+    publishedAt: string;
+    updatedAt?: string;
+    language: Locale;
+  },
+  path: string,
+): JsonLd {
+  const url = `${site}${path}`;
+  return {
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    headline: post.title,
+    description: post.description,
+    url,
+    mainEntityOfPage: url,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt ?? post.publishedAt,
+    inLanguage: post.language === "es" ? "es-CO" : "en-US",
+    image: `${site}/og-image.png`,
+    author: { "@id": schemaIds.person(site) },
+    publisher: { "@id": schemaIds.business(site) },
+  };
+}
+
 /** Wraps the page's nodes into the single `@graph` document we emit. */
 export function buildGraph(nodes: JsonLd[]): string {
   return JSON.stringify({

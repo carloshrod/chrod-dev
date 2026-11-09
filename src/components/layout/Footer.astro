@@ -6,6 +6,7 @@ import Icon from "../ui/icons.astro";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 import { getRouteUrl } from "../../i18n/routes";
+import { getPosts } from "../../lib/sanity";
 
 const { lang = "en" } = Astro.props as { lang?: Locale };
 const t = useTranslations(lang);
@@ -15,6 +16,14 @@ const servicesUrl = getRouteUrl(lang, "services");
 const projectsUrl = getRouteUrl(lang, "projects");
 const aboutUrl = getRouteUrl(lang, "about");
 const contactUrl = getRouteUrl(lang, "contact");
+const blogUrl = getRouteUrl(lang, "blog");
+// The link appears once this language has a post, never to an empty listing.
+// It lives here rather than in the navbar until there are about three: a
+// "Blog" menu item leading to a single article reads worse than none. A
+// failed fetch hides the link instead of failing every page of the build.
+const hasPosts = await getPosts(lang)
+  .then((posts) => posts.length > 0)
+  .catch(() => false);
 const privacyUrl = getRouteUrl(lang, "privacyPolicy");
 const termsUrl = getRouteUrl(lang, "terms");
 ---
@@ -57,6 +66,16 @@ const termsUrl = getRouteUrl(lang, "terms");
             class="w-fit text-sm text-slate-500 transition-colors hover:text-red-400"
             >{t("nav.about")}</a
           >
+          {
+            hasPosts && (
+              <a
+                href={blogUrl}
+                class="w-fit text-sm text-slate-500 transition-colors hover:text-red-400"
+              >
+                {t("footer.blog")}
+              </a>
+            )
+          }
           <a
             href={contactUrl}
             class="w-fit text-sm text-slate-500 transition-colors hover:text-red-400"
