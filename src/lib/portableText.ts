@@ -111,7 +111,11 @@ export function renderPostBody(body: PortableTextBody): string {
         const sizes = portrait
           ? "(min-width: 400px) 360px, calc(100vw - 2rem)"
           : "(min-width: 800px) 768px, calc(100vw - 2rem)";
-        return `<figure${portrait ? ' class="is-portrait"' : ""}><img src="${escapeHTML(src)}" srcset="${escapeHTML(srcset)}" sizes="${sizes}" alt="${escapeHTML(String(value.alt ?? ""))}"${size} loading="lazy" decoding="async" />${caption}</figure>`;
+        // Screenshots of wide things (a whole workflow) shrink below legible
+        // size in the column, so every image links to its original file,
+        // full size, in a new tab. The image's alt text names the link.
+        const img = `<img src="${escapeHTML(src)}" srcset="${escapeHTML(srcset)}" sizes="${sizes}" alt="${escapeHTML(String(value.alt ?? ""))}"${size} loading="lazy" decoding="async" />`;
+        return `<figure${portrait ? ' class="is-portrait"' : ""}><a href="${escapeHTML(value.url)}" target="_blank" rel="noopener noreferrer">${img}</a>${caption}</figure>`;
       },
       callout: ({ value }) => {
         const tone = value?.tone === "warning" ? "warning" : "note";

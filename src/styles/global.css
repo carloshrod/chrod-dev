@@ -482,6 +482,19 @@
     height: auto;
   }
 
+  .post-body figure a {
+    display: block;
+    cursor: zoom-in;
+  }
+
+  .post-body figure a img {
+    transition: border-color 0.2s;
+  }
+
+  .post-body figure a:hover img {
+    border-color: var(--color-slate-600);
+  }
+
   .post-body figure.is-portrait img {
     max-width: 22.5rem;
     margin-inline: auto;
