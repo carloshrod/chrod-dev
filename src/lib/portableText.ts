@@ -103,7 +103,15 @@ export function renderPostBody(body: PortableTextBody): string {
         const caption = value.caption
           ? `<figcaption>${escapeHTML(String(value.caption))}</figcaption>`
           : "";
-        return `<figure><img src="${escapeHTML(src)}" srcset="${escapeHTML(srcset)}" sizes="(min-width: 800px) 768px, calc(100vw - 2rem)" alt="${escapeHTML(String(value.alt ?? ""))}"${size} loading="lazy" decoding="async" />${caption}</figure>`;
+        // A phone screenshot at the full column width would stand taller than
+        // the screen, so images taller than they are wide get a narrower box
+        // (see .post-body figure.is-portrait). Without known dimensions there
+        // is no way to tell, and the image keeps the full width.
+        const portrait = width > 0 && height > width;
+        const sizes = portrait
+          ? "(min-width: 400px) 360px, calc(100vw - 2rem)"
+          : "(min-width: 800px) 768px, calc(100vw - 2rem)";
+        return `<figure${portrait ? ' class="is-portrait"' : ""}><img src="${escapeHTML(src)}" srcset="${escapeHTML(srcset)}" sizes="${sizes}" alt="${escapeHTML(String(value.alt ?? ""))}"${size} loading="lazy" decoding="async" />${caption}</figure>`;
       },
       callout: ({ value }) => {
         const tone = value?.tone === "warning" ? "warning" : "note";

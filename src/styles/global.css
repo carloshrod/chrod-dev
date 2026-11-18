@@ -482,6 +482,11 @@
     height: auto;
   }
 
+  .post-body figure.is-portrait img {
+    max-width: 22.5rem;
+    margin-inline: auto;
+  }
+
   .post-body figcaption {
     margin-top: 0.625rem;
     color: var(--color-slate-500);
