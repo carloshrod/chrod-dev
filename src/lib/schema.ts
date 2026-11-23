@@ -55,6 +55,14 @@ const SOCIAL_PROFILES = [
   "https://www.linkedin.com/in/chrod",
 ];
 
+/**
+ * The Google Business Profile, by its Knowledge Graph id (`kgmid`), which is
+ * what the profile's share link resolves to. A search-by-name URL would not
+ * do: it is a query, not the entity. Business node only: the profile belongs
+ * to CHRod Dev, not to the person.
+ */
+const GOOGLE_BUSINESS_PROFILE = "https://www.google.com/search?kgmid=/g/11nv0wc0x3";
+
 /** Stable `@id` anchors so the separate nodes form one linked graph. */
 export const schemaIds = {
   person: (site: string) => `${site}/#person`,
@@ -137,7 +145,7 @@ export function buildIdentityGraph(site: string, lang: Locale): JsonLd[] {
       telephone: `+${WHATSAPP_NUMBER}`,
       availableLanguage: ["es", "en"],
     },
-    sameAs: SOCIAL_PROFILES,
+    sameAs: [...SOCIAL_PROFILES, GOOGLE_BUSINESS_PROFILE],
   };
 
   return [person, business];

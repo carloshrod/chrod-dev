@@ -1,0 +1,39 @@
+# CHRod Dev
+
+> CHRod Dev is the software business of Carlos Hernández, a full stack developer based in Barranquilla, Colombia, who works remotely with clients in Colombia, the rest of Latin America and other countries. He is an approved Meta Tech Provider for the WhatsApp Business Platform (Cloud API). The site is bilingual: Spanish pages live under /es/ and English pages under /en/.
+
+What he offers, in three pillars:
+
+- **Automation and WhatsApp** (the main focus): connecting a business's WhatsApp number to the official WhatsApp Cloud API, including coexistence (the number keeps working in the WhatsApp Business app), automatic replies, payment reminders, AI agents that answer from a product catalog, and workflow automation built mostly with n8n.
+- **Websites that convert**: business websites, landing pages and online stores, built to load fast.
+- **Custom software**: web applications, admin panels, APIs and backends.
+
+Carlos builds every project himself, so the person a client talks to is the person who builds it. Clients can reach him through the contact page, by email at hello@chrod.dev or on WhatsApp at +57 301 578 3825.
+
+## Services
+
+- [Automation solutions](https://chrod.dev/en/solutions/automation/): overview of the automation and WhatsApp pillar
+- [WhatsApp automation](https://chrod.dev/en/services/whatsapp-automation/): WhatsApp Cloud API connection and automated conversations
+- [Workflow automation](https://chrod.dev/en/services/workflow-automation/): automating repetitive processes between business tools
+- [Website solutions](https://chrod.dev/en/solutions/websites/): overview of the websites pillar
+- [Professional websites](https://chrod.dev/en/services/professional-websites/)
+- [Landing pages](https://chrod.dev/en/services/landing-pages/)
+- [Ecommerce development](https://chrod.dev/en/services/ecommerce-development/)
+- [Custom software solutions](https://chrod.dev/en/solutions/custom-software/): overview of the custom software pillar
+- [Web applications](https://chrod.dev/en/services/web-applications/)
+- [API and backend development](https://chrod.dev/en/services/api-backend-development/)
+
+## Work and writing
+
+- [Projects](https://chrod.dev/en/projects/): case studies of delivered client projects
+- [Blog](https://chrod.dev/en/blog/): articles that help business owners choose between tools, such as the WhatsApp Business API versus the app, or n8n versus Zapier versus Make
+- [About](https://chrod.dev/en/about/): background and way of working
+- [Contact](https://chrod.dev/en/contact/): book a free 15-minute call or send a message
+
+## Spanish
+
+- [Inicio](https://chrod.dev/es/)
+- [Servicios](https://chrod.dev/es/servicios/)
+- [Proyectos](https://chrod.dev/es/proyectos/)
+- [Blog](https://chrod.dev/es/blog/)
+- [Contacto](https://chrod.dev/es/contacto/)
