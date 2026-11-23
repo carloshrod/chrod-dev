@@ -46,7 +46,14 @@ export default defineConfig({
   // Required by @astrojs/sitemap to emit absolute URLs, and read by
   // MainLayout via `Astro.site` for canonical/hreflang/OG tags.
   site: "https://chrod.dev",
-  adapter: netlify(),
+  // `devFeatures.images: false` keeps Astro's own image service (sharp) in
+  // `astro dev` instead of Netlify's image CDN emulation. With the emulation,
+  // the first request after every server start failed with "Cannot read
+  // properties of undefined (reading 'validateOptions')": the
+  // `virtual:image-service` module came back empty while it was still being
+  // loaded, and only a reload fixed it. Production builds are unaffected and
+  // still use the Netlify image CDN.
+  adapter: netlify({ devFeatures: { images: false } }),
   image: {
     domains: ["cdn.sanity.io"],
   },

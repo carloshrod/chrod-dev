@@ -89,6 +89,17 @@
     font-family: var(--font-sans);
   }
 
+  /* Scroll-animated elements start 30px off their place
+     ([data-scroll-animate="right"] below) until they come into view. Below
+     1024px the page gutter is narrower than that, so a card touching the
+     right edge stuck out and the whole page scrolled sideways a few pixels.
+     `clip`, not `hidden`: hidden makes `main` a scroll container, which breaks
+     `position: sticky` inside it (ProjectShowcase's sidebar); clip only cuts
+     the overflow. */
+  main {
+    overflow-x: clip;
+  }
+
   h1,
   h2,
   h3,
