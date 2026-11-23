@@ -1,5 +1,6 @@
 ---
 import Container from "../layout/Container.astro";
+import { STATS } from "../../data/stats";
 import { useTranslations } from "../../i18n/utils";
 import type { Locale } from "../../i18n/ui";
 
@@ -34,36 +35,16 @@ const t = useTranslations(lang);
           class="flex h-full gap-8 items-center justify-center max-sm:pl-4 sm:gap-12"
         >
           <div class="flex lg:flex-col flex-wrap justify-center gap-10 text-sm">
-            <div>
-              <p
-                class="text-3xl font-bold text-red-400"
-                data-count-to="3"
-                data-count-suffix="+"
-              >
-                0+
-              </p>
-              <p class="mt-1 text-slate-500">{t("about.stat1.label")}</p>
-            </div>
-            <div>
-              <p
-                class="text-3xl font-bold text-red-400"
-                data-count-to="15"
-                data-count-suffix="+"
-              >
-                0+
-              </p>
-              <p class="mt-1 text-slate-500">{t("about.stat2.label")}</p>
-            </div>
-            <div>
-              <p
-                class="text-3xl font-bold text-red-400"
-                data-count-to="15"
-                data-count-suffix="+"
-              >
-                0+
-              </p>
-              <p class="mt-1 text-slate-500">{t("about.stat3.label")}</p>
-            </div>
+            {
+              STATS.map((stat) => (
+                <div>
+                  <p class="text-3xl font-bold text-slate-100" data-count-to={stat.value}>
+                    {stat.value}
+                  </p>
+                  <p class="mt-1 text-slate-500">{t(stat.labelKey)}</p>
+                </div>
+              ))
+            }
           </div>
 
           <p class="leading-relaxed text-slate-500 max-w-60 italic">

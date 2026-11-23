@@ -14,6 +14,7 @@ import {
 } from "../../i18n/routes";
 import Icon from "../ui/icons.astro";
 import LanguageToggle from "../ui/LanguageToggle.astro";
+import { BLOG_NAV_MIN_POSTS, getPosts } from "../../lib/sanity";
 
 interface Props {
   lang?: Locale;
@@ -55,6 +56,19 @@ const navLinks: NavLink[] = [
     active: isRouteActive(currentPath, lang, "about"),
   },
 ];
+
+// See BLOG_NAV_MIN_POSTS. A failed fetch leaves the link out rather than
+// failing every page of the build; the footer link is still there.
+const showBlog = await getPosts(lang)
+  .then((posts) => posts.length >= BLOG_NAV_MIN_POSTS)
+  .catch(() => false);
+if (showBlog) {
+  navLinks.splice(2, 0, {
+    label: t("nav.blog"),
+    href: getRouteUrl(lang, "blog"),
+    active: isRouteActive(currentPath, lang, "blog"),
+  });
+}
 ---
 
 <header

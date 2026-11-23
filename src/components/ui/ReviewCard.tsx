@@ -29,7 +29,7 @@ const ReviewCard = ({ review }: { review: Review }) => {
 
         <figcaption className="flex items-center gap-3 border-t border-border pt-5">
           <div
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-600/20 text-xs font-bold text-red-400"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-700/50 text-xs font-bold text-slate-300"
             aria-hidden="true"
           >
             {review.avatar}

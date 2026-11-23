@@ -7,14 +7,16 @@ import Icons from "../../ui/icons.astro";
 
 interface Props {
   lang: Locale;
+  /** Background tone, assigned by ServicePage from the section's position. */
+  alt?: boolean;
 }
 
-const { lang } = Astro.props;
+const { lang, alt = false } = Astro.props;
 const t = useTranslations(lang);
 const servicesUrl = getRouteUrl(lang, "services");
 ---
 
-<section class="py-16">
+<section class:list={["py-16", alt && "bg-surface-alt"]}>
   <Container>
     <div class="mx-auto flex max-w-xl flex-col items-center gap-4 text-center">
       <p class="text-lg text-slate-300" data-scroll-animate="up">

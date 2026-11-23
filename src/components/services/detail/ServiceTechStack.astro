@@ -9,15 +9,17 @@ import { iconMap, safeColor } from "../../../lib/techIcons";
 interface Props {
   service: Service;
   lang: Locale;
+  /** Background tone, assigned by ServicePage from the section's position. */
+  alt?: boolean;
 }
 
-const { service, lang } = Astro.props;
+const { service, lang, alt = false } = Astro.props;
 const t = useTranslations(lang);
 
 const techs = service.techStack;
 ---
 
-<section class="py-16">
+<section class:list={["py-16", alt && "bg-surface-alt"]}>
   <Container>
     <div class="mx-auto max-w-3xl text-center">
       <h2

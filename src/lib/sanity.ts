@@ -177,6 +177,14 @@ const postsCache = new Map<
   { at: number; request: Promise<Post[]> }
 >();
 
+/**
+ * How many posts a language needs before "Blog" joins the navbar. Below it the
+ * link lives only in the footer: a menu item leading to one or two articles
+ * reads worse than none. Counted per language, so each side gets the link on
+ * its own third post without anyone remembering to deploy it.
+ */
+export const BLOG_NAV_MIN_POSTS = 3;
+
 /** Every published post in one language, newest first. */
 export function getPosts(lang: "en" | "es"): Promise<Post[]> {
   const cached = postsCache.get(lang);

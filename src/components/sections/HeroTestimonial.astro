@@ -1,0 +1,73 @@
+---
+// One client quote above the fold, as a card, because as a line of italic
+// text under the CTAs it read as a note, not a testimonial. The card is the
+// shape people already recognise from the reviews carousel: stars, quote,
+// name and company.
+//
+// Floats in the corner of the hero's tech glyphs from `xl` up (between
+// `lg` and `xl` it would overlap the headline). Kept compact, with no avatar,
+// so it backs the CTA instead of outweighing it. Below `xl` HeroSection shows
+// the same card centred under the CTAs, with room to breathe. The float is slower and
+// shorter than the glyphs' so the quote stays readable, and stops for anyone
+// who asked their system to reduce motion.
+//
+// A verbatim excerpt of Manuarte's review (Sanity holds the full text, rated
+// 5 stars); the English side is a translation of it. Manuarte is the WhatsApp
+// client, the wedge.
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+  floating?: boolean;
+}
+
+const { lang, floating = false } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<figure
+  class:list={[
+    "w-full rounded-2xl border border-border p-4 shadow-xl shadow-black/40",
+    floating ? "testimonial-float bg-surface/90 backdrop-blur-sm" : "bg-surface",
+  ]}
+>
+  <div class="mb-2.5 flex gap-0.5 text-amber-400" role="img" aria-label="5/5">
+    {
+      Array.from({ length: 5 }).map(() => (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+      ))
+    }
+  </div>
+  <blockquote class="text-[13px] leading-relaxed text-slate-300">
+    &ldquo;{t("hero.testimonial.quote")}&rdquo;
+  </blockquote>
+  <figcaption class="mt-3 text-xs text-slate-500">
+    <span class="font-semibold text-slate-200">{t("hero.testimonial.name")}</span>
+    · {t("hero.testimonial.role")}
+  </figcaption>
+</figure>
+
+<style>
+  @keyframes testimonial-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  .testimonial-float {
+    animation: testimonial-float 7s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testimonial-float {
+      animation: none;
+    }
+  }
+</style>

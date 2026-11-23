@@ -8,13 +8,15 @@ import type { Service } from "../../../data/services/types";
 interface Props {
   service: Service;
   lang: Locale;
+  /** Background tone, assigned by ServicePage from the section's position. */
+  alt?: boolean;
 }
 
-const { service, lang } = Astro.props;
+const { service, lang, alt = false } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<section class="py-20">
+<section class:list={["py-20", alt && "bg-surface-alt"]}>
   <Container>
     <h2 class="mb-10 text-center text-3xl font-bold text-slate-100 sm:text-4xl" data-scroll-animate="up">
       {t("service.page.faq.heading")}

@@ -13,6 +13,8 @@ type Status = "idle" | "sending" | "sent" | "error";
 interface Props {
   service: Service;
   lang: Locale;
+  /** Background tone, assigned by ServicePage from the section's position. */
+  alt?: boolean;
 }
 
 const inputAttrsByField: Record<
@@ -24,7 +26,8 @@ const inputAttrsByField: Record<
   phone: { type: "tel", autoComplete: "tel" },
 };
 
-const ServiceQuoteForm = ({ service, lang }: Props) => {
+const ServiceQuoteForm = ({ service, lang, alt = false }: Props) => {
+  const tone = alt ? " bg-surface-alt" : "";
   const t = (key: string) =>
     (ui[lang] as Record<string, string>)[key] ??
     (ui["en"] as Record<string, string>)[key] ??
@@ -357,7 +360,7 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
 
   if (status === "sent") {
     return (
-      <section id="service-quote-form" className="px-4 py-20 sm:px-6 lg:px-8">
+      <section id="service-quote-form" className={`px-4 py-20 sm:px-6 lg:px-8${tone}`}>
         <div
           ref={successRef}
           className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-2xl border border-border bg-surface p-6 text-center sm:p-10"
@@ -375,10 +378,10 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
   }
 
   return (
-    <section id="service-quote-form" className="px-4 py-20 sm:px-6 lg:px-8 bg-surface-alt">
+    <section id="service-quote-form" className={`px-4 py-20 sm:px-6 lg:px-8${tone}`}>
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 text-center" data-scroll-animate="up">
-          <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-alt px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-red-400">
+          <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-alt px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-300">
             <span
               className="inline-flex [&_svg]:h-3.5 [&_svg]:w-3.5"
               dangerouslySetInnerHTML={{ __html: service.icon }}
@@ -388,7 +391,25 @@ const ServiceQuoteForm = ({ service, lang }: Props) => {
           <h2 className="mb-3 text-3xl font-bold text-slate-100 sm:text-4xl">
             {t("service.page.form.heading")}
           </h2>
-          <p className="text-slate-400">{t("service.page.form.intro")}</p>
+        </div>
+
+        {/* What happens after sending, so the form is not a black box. Only
+            promises kept every time: the 24-hour reply is the same one the
+            contact page and the drawer make. */}
+        <div className="mb-8" data-scroll-animate="up">
+          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-slate-500">
+            {t("service.page.form.next.label")}
+          </p>
+          <ol className="grid gap-4 sm:grid-cols-3">
+            {[1, 2, 3].map((n) => (
+              <li key={n} className="flex items-start gap-3 text-sm leading-relaxed text-slate-400">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-xs font-semibold text-slate-300">
+                  {n}
+                </span>
+                <span>{t(`service.page.form.next.${n}`)}</span>
+              </li>
+            ))}
+          </ol>
         </div>
 
         <form

@@ -8,13 +8,15 @@ import type { Service } from "../../../data/services/types";
 interface Props {
   service: Service;
   lang: Locale;
+  /** Background tone, assigned by ServicePage from the section's position. */
+  alt?: boolean;
 }
 
-const { service, lang } = Astro.props;
+const { service, lang, alt = false } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<section class="py-20">
+<section class:list={["py-20", alt && "bg-surface-alt"]}>
   <Container>
     <h2 class="mb-10 text-center text-3xl font-bold text-slate-100 sm:text-4xl" data-scroll-animate="up">
       {t("service.page.includes.heading")}
@@ -27,7 +29,7 @@ const t = useTranslations(lang);
             class="flex items-start gap-3 rounded-xl border border-border bg-surface p-4"
             data-scroll-animate={index % 2 === 0 ? "right" : "left"}
           >
-            <svg class="mt-0.5 h-5 w-5 shrink-0 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg class="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
             <span class="text-sm leading-relaxed text-slate-300">{item[lang]}</span>
           </div>
         ))

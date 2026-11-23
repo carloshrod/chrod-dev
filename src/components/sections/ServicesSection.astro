@@ -15,7 +15,7 @@ const t = useTranslations(lang);
     <!-- Header -->
     <div class="mb-14 text-center">
       <p
-        class="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400"
+        class="mb-3 text-sm font-semibold uppercase tracking-widest text-slate-500"
         data-scroll-animate="up"
       >
         {t("services.label")}
@@ -68,7 +68,7 @@ const t = useTranslations(lang);
                     class="group/item flex items-start gap-2 rounded py-1 text-sm text-slate-400 transition-colors hover:text-red-300"
                   >
                     <span
-                      class="mt-1.5 size-1 shrink-0 rounded-full bg-red-600/60 transition-colors group-hover/item:bg-red-400"
+                      class="mt-1.5 size-1 shrink-0 rounded-full bg-slate-600 transition-colors group-hover/item:bg-red-400"
                       aria-hidden="true"
                     />
                     {service.card.title[lang]}
@@ -79,7 +79,7 @@ const t = useTranslations(lang);
 
             <a
               href={getRouteUrl(lang, "pillars", pillar.slug[lang])}
-              class="relative mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-red-400 transition-colors hover:text-red-300"
+              class="relative mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-slate-300 transition-colors hover:text-red-400"
             >
               {t("services.card.cta")}
               <Icon

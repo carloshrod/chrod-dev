@@ -12,6 +12,7 @@ import ServiceProcess from "./ServiceProcess.astro";
 import ServiceTechStack from "./ServiceTechStack.astro";
 import ServiceRelatedProjects from "./ServiceRelatedProjects.astro";
 import ServiceFAQ from "./ServiceFAQ.astro";
+import ServiceRelatedPosts from "./ServiceRelatedPosts.astro";
 import ServiceQuoteForm from "../form/ServiceQuoteForm.tsx";
 import ServiceExploreMoreCTA from "./ServiceExploreMoreCTA.astro";
 import ServiceStickyCTA from "./ServiceStickyCTA.astro";
@@ -20,6 +21,7 @@ import { getAlternatePaths, getRouteUrl } from "../../../i18n/routes";
 import { useTranslations } from "../../../i18n/utils";
 import type { Service } from "../../../data/services/types";
 import { getPillarForService } from "../../../data/pillars";
+import { getPosts, getProjects } from "../../../lib/sanity";
 import {
   buildBreadcrumbSchema,
   buildFaqSchema,
@@ -66,6 +68,43 @@ const jsonLd: JsonLd[] = [
 
 const faqSchema = buildFaqSchema(lang, service);
 if (faqSchema) jsonLd.push(faqSchema);
+
+// Fetched here rather than inside their sections: whether those sections
+// render decides the background of every section after them (see below).
+const relatedProjects = (await getProjects(lang))
+  .filter((project) => project.services?.includes(service.id))
+  .slice(0, 3);
+// A post lists its main service first, so posts where this service comes
+// earlier rank higher; ties keep getPosts' newest-first order (sort is
+// stable). A failed fetch means no articles, not a broken service page.
+const relatedPosts = await getPosts(lang)
+  .then((all) =>
+    all
+      .filter((p) => p.services.includes(service.id))
+      .sort((a, b) => a.services.indexOf(service.id) - b.services.indexOf(service.id))
+      .slice(0, 3),
+  )
+  .catch(() => []);
+
+// Section backgrounds alternate by position among the sections that actually
+// render, starting with the one under the hero. Each section used to carry
+// its own fixed colour, which only worked while every service had the same
+// sections: WhatsApp's extra "modes" block, or a service with no related
+// projects, put two dark sections back to back. The closing block (related
+// articles, then "explore other services") takes the opposite of the form,
+// so the two read as one ending.
+const order = [
+  "problem",
+  service.modes && "modes",
+  "includes",
+  "process",
+  "tech",
+  relatedProjects.length > 0 && "projects",
+  "faq",
+  "form",
+].filter(Boolean) as string[];
+const alt = (key: string) => order.indexOf(key) % 2 === 0;
+const closingAlt = !alt("form");
 ---
 
 <MainLayout
@@ -85,15 +124,16 @@ if (faqSchema) jsonLd.push(faqSchema);
         crumbs={crumbs}
         pillar={pillar}
       />
-      <ServiceProblemSolution service={service} lang={lang} />
-      <ServiceModes service={service} lang={lang} />
-      <ServiceIncludes service={service} lang={lang} />
-      <ServiceProcess service={service} lang={lang} />
-      <ServiceTechStack service={service} lang={lang} />
-      <ServiceRelatedProjects service={service} lang={lang} />
-      <ServiceFAQ service={service} lang={lang} />
-      <ServiceQuoteForm service={service} lang={lang} client:load />
-      <ServiceExploreMoreCTA lang={lang} />
+      <ServiceProblemSolution service={service} lang={lang} alt={alt("problem")} />
+      <ServiceModes service={service} lang={lang} alt={alt("modes")} />
+      <ServiceIncludes service={service} lang={lang} alt={alt("includes")} />
+      <ServiceProcess service={service} lang={lang} alt={alt("process")} />
+      <ServiceTechStack service={service} lang={lang} alt={alt("tech")} />
+      <ServiceRelatedProjects projects={relatedProjects} lang={lang} alt={alt("projects")} />
+      <ServiceFAQ service={service} lang={lang} alt={alt("faq")} />
+      <ServiceQuoteForm service={service} lang={lang} alt={alt("form")} client:load />
+      <ServiceRelatedPosts posts={relatedPosts} lang={lang} alt={closingAlt} />
+      <ServiceExploreMoreCTA lang={lang} alt={closingAlt} />
     </TravelingGlow>
   </main>
   <Footer lang={lang} />

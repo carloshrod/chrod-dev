@@ -1,0 +1,54 @@
+---
+// The other half of hub-and-spoke: every article already closes with a link
+// to its service (the post's `services` field), and this lists the articles
+// back on the service page. It sits after the quote form, not before it: the
+// FAQ answers the last doubts and the form should come right after, and the
+// reader who scrolls past the form without filling it is the one who still
+// wants to read more. It shares the closing background with "Explore other
+// services" below it, so the two read as one closing block.
+import Container from "../../layout/Container.astro";
+import PostCard from "../../blog/PostCard.astro";
+import { useTranslations } from "../../../i18n/utils";
+import type { Locale } from "../../../i18n/ui";
+import type { Post } from "../../../types/post";
+
+interface Props {
+  /** Already filtered, ranked and capped by ServicePage, which needs to know
+   * whether this section renders before it can alternate the backgrounds. */
+  posts: Post[];
+  lang: Locale;
+  /** Background tone, assigned by ServicePage from the section's position. */
+  alt?: boolean;
+}
+
+const { posts, lang, alt = false } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{
+  posts.length > 0 && (
+    <section class:list={["pt-20", alt && "bg-surface-alt"]}>
+      <Container>
+        <h2
+          class="mb-8 text-center text-2xl font-bold text-slate-100 sm:text-3xl"
+          data-scroll-animate="up"
+        >
+          {t("service.page.posts.heading")}
+        </h2>
+        {/* Compact cards, up to three to a row. A centred flex wrap rather
+            than a grid, so one or two articles sit in the middle instead of
+            hugging the left edge of an otherwise empty row. */}
+        <ul class="flex flex-wrap justify-center gap-5">
+          {posts.map((post) => (
+            <li
+              class="w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc((100%-2.5rem)/3)]"
+              data-scroll-animate="up"
+            >
+              <PostCard post={post} lang={lang} headingLevel={3} compact />
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
+  )
+}

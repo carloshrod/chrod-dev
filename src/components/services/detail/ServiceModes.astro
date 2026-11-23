@@ -7,9 +7,11 @@ import type { Service } from "../../../data/services/types";
 interface Props {
   service: Service;
   lang: Locale;
+  /** Background tone, assigned by ServicePage from the section's position. */
+  alt?: boolean;
 }
 
-const { service, lang } = Astro.props;
+const { service, lang, alt = false } = Astro.props;
 const t = useTranslations(lang);
 const modes = service.modes;
 ---
@@ -21,7 +23,7 @@ const modes = service.modes;
 }
 {
   modes && (
-    <section id="service-modes" class="py-20">
+    <section id="service-modes" class:list={["py-20", alt && "bg-surface-alt"]}>
       <Container>
         <h2
           class="mb-10 max-w-2xl text-3xl font-bold text-slate-100 sm:text-4xl"
@@ -41,7 +43,7 @@ const modes = service.modes;
               </p>
               <dl class="space-y-2 text-sm">
                 <div>
-                  <dt class="text-xs uppercase tracking-wide text-red-400">
+                  <dt class="text-xs uppercase tracking-wide text-slate-300">
                     {modes.optionA[lang]}
                   </dt>
                   <dd
@@ -77,7 +79,7 @@ const modes = service.modes;
                 </th>
                 <th
                   scope="col"
-                  class="w-[37.5%] p-4 font-semibold text-red-400"
+                  class="w-[37.5%] p-4 font-semibold text-slate-100"
                 >
                   {modes.optionA[lang]}
                 </th>

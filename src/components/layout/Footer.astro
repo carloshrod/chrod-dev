@@ -18,9 +18,9 @@ const aboutUrl = getRouteUrl(lang, "about");
 const contactUrl = getRouteUrl(lang, "contact");
 const blogUrl = getRouteUrl(lang, "blog");
 // The link appears once this language has a post, never to an empty listing.
-// It lives here rather than in the navbar until there are about three: a
-// "Blog" menu item leading to a single article reads worse than none. A
-// failed fetch hides the link instead of failing every page of the build.
+// The navbar adds its own from BLOG_NAV_MIN_POSTS on; this one stays either
+// way. A failed fetch hides the link instead of failing every page of the
+// build.
 const hasPosts = await getPosts(lang)
   .then((posts) => posts.length > 0)
   .catch(() => false);

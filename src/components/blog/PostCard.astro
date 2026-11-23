@@ -1,0 +1,67 @@
+---
+// One article as a card: date, reading time, title and, in the full variant,
+// the excerpt. Used by the blog listing (full) and by the related-articles
+// block on service pages (`compact`: no excerpt, smaller type, sized to sit
+// three to a row, since there the articles are a secondary closing block and
+// not the page's subject). One component so the two cannot drift apart.
+// `headingLevel` follows the page's outline: an h2 in the listing, an h3
+// under the "Related articles" heading on a service page.
+import Icon from "../ui/icons.astro";
+import { useTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/ui";
+import { getRouteUrl } from "../../i18n/routes";
+import type { Post } from "../../types/post";
+import { formatPostDate } from "./format";
+
+interface Props {
+  post: Post;
+  lang: Locale;
+  headingLevel?: 2 | 3;
+  compact?: boolean;
+}
+
+const { post, lang, headingLevel = 2, compact = false } = Astro.props;
+const t = useTranslations(lang);
+const Heading = headingLevel === 2 ? "h2" : "h3";
+---
+
+<a
+  href={getRouteUrl(lang, "blog", post.slug)}
+  class:list={[
+    "group flex flex-col rounded-xl border border-border bg-surface transition-colors hover:border-red-600/40",
+    compact ? "h-full p-5" : "p-6 sm:p-8",
+  ]}
+>
+  <p class:list={["text-slate-500", compact ? "mb-2 text-xs" : "mb-3 text-sm"]}>
+    <time datetime={post.publishedAt}>
+      {formatPostDate(post.publishedAt, lang)}
+    </time>
+    <span aria-hidden="true"> · </span>
+    {t("blog.readingTime").replace("{n}", String(post.readingMinutes))}
+  </p>
+  <Heading
+    class:list={[
+      "font-bold leading-snug text-slate-100 transition-colors group-hover:text-red-400",
+      compact ? "mb-4 text-base sm:text-lg" : "mb-3 text-xl sm:text-2xl",
+    ]}
+  >
+    {post.title}
+  </Heading>
+  {
+    !compact && (
+      <p class="mb-5 leading-relaxed text-slate-400">{post.excerpt}</p>
+    )
+  }
+  <span
+    class:list={[
+      "inline-flex items-center gap-1 text-sm font-semibold text-slate-200 transition-colors group-hover:text-red-400",
+      compact && "mt-auto",
+    ]}
+  >
+    {t("blog.readMore")}
+    <Icon
+      name="arrowRight"
+      class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5"
+    />
+  </span>
+</a>
