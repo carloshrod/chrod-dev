@@ -20,14 +20,14 @@ export const landingPages: Service = {
     },
     subheadline: {
       en: "For campaigns, launches, or single offers, focused on one goal: turning clicks into real opportunities.",
-      es: "Para campañas, lanzamientos u ofertas específicas, enfocada en un solo objetivo: convertir clics en oportunidades reales.",
+      es: "Para campañas, lanzamientos u ofertas específicas, enfocada en convertir clics en oportunidades reales.",
     },
   },
 
   problemSolution: {
     intro: {
       en: "Driving traffic to a generic or slow page quietly kills your conversion rate, and wastes your ad budget.",
-      es: "Enviar tráfico a una página genérica o lenta reduce tu conversión, y desperdicia tu presupuesto en anuncios.",
+      es: "Enviar tráfico a una página genérica o lenta reduce tu conversión y desperdicia tu presupuesto en anuncios.",
     },
     problems: [
       {

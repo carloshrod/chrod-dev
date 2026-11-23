@@ -27,7 +27,7 @@ export const businessWebsites: Service = {
   problemSolution: {
     intro: {
       en: "Most business websites feel outdated, slow or unclear, and that hurts trust before a potential client even reaches out.",
-      es: "La mayoría de sitios de negocios se sienten desactualizados, lentos o poco claros, y eso afecta la confianza antes de que un cliente siquiera te contacte.",
+      es: "La mayoría de sitios de negocios se sienten desactualizados, lentos o poco claros. Eso afecta la confianza antes de que un cliente siquiera te contacte.",
     },
     problems: [
       {

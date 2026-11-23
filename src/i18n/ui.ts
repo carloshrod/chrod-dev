@@ -6,6 +6,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.about": "About",
     "nav.services": "Services",
     "nav.projects": "Projects",
+    "nav.blog": "Blog",
     "nav.contact": "Let's talk",
     "nav.lang.label": "ES",
 
@@ -19,6 +20,9 @@ export const ui: Record<Locale, Record<string, string>> = {
     "hero.subtitle":
       "No new number, no lost chats. You keep using the same WhatsApp as always, only now it answers when you cannot.",
     "hero.badge": "Approved Meta Tech Provider",
+    "hero.testimonial.quote": "The system turned out functional, organized and adapted to our day-to-day operations.",
+    "hero.testimonial.name": "Ricardo Terán",
+    "hero.testimonial.role": "CEO of Manuarte",
     // EN only. The hero gates this on `lang`, so there is no ES counterpart:
     // the nearshore pitch (US time zone overlap, direct access instead of an
     // account manager) means nothing to a Colombian buyer.
@@ -33,12 +37,12 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.heading":
       "I build digital products that connect technology and business",
     "about.p1":
-      "I'm a full stack developer and I work on well-thought-out solutions from a practical perspective: understanding the problem clearly, defining a clean solution, and building something that actually works.",
+      "I'm a full stack developer and I work on well-thought-out solutions from a practical perspective. I make sure I understand the problem, define a clean solution and build something that actually works.",
     "about.p2":
       "I get involved across the entire process, not just the implementation, to make sure what gets built makes sense both technically and for the business.",
-    "about.stat1.label": "Years experience",
+    "about.stat1.label": "Years as a developer",
     "about.stat2.label": "Projects shipped",
-    "about.stat3.label": "Happy clients",
+    "about.stat3.label": "Clients",
     "about.cta.learnMore": "Learn more",
     "about.resume": "View Resume",
     "about.resume.url": "/resume-en.pdf",
@@ -46,7 +50,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     // About page (/about)
     "about.page.seo.title": "About",
     "about.page.seo.description":
-      "Full stack developer with a business-first approach: understanding the problem, defining a clear solution, and building something that actually works.",
+      "Full stack developer with a business-first approach. I understand the problem, define a clear solution and build something that actually works.",
     "about.page.hero.heading":
       "I build digital products with a business-first approach",
     "about.page.hero.subheading":
@@ -56,7 +60,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.page.intro.p1":
       "I'm a full stack developer with a practical approach to how applications are built and evolve. I've worked on projects of varying complexity, which has helped me develop the judgment to make technical decisions that actually add value.",
     "about.page.intro.p2":
-      "I get involved across the entire process, not just the implementation: from how a solution is defined to how each part is structured and connected so it works in a coherent, sustainable way.",
+      "I get involved across the entire process, not just the implementation, from how a solution is defined to how each part is structured and connected so it works in a coherent, sustainable way.",
     "about.page.intro.p3":
       "I aim to create solutions that are clear, well thought out, and aligned with real goals, where technology has a purpose instead of becoming an unnecessary layer of complexity.",
     "about.page.process.heading": "How I work",
@@ -78,6 +82,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.page.focus.item3": "Performance",
     "about.page.focus.item4": "Maintainable code",
     "about.page.focus.item5": "Real business impact",
+    "about.page.focus.item6": "Clear communication",
     "about.page.experience.body":
       "I've worked on projects ranging from landing pages to applications with business logic, integrations, and automation.",
     "about.page.cta.heading": "What are you working on?",
@@ -134,6 +139,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.techstack.intro":
       "Technologies chosen to make your product fast, stable, and ready to scale.",
     "service.page.related.heading": "Related projects",
+    "service.page.posts.heading": "Related articles",
     "service.page.related.viewProject": "View project",
     "service.page.faq.heading": "Frequently asked questions",
     "service.page.exploreMore.heading": "Want to explore more services?",
@@ -142,8 +148,10 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Tell me about your project and I'll get back to you with next steps.",
     "service.page.sticky.cta": "Quote",
     "service.page.form.heading": "Tell me about your project",
-    "service.page.form.intro":
-      "Fill out the form and I'll get back to you with next steps.",
+    "service.page.form.next.label": "What happens next",
+    "service.page.form.next.1": "I reply within 24 hours.",
+    "service.page.form.next.2": "If needed, we have a 15-minute call to understand your case.",
+    "service.page.form.next.3": "I send you a proposal with scope, timeline and price. No commitment.",
     "service.page.form.phone.label": "Phone / WhatsApp number",
     "service.page.form.phone.placeholder": "+57 300 000 0000",
     "service.page.form.budget.label": "Estimated budget (USD)",
@@ -180,7 +188,11 @@ export const ui: Record<Locale, Record<string, string>> = {
 
     // Skills
     "skills.heading": "Technologies I use",
-    "skills.typing.intro": "What I build:",
+    "about.build.intro": "What I build:",
+    "about.build.1": "WhatsApp chatbots and AI agents",
+    "about.build.2": "Process automation",
+    "about.build.3": "Websites that convert",
+    "about.build.4": "Custom software",
     "skills.category.frontend": "Frontend",
     "skills.category.backend": "Backend & Data",
     "skills.category.ui": "UI & Experience",
@@ -306,7 +318,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "drawer.sending": "Sending…",
     "drawer.success.title": "Message sent!",
     "drawer.success.body":
-      "Thanks for reaching out. I'll get back to you soon.",
+      "Thanks for reaching out. I'll reply within 24 hours.",
     "drawer.success.close": "Close",
     "drawer.schedule.prefix": "Would you rather talk? ",
     "drawer.schedule.link": "Book 15 minutes",
@@ -403,6 +415,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "nav.about": "Sobre mí",
     "nav.services": "Servicios",
     "nav.projects": "Proyectos",
+    "nav.blog": "Blog",
     "nav.contact": "Hablemos",
     "nav.lang.label": "EN",
 
@@ -411,6 +424,9 @@ export const ui: Record<Locale, Record<string, string>> = {
     "hero.subtitle":
       "Sin cambiar de número ni perder tus chats. Sigues usando el mismo WhatsApp de siempre, pero ahora atiende cuando tú no puedes.",
     "hero.badge": "Proveedor de Tecnología aprobado por Meta",
+    "hero.testimonial.quote": "El sistema quedó funcional, organizado y adaptado a nuestras operaciones cotidianas.",
+    "hero.testimonial.name": "Ricardo Terán",
+    "hero.testimonial.role": "CEO de Manuarte",
     "hero.cta.primary": "Agenda 15 minutos",
     "hero.cta.secondary": "Ver cómo funciona",
     "hero.scroll": "Explorar",
@@ -420,12 +436,12 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.heading":
       "Desarrollo productos digitales que conectan tecnología y negocio",
     "about.p1":
-      "Soy desarrollador full stack y trabajo en soluciones bien pensadas desde una perspectiva práctica: entender bien el problema, definir una solución clara y construir algo que realmente funcione.",
+      "Soy desarrollador full stack y trabajo en soluciones bien pensadas desde una perspectiva práctica. Entiendo bien el problema, defino una solución clara y construyo algo que realmente funcione.",
     "about.p2":
       "Me involucro en todo el proceso, no solo en la implementación, para asegurar que lo que se desarrolla tenga sentido a nivel técnico y también a nivel de negocio.",
-    "about.stat1.label": "Años de experiencia",
+    "about.stat1.label": "Años como desarrollador",
     "about.stat2.label": "Proyectos entregados",
-    "about.stat3.label": "Clientes satisfechos",
+    "about.stat3.label": "Clientes",
     "about.cta.learnMore": "Conocer más",
     "about.resume": "Ver CV",
     "about.resume.url": "/resume-es.pdf",
@@ -433,7 +449,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     // Página de sobre mí (/about)
     "about.page.seo.title": "Sobre mí",
     "about.page.seo.description":
-      "Desarrollador full stack con enfoque en negocio: entender el problema, definir una solución clara y construir algo que realmente funcione.",
+      "Desarrollador full stack con enfoque en negocio. Entiendo el problema, defino una solución clara y construyo algo que realmente funcione.",
     "about.page.hero.heading":
       "Desarrollo productos digitales con enfoque en negocio",
     "about.page.hero.subheading":
@@ -443,7 +459,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.page.intro.p1":
       "Soy desarrollador full stack con un enfoque práctico en cómo se construyen y evolucionan las aplicaciones. He trabajado en proyectos de distinta complejidad, lo que me ha permitido desarrollar criterio para tomar decisiones técnicas que realmente aporten valor.",
     "about.page.intro.p2":
-      "Me involucro en todo el proceso, no solo en la implementación: desde cómo se define una solución hasta cómo se estructura y se conecta cada parte para que funcione de forma coherente y sostenible.",
+      "Me involucro en todo el proceso, no solo en la implementación. Participo desde que se define la solución hasta que cada parte queda estructurada y conectada, para que todo funcione de forma coherente y sostenible.",
     "about.page.intro.p3":
       "Busco crear soluciones claras, bien pensadas y alineadas a objetivos reales, donde la tecnología tenga un propósito y no se convierta en una capa innecesaria de complejidad.",
     "about.page.process.heading": "Cómo trabajo",
@@ -465,6 +481,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "about.page.focus.item3": "Rendimiento",
     "about.page.focus.item4": "Código mantenible",
     "about.page.focus.item5": "Impacto real en negocio",
+    "about.page.focus.item6": "Comunicación clara",
     "about.page.experience.body":
       "He trabajado en proyectos desde landing pages hasta aplicaciones con lógica de negocio, integraciones y automatización.",
     "about.page.cta.heading": "¿En qué estás trabajando?",
@@ -521,6 +538,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "service.page.techstack.intro":
       "Tecnologías pensadas para que tu producto sea rápido, estable y pueda crecer sin limitaciones.",
     "service.page.related.heading": "Proyectos relacionados",
+    "service.page.posts.heading": "Artículos relacionados",
     "service.page.related.viewProject": "Ver proyecto",
     "service.page.faq.heading": "Preguntas frecuentes",
     "service.page.exploreMore.heading":
@@ -530,8 +548,10 @@ export const ui: Record<Locale, Record<string, string>> = {
       "Cuéntame sobre tu proyecto y te contactaré con los siguientes pasos.",
     "service.page.sticky.cta": "Presupuesto",
     "service.page.form.heading": "Cuéntame sobre tu proyecto",
-    "service.page.form.intro":
-      "Completa el formulario y te contactaré con los siguientes pasos.",
+    "service.page.form.next.label": "Qué pasa después",
+    "service.page.form.next.1": "Te respondo en menos de 24 horas.",
+    "service.page.form.next.2": "Si hace falta, hacemos una llamada de 15 minutos para entender tu caso.",
+    "service.page.form.next.3": "Te envío una propuesta con alcance, tiempos y precio, sin compromiso.",
     "service.page.form.phone.label": "Teléfono / WhatsApp",
     "service.page.form.phone.placeholder": "+57 300 000 0000",
     "service.page.form.budget.label": "Presupuesto estimado (USD)",
@@ -570,7 +590,11 @@ export const ui: Record<Locale, Record<string, string>> = {
 
     // Skills
     "skills.heading": "Tecnologías que utilizo",
-    "skills.typing.intro": "Lo que construyo:",
+    "about.build.intro": "Lo que construyo:",
+    "about.build.1": "Chatbots y agentes de IA para WhatsApp",
+    "about.build.2": "Automatización de procesos",
+    "about.build.3": "Sitios web que convierten",
+    "about.build.4": "Software a medida",
     "skills.category.frontend": "Frontend",
     "skills.category.backend": "Backend & Datos",
     "skills.category.ui": "UI & Experiencia",
@@ -701,7 +725,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     "drawer.sending": "Enviando…",
     "drawer.success.title": "¡Mensaje enviado!",
     "drawer.success.body":
-      "Gracias por escribirme. Te responderé lo más pronto posible.",
+      "Gracias por escribirme. Te respondo en menos de 24 horas.",
     "drawer.success.close": "Cerrar",
     "drawer.schedule.prefix": "¿Prefieres hablar? ",
     "drawer.schedule.link": "Agenda 15 minutos",

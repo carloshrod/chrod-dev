@@ -95,7 +95,7 @@ const COPY: Record<
         "Tu negocio puede automatizar respuestas, notificaciones e integraciones con tus sistemas.",
       ],
       implications: [
-        "El número que vayas a conectar debe estar libre: que no esté funcionando actualmente en la app de WhatsApp ni en WhatsApp Business.",
+        "El número que vayas a conectar debe estar libre, sin uso actual en la app de WhatsApp ni en WhatsApp Business.",
         "Si hoy lo tienes activo en alguna de esas apps, debes eliminar esa cuenta antes de iniciar el proceso. Una vez conectado, dejará de funcionar ahí tal como lo usas ahora.",
         "Para conectar, vas a autorizar el acceso con tu cuenta de Facebook.",
       ],
@@ -126,7 +126,7 @@ const COPY: Record<
         "Your business can automate replies, notifications and integrations with your systems.",
       ],
       implications: [
-        "The number you connect needs to be free: not currently active on the WhatsApp app or WhatsApp Business.",
+        "The number you connect needs to be free, not currently active on the WhatsApp app or WhatsApp Business.",
         "If it's active on either app today, you need to delete that account before starting. Once connected, it will stop working there exactly as it does now.",
         "To connect, you will authorize access with your Facebook account.",
       ],

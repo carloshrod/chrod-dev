@@ -76,8 +76,8 @@ export const pillars: Pillar[] = [
       // close enough to read as a duplicate rather than a hierarchy.
       title: { en: "Automation that sells", es: "Automatización que vende" },
       description: {
-        en: "Your WhatsApp replies and your processes run on their own, even when you are not around.",
-        es: "Tu WhatsApp responde y tus procesos corren solos, incluso cuando no estás.",
+        en: "A chatbot or an AI agent handles your WhatsApp. Your processes run on their own, even when you are not around.",
+        es: "Un chatbot o un agente de IA atiende tu WhatsApp. Tus procesos corren solos, incluso cuando no estás.",
       },
     },
     hero: {

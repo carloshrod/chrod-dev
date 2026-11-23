@@ -40,7 +40,7 @@ export const whatsappAutomation: Service = {
   problemSolution: {
     intro: {
       en: "The problem is rarely a lack of customers. It is that they write at all hours, ask the same things over and over, and by the time you reply three hours later they have bought somewhere else.",
-      es: "El problema casi nunca es que te falten clientes. Es que escriben a toda hora, preguntan siempre lo mismo, y cuando respondes tres horas después ya compraron en otro lado.",
+      es: "El problema casi nunca es que te falten clientes. Es que escriben a toda hora y preguntan siempre lo mismo. Cuando respondes tres horas después, ya compraron en otro lado.",
     },
     problems: [
       {
@@ -91,7 +91,7 @@ export const whatsappAutomation: Service = {
   modes: {
     heading: {
       en: "Two ways to connect, and the choice matters",
-      es: "Dos formas de conectar, y conviene elegir bien",
+      es: "Dos formas de conectar tu número",
     },
     optionA: { en: "Coexistence", es: "Coexistencia" },
     optionB: { en: "Dedicated number", es: "Número dedicado" },
@@ -180,8 +180,8 @@ export const whatsappAutomation: Service = {
   ],
 
   includesNote: {
-    en: "Connecting the number is included in any automation project, never billed as a separate line. If the connection is all you need, because someone else already handles your automation or you have it built, I do that as a one off piece of work: write to me and we agree on it.",
-    es: "La conexión del número va incluida en cualquier proyecto de automatización, no la cobro como ítem aparte. Si solo necesitas la conexión, porque ya tienes quien te lleve la automatización o ya la tienes hecha, la hago como servicio puntual: escríbeme y lo acordamos.",
+    en: "Connecting the number is included in any automation project, never billed as a separate line. If the connection is all you need, because someone else already handles your automation or you have it built, I do that as a one-off piece of work. Write to me and we will agree on it.",
+    es: "La conexión del número va incluida en cualquier proyecto de automatización, no la cobro como ítem aparte. Si solo necesitas la conexión, porque ya tienes quien te lleve la automatización o ya la tienes hecha, la hago como servicio puntual. Escríbeme y lo acordamos.",
   },
 
   process: [
@@ -243,8 +243,8 @@ export const whatsappAutomation: Service = {
         es: "¿Pierdo el WhatsApp que uso ahora? ¿Necesito otro número?",
       },
       answer: {
-        en: "You keep your number either way, we connect the one your customers already use. With coexistence you also keep the app: it works exactly as before, with your history, and the automation runs on the same number. With a dedicated number that number can no longer be used in any WhatsApp app, which is why we decide it together before connecting anything.",
-        es: "Tu número lo conservas en los dos casos, se conecta el que ya usan tus clientes. Con coexistencia conservas también la app: funciona igual que antes, con tu historial, y la automatización trabaja sobre el mismo número. Con número dedicado, ese número deja de poder usarse en las apps de WhatsApp, y por eso lo decidimos juntos antes de conectar nada.",
+        en: "You keep your number either way, since we connect the one your customers already use. With coexistence you also keep the app, which works exactly as before, with your history, while the automation runs on the same number. With a dedicated number that number can no longer be used in any WhatsApp app, which is why we decide it together before connecting anything.",
+        es: "Conservas tu número en los dos casos, porque se conecta el que ya usan tus clientes. Con coexistencia también conservas la app, que funciona igual que antes y con tu historial mientras la automatización trabaja sobre el mismo número. Con número dedicado, ese número ya no se puede usar en las apps de WhatsApp. Por eso lo decidimos juntos antes de conectar nada.",
       },
     },
     {
@@ -254,7 +254,7 @@ export const whatsappAutomation: Service = {
       },
       answer: {
         en: "Meta charges per message, at a rate set by the country of whoever receives it. In Colombia, utility and service messages are USD 0.0008 and marketing messages USD 0.0125. You get 1,000 free service messages per number per month, and incoming messages are always free. A business with 1,000 conversations a month usually spends around 3 dollars. Note that since 1 October 2026 Meta charges for replies inside the 24 hour window once you pass those first 1,000, which used to be free without limit. For most businesses that is a few dollars, and I run the calculation with your numbers before we start.",
-        es: "Meta cobra por mensaje, a una tarifa que depende del país de quien recibe. En Colombia, los mensajes de utilidad y de servicio están en 0,0008 USD y los de marketing en 0,0125 USD. Tienes 1.000 mensajes de servicio gratis al mes por número, y los mensajes que te entran siempre son gratis. Un negocio con 1.000 conversaciones al mes suele gastar unos 3 dólares. Ten en cuenta que desde el 1 de octubre de 2026 Meta cobra las respuestas dentro de la ventana de 24 horas pasados esos primeros 1.000, que antes eran gratis sin límite. En la mayoría de negocios son unos pocos dólares, y te hago el cálculo con tus números antes de empezar.",
+        es: "Meta cobra por mensaje, a una tarifa que depende del país de quien recibe. En Colombia, los mensajes de utilidad y de servicio están en 0,0008 USD y los de marketing en 0,0125 USD. Tienes 1.000 mensajes de servicio gratis al mes por número. Los mensajes que te entran siempre son gratis. Un negocio con 1.000 conversaciones al mes suele gastar unos 3 dólares. Ten en cuenta que desde el 1 de octubre de 2026 Meta cobra las respuestas dentro de la ventana de 24 horas pasados esos primeros 1.000, que antes eran gratis sin límite. En la mayoría de negocios son unos pocos dólares. Antes de empezar, te hago el cálculo con tus números.",
       },
     },
     {
@@ -263,8 +263,8 @@ export const whatsappAutomation: Service = {
         es: "¿Necesito un chatbot o un agente de IA?",
       },
       answer: {
-        en: "A chatbot follows a path you define: good for prices, hours, order status, anything with a predictable answer. It is cheaper, faster to build and never improvises. An AI agent understands what was written and replies in context, which you want when customers ask the same thing twenty different ways or you sell something that needs explaining. I build both, with n8n or directly against an API, and I tell you which one your case needs instead of selling you the expensive one by default.",
-        es: "Un chatbot sigue un camino que tú defines: sirve para precios, horarios, estado de un pedido, todo lo que tenga respuesta predecible. Es más económico, más rápido de montar y nunca improvisa. Un agente de IA entiende lo que le escribieron y responde en contexto, que es lo que quieres cuando tus clientes preguntan lo mismo de veinte formas distintas o vendes algo que hay que explicar. Monto los dos, con n8n o directamente contra una API, y te digo cuál necesita tu caso en vez de venderte el caro por defecto.",
+        en: "A chatbot follows a path you define. It is good for prices, hours, order status and anything else with a predictable answer. It is cheaper, faster to build and never improvises. An AI agent understands what was written and replies in context, which you want when customers ask the same thing twenty different ways or you sell something that needs explaining. I build both, with n8n or directly against an API, and I tell you which one your case needs instead of selling you the expensive one by default.",
+        es: "Un chatbot sigue un camino que tú defines. Sirve para precios, horarios, el estado de un pedido y todo lo que tenga una respuesta predecible. Es más económico, más rápido de montar y nunca improvisa. Un agente de IA entiende lo que le escribieron y responde según el contexto. Es lo que necesitas si tus clientes preguntan lo mismo de veinte formas distintas o si vendes algo que hay que explicar. Monto los dos, con n8n o directamente contra una API. Te digo cuál necesita tu caso en vez de venderte el más caro por defecto.",
       },
     },
     {
@@ -273,8 +273,8 @@ export const whatsappAutomation: Service = {
         es: "¿Cuánto cuesta el servicio?",
       },
       answer: {
-        en: "The connection is included with any automation project. Automation starts from USD 1,200, and a full conversational agent runs between USD 2,500 and 5,000 depending on scope. Monthly support, which is where it really pays off, runs between USD 300 and 700. Tell me about your case in the form and I will give you a concrete number.",
-        es: "La conexión va incluida en cualquier proyecto de automatización. La automatización arranca desde 350 USD, y un agente conversacional completo va entre 800 y 1.500 USD según el alcance. El soporte mensual, que es donde de verdad rinde, va entre 100 y 250 USD. Cuéntame tu caso en el formulario y te doy un número concreto.",
+        en: "The connection is included with any project. A simple chatbot starts from USD 600 and a full AI agent runs between USD 2,000 and 4,000, depending on scope. Monthly support starts at USD 150, or USD 200 if I also host the server. Tell me about your case in the form and I will give you a concrete number.",
+        es: "La conexión va incluida en cualquier proyecto. Un chatbot sencillo arranca desde 250 USD y un agente de IA va entre 800 y 1.500 USD, según el alcance. El soporte mensual arranca en 50 USD, o en 80 USD si también alojo el servidor. Cuéntame tu caso en el formulario y te doy un número concreto.",
       },
     },
     {
@@ -284,7 +284,7 @@ export const whatsappAutomation: Service = {
       },
       answer: {
         en: "Because I am an approved Meta Tech Provider. I connect your number directly, without locking you into a middleman's subscription, and I build your flows around how you actually operate instead of fitting you to a template. You talk to the person who builds it, not to a first line support desk. I am based in Colombia and overlap with US business hours all day, so you are not waiting overnight for an answer.",
-        es: "Porque soy Proveedor de Tecnología aprobado por Meta. Conecto tu número directamente, sin que quedes atado a la suscripción de un intermediario, y construyo tus flujos a medida de tu operación en vez de adaptarte a una plantilla. Y hablas conmigo, que soy quien lo construye, no con un soporte de primer nivel.",
+        es: "Porque soy Proveedor de Tecnología aprobado por Meta. Conecto tu número directamente, sin que quedes atado a la suscripción de un intermediario. Construyo tus flujos a medida de tu operación en vez de adaptarte a una plantilla. Y hablas conmigo, que soy quien lo construye, no con un soporte de primer nivel.",
       },
     },
   ],
@@ -296,11 +296,11 @@ export const whatsappAutomation: Service = {
     },
     {
       value: "entry",
-      label: { en: "$1,200 – $2,500", es: "$350 – $800" },
+      label: { en: "$600 – $2,000", es: "$250 – $800" },
     },
     {
       value: "mid",
-      label: { en: "$2,500 – $5,000", es: "$800 – $1.500" },
+      label: { en: "$2,000 – $5,000", es: "$800 – $1.500" },
     },
     {
       value: "high",
@@ -329,12 +329,12 @@ export const whatsappAutomation: Service = {
 
   seo: {
     title: {
-      en: "WhatsApp Business API Automation",
-      es: "Automatización de WhatsApp Business API",
+      en: "WhatsApp Chatbots and AI Agents for Business",
+      es: "Chatbot y agente de IA para WhatsApp Business",
     },
     description: {
-      en: "I connect your WhatsApp to Meta's official API and automate support and sales. Approved Meta Tech Provider. Coexistence or dedicated number. From $1,200.",
-      es: "Conecto tu WhatsApp a la API oficial de Meta y automatizo la atención y las ventas. Proveedor de Tecnología aprobado por Meta. Coexistencia o número dedicado. Desde 350 USD.",
+      en: "I connect your WhatsApp to Meta's official API and build a chatbot or AI agent that answers, quotes and books. Approved Meta Tech Provider.",
+      es: "Conecto tu WhatsApp a la API oficial de Meta y monto un chatbot o agente de IA que atiende, cotiza y agenda. Proveedor de Tecnología aprobado por Meta.",
     },
   },
 };
