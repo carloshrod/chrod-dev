@@ -45,7 +45,7 @@ export function assertProjectRedirects(projects: Project[]): void {
     if (!es || es === en) continue;
 
     for (const path of [`/es/projects/${en}`, `/es/proyectos/${en}`]) {
-      if (!sources.has(path)) missing.push({ path, to: `/es/proyectos/${es}` });
+      if (!sources.has(path)) missing.push({ path, to: `/es/proyectos/${es}/` });
     }
   }
 
