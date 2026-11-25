@@ -175,8 +175,8 @@ export const landingPages: Service = {
     {
       question: { en: "Is hosting included?", es: "¿Incluye el hosting?" },
       answer: {
-        en: "I deploy the page ready for fast hosting providers (like Netlify or Vercel). Hosting itself is typically free on these plans for a single landing page.",
-        es: "Dejo la página lista para desplegarse en proveedores rápidos (como Netlify o Vercel). El hosting suele ser gratuito en estos planes para una sola landing page.",
+        en: "I deliver the page ready to deploy on fast providers like Vercel, Cloudflare or Netlify. All three have free plans, although Vercel's is not for commercial use.",
+        es: "Dejo la página lista para desplegarse en proveedores rápidos como Vercel, Cloudflare o Netlify. Los tres tienen planes gratuitos, aunque el de Vercel no es para uso comercial.",
       },
     },
     {
